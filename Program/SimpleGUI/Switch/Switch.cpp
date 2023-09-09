@@ -76,6 +76,42 @@ sgui::Switch::~Switch()
 
 
 
+bool sgui::Switch::checkMouseHover(sf::Vector2f mousePos) const{
+    // Middle
+    if(this->background.middle.getGlobalBounds().contains(mousePos)) 
+        return true;
+
+    // Left
+    sf::Vector2f leftCenter(
+        this->background.left.getPosition().x + this->background.left.getRadius(),
+        this->background.left.getPosition().y + this->background.left.getRadius()
+    );
+    sf::Vector2f leftVector(
+        leftCenter.x - mousePos.x,
+        leftCenter.y - mousePos.y
+    );
+    float leftDistance = sqrtf(powf(leftVector.x,2) + powf(leftVector.y,2));
+    if(leftDistance <= this->background.left.getRadius()) 
+        return true;
+        
+    
+    // Right
+    sf::Vector2f rightCenter(
+        this->background.right.getPosition().x + this->background.right.getRadius(),
+        this->background.right.getPosition().y + this->background.right.getRadius()
+    );
+    sf::Vector2f rightVector(
+        rightCenter.x - mousePos.x,
+        rightCenter.y - mousePos.y
+    );
+    float rightDistance = sqrtf(powf(rightVector.x,2) + powf(rightVector.y,2));
+    if(rightDistance <= this->background.right.getRadius()) 
+        return true;
+        
+    return false;
+}
+
+
 void sgui::Switch::updateState(){
     if(this->currentState){
         this->background.left.setFillColor(this->background.color_on);
@@ -100,7 +136,7 @@ void sgui::Switch::updateState(){
 void sgui::Switch::update(const sf::Event* event)
 {
     if(event->type == sf::Event::MouseButtonReleased && event->mouseButton.button == sf::Mouse::Left){
-        if(this->background.globalBounds.contains(event->mouseButton.x, event->mouseButton.y)){
+        if(this->checkMouseHover(sf::Vector2f(event->mouseButton.x, event->mouseButton.y))){
             if(this->currentState)
                 this->currentState = false;
             else 
@@ -108,6 +144,7 @@ void sgui::Switch::update(const sf::Event* event)
             this->updateState();
         }
     }
+    
 }
 
 
@@ -122,7 +159,7 @@ void sgui::Switch::render(sf::RenderTarget* window) const
 
 
 
-
+///////
 
 void sgui::Switch::setSwitchState(bool state)
 {

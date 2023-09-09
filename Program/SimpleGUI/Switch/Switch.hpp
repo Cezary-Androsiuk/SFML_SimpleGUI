@@ -2,6 +2,7 @@
 #define SWITCH_HPP
 
 #include <cstdio>
+#include <cmath>
 
 #include <SFML/Graphics.hpp>
 
@@ -48,6 +49,7 @@ namespace sgui
         ~Switch();
 
     private:
+        bool checkMouseHover(sf::Vector2f mousePos) const;
         void updateState();
 
     public:

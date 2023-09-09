@@ -61,6 +61,15 @@ void Program::update()
     for(const auto& s : this->switches)
         s->update(&this->event);
     }
+    
+    if(this->switches[0]->getSwitchState()){
+        if(this->switches[1]->getSwitchState() && this->switches[2]->getSwitchState() && 
+        this->switches[7]->getSwitchState() && this->switches[7]->getSwitchState()){
+            printf("Hello World!\n");
+            this->switches[0]->setSwitchState(false);
+        }
+        this->switches[9]->setSwitchState(false);
+    }
 }
 
 void Program::render()
