@@ -45,7 +45,7 @@ namespace sgui
         void buildTextures();
 
     public:
-        Switch(sf::FloatRect floatRect, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switcherColor);
+        Switch(sf::FloatRect floatRect, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switchColor);
         ~Switch();
 
     private:

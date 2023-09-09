@@ -25,6 +25,8 @@ void Program::initObjects()
     for(int i=0; i<10; i++)
         this->switches.push_back(new sgui::Switch(sf::FloatRect(100, 60 + i*25, 174/4, 88/4), false, sf::Color(10, 110, 240), sf::Color(180, 180, 180), sf::Color(255, 255, 255)));
 
+    for(int i=0; i<4; i++)
+        this->buttons.push_back(new sgui::Button(sf::FloatRect(200, 60 + i*50, 260/2, 70/2), sf::Color(10, 110, 240), sf::Color(30, 130, 255), sf::Color(10, 90, 210)));
 
 }
 
@@ -39,6 +41,8 @@ Program::~Program()
 {
     for(const auto& s : this->switches)
         delete s;
+    for(const auto& b : this->buttons)
+        delete b;
     delete this->window;
 }
 
@@ -58,10 +62,13 @@ void Program::update()
             this->window->close();
         }
 
-    for(const auto& s : this->switches)
-        s->update(&this->event);
+        for(const auto& s : this->switches)
+            s->update(&this->event);
+        for(const auto& b : this->buttons)
+            b->update(&this->event);
     }
     
+
     if(this->switches[0]->getSwitchState()){
         if(this->switches[1]->getSwitchState() && this->switches[2]->getSwitchState() && 
         this->switches[7]->getSwitchState() && this->switches[7]->getSwitchState()){
@@ -69,6 +76,10 @@ void Program::update()
             this->switches[0]->setSwitchState(false);
         }
         this->switches[9]->setSwitchState(false);
+    }
+
+    if(this->buttons[0]->getButtonPress()){
+        printf("Button Pressed! %d\n", rand());
     }
 }
 
@@ -78,7 +89,9 @@ void Program::render()
 
     for(const auto& s : this->switches)
         s->render(this->window);
-        
+
+    for(const auto& b : this->buttons)
+        b->render(this->window);
     
     this->window->display();
 }

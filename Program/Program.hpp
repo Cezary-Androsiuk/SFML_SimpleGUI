@@ -20,8 +20,8 @@ private:
     sf::VideoMode videoMode;
     sf::Event event;
 
-    // sgui::Switch* s;
     std::vector<sgui::Switch*> switches;
+    std::vector<sgui::Button*> buttons;
 
     void initParams();
     void initWindow();

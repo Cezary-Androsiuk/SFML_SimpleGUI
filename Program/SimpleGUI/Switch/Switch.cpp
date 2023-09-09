@@ -55,11 +55,11 @@ void sgui::Switch::buildTextures()
 
 
 
-sgui::Switch::Switch(sf::FloatRect floatRect, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switcherColor)
+sgui::Switch::Switch(sf::FloatRect floatRect, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switchColor)
 {
     this->background.color_on = backgroundColor_on;
     this->background.color_off = backgroundColor_off;
-    this->_switch.color = switcherColor;
+    this->_switch.color = switchColor;
     this->background.globalBounds = floatRect;
     this->currentState = state;
     this->buildTextures();
@@ -159,7 +159,6 @@ void sgui::Switch::render(sf::RenderTarget* window) const
 
 
 
-///////
 
 void sgui::Switch::setSwitchState(bool state)
 {
