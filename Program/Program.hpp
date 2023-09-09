@@ -1,6 +1,9 @@
 #ifndef PROGRAM_HPP
 #define PROGRAM_HPP
 
+#include <cstdio>
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 
 #include "SimpleGUI/SimpleGUI.hpp"
@@ -17,7 +20,8 @@ private:
     sf::VideoMode videoMode;
     sf::Event event;
 
-    sgui::Switch* s;
+    // sgui::Switch* s;
+    std::vector<sgui::Switch*> switches;
 
     void initParams();
     void initWindow();

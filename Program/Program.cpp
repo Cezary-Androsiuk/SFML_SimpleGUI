@@ -8,7 +8,10 @@ void Program::initParams()
 void Program::initWindow()
 {
     this->videoMode = sf::VideoMode(WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT);
-    this->window = new sf::RenderWindow(this->videoMode, "Environment for switch element", sf::Style::None);
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    this->window = new sf::RenderWindow(this->videoMode, "Environment for switch element", sf::Style::None, settings);
+    
     this->window->setPosition(sf::Vector2i(
         (/*videoMode.width*/ 1920 - this->window->getSize().x)/2,
         (/*videoMode.height*/ 1080 - this->window->getSize().y)/2)
@@ -19,7 +22,10 @@ void Program::initWindow()
 
 void Program::initObjects()
 {
-    this->s = new sgui::Switch(10, 60, 400, 100, false);
+    for(int i=0; i<10; i++)
+        this->switches.push_back(new sgui::Switch(sf::FloatRect(100, 60 + i*25, 174/4, 88/4), false, sf::Color(10, 110, 240), sf::Color(180, 180, 180), sf::Color(255, 255, 255)));
+
+
 }
 
 Program::Program()
@@ -31,7 +37,8 @@ Program::Program()
 
 Program::~Program()
 {
-    delete this->s;
+    for(const auto& s : this->switches)
+        delete s;
     delete this->window;
 }
 
@@ -51,7 +58,8 @@ void Program::update()
             this->window->close();
         }
 
-        this->s->update(&this->event);
+    for(const auto& s : this->switches)
+        s->update(&this->event);
     }
 }
 
@@ -59,7 +67,9 @@ void Program::render()
 {
     this->window->clear(sf::Color(30, 30, 30));
 
-    this->s->render(this->window);
+    for(const auto& s : this->switches)
+        s->render(this->window);
+        
     
     this->window->display();
 }
