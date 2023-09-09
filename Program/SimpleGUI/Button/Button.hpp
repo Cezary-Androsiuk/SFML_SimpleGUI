@@ -23,7 +23,9 @@ namespace sgui
             sf::Color colorPress;
         } body;
 
-        
+        sf::Text text;
+        sf::FloatRect textSpaceGlobalBounds;
+
         mutable bool click, clickControl;
         bool press;
         bool hover;
@@ -31,10 +33,11 @@ namespace sgui
         void buildTextures();
 
     public:
-        Button(sf::FloatRect floatRect, sf::Color color, sf::Color colorHover, sf::Color colorPrress);
+        Button(sf::FloatRect floatRect, sf::Text text, sf::Color color, sf::Color colorHover, sf::Color colorPrress);
         ~Button();
 
     private:
+        void centerText();
         bool checkMouseHover(sf::Vector2f mousePos) const;
 
     public:
@@ -44,6 +47,9 @@ namespace sgui
 
         const bool& getButtonClick() const;
         const bool& getButtonPress() const;
+
+        const sf::Text& getButtonText() const;
+        void setButtonText(const sf::Text& text);
 
     };
 }

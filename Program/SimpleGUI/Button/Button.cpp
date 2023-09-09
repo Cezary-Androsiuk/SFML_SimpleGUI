@@ -23,14 +23,22 @@ void sgui::Button::buildTextures()
     this->body.middle.setFillColor(this->body.color);
     this->body.right.setFillColor(this->body.color);
 
+    this->textSpaceGlobalBounds = sf::FloatRect(
+        this->body.middle.getPosition().x,
+        this->body.middle.getPosition().y,
+        width - height,
+        height
+    );
+    this->centerText();
 }
 
 
 
 
 
-sgui::Button::Button(sf::FloatRect floatRect, sf::Color color, sf::Color colorHover, sf::Color colorPrress)
+sgui::Button::Button(sf::FloatRect floatRect, sf::Text text, sf::Color color, sf::Color colorHover, sf::Color colorPrress)
 {
+    this->text = text;
     this->click = false;
     this->clickControl = false;
     this->press = false;
@@ -51,6 +59,14 @@ sgui::Button::~Button()
 
 
 
+
+
+void sgui::Button::centerText(){
+    this->text.setPosition(sf::Vector2f(
+        this->textSpaceGlobalBounds.left + (this->textSpaceGlobalBounds.width - this->text.getGlobalBounds().width)/2,
+        this->textSpaceGlobalBounds.top + (this->textSpaceGlobalBounds.height - this->text.getGlobalBounds().height)/2
+    ));
+}
 
 
 bool sgui::Button::checkMouseHover(sf::Vector2f mousePos) const{
@@ -147,19 +163,25 @@ void sgui::Button::render(sf::RenderTarget* window) const
     window->draw(this->body.middle);
     window->draw(this->body.left);
     window->draw(this->body.right);
-    // window->draw(this->text);
+    window->draw(this->text);
 }
 
 
 
 
-const bool& sgui::Button::getButtonClick() const
-{
+const bool& sgui::Button::getButtonClick() const{
     return this->click;
 }
 
-
-const bool& sgui::Button::getButtonPress() const
-{
+const bool& sgui::Button::getButtonPress() const{
     return this->press;
+}
+
+const sf::Text& sgui::Button::getButtonText() const{
+    return this->text;
+}
+
+void sgui::Button::setButtonText(const sf::Text& text){
+    this->text = text;
+    this->centerText();
 }

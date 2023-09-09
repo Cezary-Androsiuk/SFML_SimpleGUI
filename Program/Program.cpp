@@ -5,6 +5,11 @@ void Program::initParams()
 
 }
 
+void Program::initFonts()
+{
+    this->font.loadFromFile(STANDARD_FONT_PATH);
+}
+
 void Program::initWindow()
 {
     this->videoMode = sf::VideoMode(WIN_SIZE_WIDTH, WIN_SIZE_HEIGHT);
@@ -25,8 +30,9 @@ void Program::initObjects()
     for(int i=0; i<10; i++)
         this->switches.push_back(new sgui::Switch(sf::FloatRect(100, 60 + i*25, 174/4, 88/4), false, sf::Color(10, 110, 240), sf::Color(180, 180, 180), sf::Color(255, 255, 255)));
 
-    for(int i=0; i<4; i++)
-        this->buttons.push_back(new sgui::Button(sf::FloatRect(200, 60 + i*50, 260/2, 70/2), sf::Color(10, 110, 240), sf::Color(30, 130, 255), sf::Color(10, 90, 210)));
+    for(int i=0; i<8; i++)
+        this->buttons.push_back(new sgui::Button(sf::FloatRect(200, 60 + i*38, 260/2, 70/2), sf::Text("Touch ME!", this->font, 1+i*2),
+        sf::Color(10, 110, 240), sf::Color(30, 130, 255), sf::Color(10, 90, 210)));
 
 }
 
@@ -34,6 +40,7 @@ Program::Program()
 {
     this->initParams();
     this->initWindow();
+    this->initFonts();
     this->initObjects();
 }
 
@@ -82,9 +89,21 @@ void Program::update()
         this->switches[9]->setSwitchState(false);
     }
 
-    if(this->buttons[0]->getButtonClick()){
-        printf("Button Pressed!\n");
+
+    // int si=0;
+    // for(const auto& s : this->switches){
+    //     if(s->getSwitchState()){
+
+    //     }
+    // }
+    int bi=0;
+    for(const auto& b : this->buttons){
+        if(b->getButtonClick()){
+            printf("button %d was pressed\n", bi);
+        }
+        bi++;
     }
+
 }
 
 void Program::render()

@@ -144,7 +144,6 @@ void sgui::Switch::event(const sf::Event& event)
             this->updateState();
         }
     }
-    
 }
 
 

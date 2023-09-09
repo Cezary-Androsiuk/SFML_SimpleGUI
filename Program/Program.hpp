@@ -12,6 +12,8 @@
 #define WIN_SIZE_HEIGHT 720
 #define FPS 120
 
+#define STANDARD_FONT_PATH "./src/OpenSans-Regular.ttf"
+
 class Program
 {
 private:
@@ -20,10 +22,13 @@ private:
     sf::VideoMode videoMode;
     sf::Event event;
 
+    sf::Font font;
+
     std::vector<sgui::Switch*> switches;
     std::vector<sgui::Button*> buttons;
 
     void initParams();
+    void initFonts();
     void initWindow();
     void initObjects();
 public:
