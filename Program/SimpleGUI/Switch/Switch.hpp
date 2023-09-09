@@ -10,7 +10,8 @@ namespace sgui
 {
     class Switch
     {
-        #define SWITCH_SWITCHER_SIZE_RATIO 0.75f
+        #define SWITCH_HANDLE_SIZE_RATIO 0.75f
+        #define SWITCH_SHADOW_SIZE_RATIO 0.85f
 
         sf::Vector2f position;
         struct Background{
@@ -21,28 +22,32 @@ namespace sgui
             sf::Color color_on;
             sf::Color color_off;
         } background;
-        sf::CircleShape switcher;
-        sf::Color switcherColor;
 
-        struct MoveRange{
-            sf::Vector2f left;
-            sf::Vector2f right;
-        }
-        moveRange;
+        struct _Switch{
+            sf::CircleShape handle;
+            sf::Color color;
+            sf::CircleShape shadow;
+
+            struct MoveRange{
+                sf::Vector2f left;
+                sf::Vector2f right;
+                sf::Vector2f shadowLeft;
+                sf::Vector2f shadowRight;
+            }
+            moveRange;
+        } _switch;
+
 
         bool currentState;
+        bool mouseLeftKeyPressed;
 
         void buildTextures();
 
     public:
-        // Switch(float x, float y, float width, float height, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switcherColor);
-        // Switch(sf::Vector2f position, sf::Vector2f size, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switcherColor);
         Switch(sf::FloatRect floatRect, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switcherColor);
         ~Switch();
 
     private:
-        // bool determineHitBoxPart(float mousePos) const;
-        // float determineMoveCircle(float mousePos) const;
         void updateState();
 
     public:
