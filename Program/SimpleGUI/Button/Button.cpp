@@ -92,32 +92,26 @@ bool sgui::Button::checkMouseHover(sf::Vector2f mousePos) const{
 
 
 
-void sgui::Button::update(const sf::Event* event)
-{
-    if(event->type == sf::Event::MouseMoved){
-        if(this->checkMouseHover(sf::Vector2f(event->mouseMove.x, event->mouseMove.y)))
+void sgui::Button::event(const sf::Event& event){
+    if(event.type == sf::Event::MouseMoved){
+        if(this->checkMouseHover(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
             this->hover = true;
         else
             this->hover = false;
     }
 
-    if(event->type == sf::Event::MouseButtonPressed && event->mouseButton.button == sf::Mouse::Left){
-        if(this->checkMouseHover(sf::Vector2f(event->mouseButton.x, event->mouseButton.y))){
+
+    if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
+        if(this->checkMouseHover(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))){
             this->press = true;
         }
     }
-    else if(event->type == sf::Event::MouseButtonReleased && event->mouseButton.button == sf::Mouse::Left){
+    else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
         this->press = false;
         this->click = false;
         this->clickControl = false;
     }
 
-    if(this->press && !this->clickControl){
-        this->click = true;
-        this->clickControl = true;
-    }
-    else
-        this->click = false;
     
     if(this->press){
         this->body.left.setFillColor(this->body.colorPress);
@@ -134,6 +128,17 @@ void sgui::Button::update(const sf::Event* event)
         this->body.middle.setFillColor(this->body.color);
         this->body.right.setFillColor(this->body.color);
     }
+}
+
+
+void sgui::Button::update()
+{
+    if(this->press && !this->clickControl){
+        this->click = true;
+        this->clickControl = true;
+    }
+    else
+        this->click = false;
 }
 
 

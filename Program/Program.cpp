@@ -53,8 +53,7 @@ void Program::events()
 
 void Program::update()
 {
-    while(this->window->pollEvent(this->event))
-    {
+    while(this->window->pollEvent(this->event)){
         if(this->event.type == sf::Event::Closed){
             this->window->close();
         }
@@ -63,10 +62,15 @@ void Program::update()
         }
 
         for(const auto& s : this->switches)
-            s->update(&this->event);
+            s->event(this->event);
         for(const auto& b : this->buttons)
-            b->update(&this->event);
+            b->event(this->event);
     }
+
+    for(const auto& s : this->switches)
+        s->update();
+    for(const auto& b : this->buttons)
+        b->update();
     
 
     if(this->switches[0]->getSwitchState()){
@@ -78,8 +82,8 @@ void Program::update()
         this->switches[9]->setSwitchState(false);
     }
 
-    if(this->buttons[0]->getButtonPress()){
-        printf("Button Pressed! %d\n", rand());
+    if(this->buttons[0]->getButtonClick()){
+        printf("Button Pressed!\n");
     }
 }
 

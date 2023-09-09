@@ -53,7 +53,8 @@ namespace sgui
         void updateState();
 
     public:
-        void update(const sf::Event* event);
+        void event(const sf::Event& event);
+        void update();
         void render(sf::RenderTarget* window) const;
 
         void setSwitchState(bool state);

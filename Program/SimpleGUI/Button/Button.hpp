@@ -38,7 +38,8 @@ namespace sgui
         bool checkMouseHover(sf::Vector2f mousePos) const;
 
     public:
-        void update(const sf::Event* event);
+        void event(const sf::Event& event);
+        void update();
         void render(sf::RenderTarget* window) const;
 
         const bool& getButtonClick() const;
