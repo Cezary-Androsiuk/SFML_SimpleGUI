@@ -57,6 +57,7 @@ void sgui::Switch::buildTextures()
 
 sgui::Switch::Switch(sf::FloatRect floatRect, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switchColor)
 {
+    this->switchedControl = true;
     this->background.color_on = backgroundColor_on;
     this->background.color_off = backgroundColor_off;
     this->_switch.color = switchColor;
@@ -137,10 +138,14 @@ void sgui::Switch::event(const sf::Event& event)
 {
     if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
         if(this->checkMouseHover(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))){
-            if(this->currentState)
+            if(this->currentState){
                 this->currentState = false;
-            else 
+                this->switchedControl = false;
+            }
+            else{
                 this->currentState = true;
+                this->switchedControl = false;
+            }
             this->updateState();
         }
     }
@@ -149,7 +154,19 @@ void sgui::Switch::event(const sf::Event& event)
 
 void sgui::Switch::update()
 {
-    
+    if(this->currentState && !this->switchedControl){
+        this->switched_on = true;
+        this->switchedControl = true;
+    }
+    else
+        this->switched_on = false;
+
+    if(!this->currentState && !this->switchedControl){
+        this->switched_off = true;
+        this->switchedControl = true;
+    }
+    else
+        this->switched_off = false;
 }
 
 
@@ -175,4 +192,14 @@ void sgui::Switch::setSwitchState(bool state)
 const bool& sgui::Switch::getSwitchState() const
 {
     return this->currentState;
+}
+
+
+const bool& sgui::Switch::getSwitched_on() const{
+    return this->switched_on;
+}
+
+
+const bool& sgui::Switch::getSwitched_off() const{
+    return this->switched_off;
 }

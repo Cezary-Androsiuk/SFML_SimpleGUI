@@ -39,6 +39,9 @@ namespace sgui
         } _switch;
 
 
+        bool switched_on, switched_off;
+        bool switchedControl;
+
         bool currentState;
         bool mouseLeftKeyPressed;
 
@@ -59,6 +62,9 @@ namespace sgui
 
         void setSwitchState(bool state);
         const bool& getSwitchState() const;
+
+        const bool& getSwitched_on() const;
+        const bool& getSwitched_off() const;
 
     };
 }

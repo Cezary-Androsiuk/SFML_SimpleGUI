@@ -78,24 +78,18 @@ void Program::update()
         s->update();
     for(const auto& b : this->buttons)
         b->update();
-    
 
-    if(this->switches[0]->getSwitchState()){
-        if(this->switches[1]->getSwitchState() && this->switches[2]->getSwitchState() && 
-        this->switches[7]->getSwitchState() && this->switches[7]->getSwitchState()){
-            printf("Hello World!\n");
-            this->switches[0]->setSwitchState(false);
+
+    int si=0;
+    for(const auto& s : this->switches){
+        if(s->getSwitched_on()){
+            printf("switch %d was turned on\n", si);
         }
-        this->switches[9]->setSwitchState(false);
+        if(s->getSwitched_off()){
+            printf("switch %d was turned off\n", si);
+        }
+        si++;
     }
-
-
-    // int si=0;
-    // for(const auto& s : this->switches){
-    //     if(s->getSwitchState()){
-
-    //     }
-    // }
     int bi=0;
     for(const auto& b : this->buttons){
         if(b->getButtonClick()){
