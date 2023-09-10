@@ -3,33 +3,16 @@
 void sgui::Button::buildTextures()
 {
     // COMPUTING
-    this->position = sf::Vector2f(this->body.globalBounds.left, this->body.globalBounds.top);
-
-    float x = this->body.globalBounds.left, y = this->body.globalBounds.top;
-    float width = this->body.globalBounds.width, height = this->body.globalBounds.height;
-
+    float x = this->globalBounds.left, y = this->globalBounds.top;
+    float width = this->globalBounds.width, height = this->globalBounds.height;
     
     // SET SIZE AND POSITION
-    this->body.left.setRadius(height/2);
-    this->body.left.setPosition(this->position);
+    this->shape.setSize(sf::Vector2f(width, height));
+    this->shape.setPosition(sf::Vector2f(x, y));
 
-    this->body.middle.setSize(sf::Vector2f(width - height, height));
-    this->body.middle.setPosition(sf::Vector2f(this->position.x + height/2, this->position.y));
-
-    this->body.right.setRadius(height/2);
-    this->body.right.setPosition(sf::Vector2f(this->position.x + width -height, this->position.y));
-
-    this->body.left.setFillColor(this->body.color);
-    this->body.middle.setFillColor(this->body.color);
-    this->body.right.setFillColor(this->body.color);
+    this->shape.setFillColor(this->color);
     this->text.setFillColor(this->textColor);
 
-    this->textSpaceGlobalBounds = sf::FloatRect(
-        this->body.middle.getPosition().x,
-        this->body.middle.getPosition().y,
-        width - height,
-        height
-    );
     this->centerText();
 }
 
@@ -47,10 +30,10 @@ sgui::Button::Button(sf::FloatRect floatRect, sf::Text text, sf::Color textColor
     this->clickControl = false;
     this->press = false;
     this->hover = false;
-    this->body.color = color;
-    this->body.colorPress = colorPrress;
-    this->body.colorHover = colorHover;
-    this->body.globalBounds = floatRect;
+    this->color = color;
+    this->colorPress = colorPrress;
+    this->colorHover = colorHover;
+    this->globalBounds = floatRect;
     this->buildTextures();
 
 }
@@ -67,70 +50,26 @@ sgui::Button::~Button()
 
 void sgui::Button::centerText(){
     this->text.setPosition(sf::Vector2f(
-        this->textSpaceGlobalBounds.left + (this->textSpaceGlobalBounds.width - this->text.getGlobalBounds().width)/2,
-        this->textSpaceGlobalBounds.top + (this->textSpaceGlobalBounds.height - this->text.getGlobalBounds().height)/2
+        this->shape.getGlobalBounds().left + (this->shape.getGlobalBounds().width - this->text.getGlobalBounds().width)/2,
+        this->shape.getGlobalBounds().top + (this->shape.getGlobalBounds().height - this->text.getGlobalBounds().height)/2
     ));
-}
-
-
-bool sgui::Button::checkMouseHover(sf::Vector2f mousePos) const{
-    // Middle
-    if(this->body.middle.getGlobalBounds().contains(mousePos)) 
-        return true;
-
-    // Left
-    sf::Vector2f leftCenter(
-        this->body.left.getPosition().x + this->body.left.getRadius(),
-        this->body.left.getPosition().y + this->body.left.getRadius()
-    );
-    sf::Vector2f leftVector(
-        leftCenter.x - mousePos.x,
-        leftCenter.y - mousePos.y
-    );
-    float leftDistance = sqrtf(powf(leftVector.x,2) + powf(leftVector.y,2));
-    if(leftDistance <= this->body.left.getRadius()) 
-        return true;
-        
-    
-    // Right
-    sf::Vector2f rightCenter(
-        this->body.right.getPosition().x + this->body.right.getRadius(),
-        this->body.right.getPosition().y + this->body.right.getRadius()
-    );
-    sf::Vector2f rightVector(
-        rightCenter.x - mousePos.x,
-        rightCenter.y - mousePos.y
-    );
-    float rightDistance = sqrtf(powf(rightVector.x,2) + powf(rightVector.y,2));
-    if(rightDistance <= this->body.right.getRadius()) 
-        return true;
-        
-    return false;
 }
 
 
 void sgui::Button::updateTextureState(){
     if(!this->enable){
-        this->body.left.setFillColor(BUTTON_DISABLE_COLOR);
-        this->body.middle.setFillColor(BUTTON_DISABLE_COLOR);
-        this->body.right.setFillColor(BUTTON_DISABLE_COLOR);
+        this->shape.setFillColor(BUTTON_DISABLE_COLOR);
         this->text.setFillColor(BUTTON_DISABLE_TEXT_COLOR);
         return;
     }
     else if(this->press){
-        this->body.left.setFillColor(this->body.colorPress);
-        this->body.middle.setFillColor(this->body.colorPress);
-        this->body.right.setFillColor(this->body.colorPress);
+        this->shape.setFillColor(this->colorPress);
     }
     else if(this->hover){
-        this->body.left.setFillColor(this->body.colorHover);
-        this->body.middle.setFillColor(this->body.colorHover);
-        this->body.right.setFillColor(this->body.colorHover);
+        this->shape.setFillColor(this->colorHover);
     }
     else{
-        this->body.left.setFillColor(this->body.color);
-        this->body.middle.setFillColor(this->body.color);
-        this->body.right.setFillColor(this->body.color);
+        this->shape.setFillColor(this->color);
     }
     this->text.setFillColor(this->textColor);
 }
@@ -144,7 +83,7 @@ void sgui::Button::event(const sf::Event& event){
     if(!this->visible) return;
 
     if(event.type == sf::Event::MouseMoved){
-        if(this->checkMouseHover(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
+        if(this->shape.getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y))
             this->hover = true;
         else
             this->hover = false;
@@ -152,7 +91,7 @@ void sgui::Button::event(const sf::Event& event){
 
 
     if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
-        if(this->checkMouseHover(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))){
+        if(this->shape.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)){
             this->press = true;
         }
     }
@@ -183,9 +122,7 @@ void sgui::Button::render(sf::RenderTarget* window) const
 {
     if(!this->visible) return;
 
-    window->draw(this->body.middle);
-    window->draw(this->body.left);
-    window->draw(this->body.right);
+    window->draw(this->shape);
     window->draw(this->text);
 }
 

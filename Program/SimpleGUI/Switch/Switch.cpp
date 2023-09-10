@@ -32,19 +32,13 @@ void sgui::Switch::buildTextures()
 
     
     // SET SIZE AND POSITION
-    this->background.left.setRadius(height/2);
-    this->background.left.setPosition(this->position);
+    this->background.shape.setSize(sf::Vector2f(width, height));
+    this->background.shape.setPosition(sf::Vector2f(this->position.x, this->position.y));
 
-    this->background.middle.setSize(sf::Vector2f(width - height, height));
-    this->background.middle.setPosition(sf::Vector2f(this->position.x + height/2, this->position.y));
+    this->_switch.shape.setSize(sf::Vector2f(switchHeight, switchHeight));
+    this->_switch.shape.setFillColor(this->_switch.color);
 
-    this->background.right.setRadius(height/2);
-    this->background.right.setPosition(sf::Vector2f(this->position.x + width -height, this->position.y));
-
-    this->_switch.handle.setRadius(switchHeight/2);
-    this->_switch.handle.setFillColor(this->_switch.color);
-
-    this->_switch.shadow.setRadius(switchShadowHeight/2);
+    this->_switch.shadow.setSize(sf::Vector2f(switchShadowHeight, switchShadowHeight));
     this->_switch.shadow.setFillColor(sf::Color(100, 100, 100, 40));
 
     this->updateTextureState();
@@ -79,62 +73,24 @@ sgui::Switch::~Switch()
 
 
 
-bool sgui::Switch::checkMouseHover(sf::Vector2f mousePos) const{
-    // Middle
-    if(this->background.middle.getGlobalBounds().contains(mousePos)) 
-        return true;
-
-    // Left
-    sf::Vector2f leftCenter(
-        this->background.left.getPosition().x + this->background.left.getRadius(),
-        this->background.left.getPosition().y + this->background.left.getRadius()
-    );
-    sf::Vector2f leftVector(
-        leftCenter.x - mousePos.x,
-        leftCenter.y - mousePos.y
-    );
-    float leftDistance = sqrtf(powf(leftVector.x,2) + powf(leftVector.y,2));
-    if(leftDistance <= this->background.left.getRadius()) 
-        return true;
-        
-    
-    // Right
-    sf::Vector2f rightCenter(
-        this->background.right.getPosition().x + this->background.right.getRadius(),
-        this->background.right.getPosition().y + this->background.right.getRadius()
-    );
-    sf::Vector2f rightVector(
-        rightCenter.x - mousePos.x,
-        rightCenter.y - mousePos.y
-    );
-    float rightDistance = sqrtf(powf(rightVector.x,2) + powf(rightVector.y,2));
-    if(rightDistance <= this->background.right.getRadius()) 
-        return true;
-        
-    return false;
-}
-
-
 void sgui::Switch::updateTextureState(){
     sf::Color tmpColor(this->currentState ? this->background.color_on : this->background.color_off);
     if(!this->enable){
         tmpColor = (this->currentState ? SWITCH_BACKGROUND_DISABLE_COLOR_ON : SWITCH_BACKGROUND_DISABLE_COLOR_OFF);
-        this->_switch.handle.setFillColor(SWITCH_HANDLE_DISABLE_COLOR);
+        this->_switch.shape.setFillColor(SWITCH_HANDLE_DISABLE_COLOR);
     }
     else{
-        this->_switch.handle.setFillColor(this->_switch.color);
+        this->_switch.shape.setFillColor(this->_switch.color);
     }
 
-    this->background.left.setFillColor(tmpColor);
-    this->background.middle.setFillColor(tmpColor);
-    this->background.right.setFillColor(tmpColor);
+    this->background.shape.setFillColor(tmpColor);
 
     if(this->currentState){
-        this->_switch.handle.setPosition(this->_switch.moveRange.right);
+        this->_switch.shape.setPosition(this->_switch.moveRange.right);
         this->_switch.shadow.setPosition(this->_switch.moveRange.shadowRight);
     }
     else{
-        this->_switch.handle.setPosition(this->_switch.moveRange.left);
+        this->_switch.shape.setPosition(this->_switch.moveRange.left);
         this->_switch.shadow.setPosition(this->_switch.moveRange.shadowLeft);
     }
 }
@@ -148,7 +104,7 @@ void sgui::Switch::event(const sf::Event& event){
     if(!this->visible) return;
 
     if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
-        if(this->checkMouseHover(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))){
+        if(this->background.shape.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)){
             if(this->currentState){
                 this->currentState = false;
                 this->switchedControl = false;
@@ -187,11 +143,9 @@ void sgui::Switch::render(sf::RenderTarget* window) const
 {
     if(!this->visible) return;
     
-    window->draw(this->background.middle);
-    window->draw(this->background.left);
-    window->draw(this->background.right);
+    window->draw(this->background.shape);
     window->draw(this->_switch.shadow);
-    window->draw(this->_switch.handle);
+    window->draw(this->_switch.shape);
 }
 
 

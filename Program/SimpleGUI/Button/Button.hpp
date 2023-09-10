@@ -13,21 +13,14 @@ namespace sgui
     {
         #define BUTTON_DISABLE_COLOR sf::Color(120, 120, 120)
         #define BUTTON_DISABLE_TEXT_COLOR sf::Color(80, 80, 80)
-
-        sf::Vector2f position;
         
-        struct Body{
-            sf::FloatRect globalBounds;
-            sf::CircleShape left;
-            sf::RectangleShape middle;
-            sf::CircleShape right;
-            sf::Color color;
-            sf::Color colorHover;
-            sf::Color colorPress;
-        } body;
+        sf::FloatRect globalBounds;
+        sf::RectangleShape shape;
+        sf::Color color;
+        sf::Color colorHover;
+        sf::Color colorPress;
 
         sf::Text text;
-        sf::FloatRect textSpaceGlobalBounds;
         sf::Color textColor;
 
         mutable bool click, clickControl;
@@ -45,7 +38,6 @@ namespace sgui
 
     private:
         void centerText();
-        bool checkMouseHover(sf::Vector2f mousePos) const;
         void updateTextureState();
 
     public:

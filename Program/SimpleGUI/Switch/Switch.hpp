@@ -12,7 +12,7 @@ namespace sgui
     class Switch
     {
         #define SWITCH_HANDLE_SIZE_RATIO 0.75f
-        #define SWITCH_SHADOW_SIZE_RATIO 0.85f
+        #define SWITCH_SHADOW_SIZE_RATIO 0.9f
         #define SWITCH_BACKGROUND_DISABLE_COLOR_ON sf::Color(120, 120, 120)
         #define SWITCH_BACKGROUND_DISABLE_COLOR_OFF sf::Color(140, 140, 140)
         #define SWITCH_HANDLE_DISABLE_COLOR sf::Color(190,190,190)
@@ -20,25 +20,22 @@ namespace sgui
         sf::Vector2f position;
         struct Background{
             sf::FloatRect globalBounds;
-            sf::CircleShape left;
-            sf::RectangleShape middle;
-            sf::CircleShape right;
+            sf::RectangleShape shape;
             sf::Color color_on;
             sf::Color color_off;
         } background;
 
         struct _Switch{
-            sf::CircleShape handle;
+            sf::RectangleShape shape;
             sf::Color color;
-            sf::CircleShape shadow;
+            sf::RectangleShape shadow;
 
             struct MoveRange{
                 sf::Vector2f left;
                 sf::Vector2f right;
                 sf::Vector2f shadowLeft;
                 sf::Vector2f shadowRight;
-            }
-            moveRange;
+            } moveRange;
         } _switch;
 
 
@@ -58,7 +55,6 @@ namespace sgui
         ~Switch();
 
     private:
-        bool checkMouseHover(sf::Vector2f mousePos) const;
         void updateTextureState();
 
     public:
