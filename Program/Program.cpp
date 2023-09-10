@@ -30,8 +30,8 @@ void Program::initObjects()
     for(int i=0; i<10; i++)
         this->switches.push_back(new sgui::Switch(sf::FloatRect(100, 60 + i*25, 174/4, 88/4), false, sf::Color(10, 110, 240), sf::Color(180, 180, 180), sf::Color(255, 255, 255)));
 
-    for(int i=0; i<8; i++)
-        this->buttons.push_back(new sgui::Button(sf::FloatRect(200, 60 + i*38, 260/2, 70/2), sf::Text("Touch ME!", this->font, 1+i*2),
+    for(int i=0; i<10; i++)
+        this->buttons.push_back(new sgui::Button(sf::FloatRect(200, 60 + i*38, 260/2, 70/2), sf::Text("Touch ME!", this->font, 1+i*2), sf::Color::White,
         sf::Color(10, 110, 240), sf::Color(30, 130, 255), sf::Color(10, 90, 210)));
 
 }
@@ -94,6 +94,34 @@ void Program::update()
     for(const auto& b : this->buttons){
         if(b->getButtonClick()){
             printf("button %d was pressed\n", bi);
+            if(bi == 1){
+                if(this->switches[1]->getEnable())
+                    this->switches[1]->setEnable(false);
+                else
+                    this->switches[1]->setEnable(true);
+
+            }
+            if(bi == 2){
+                if(this->switches[2]->getVisible())
+                    this->switches[2]->setVisible(false);
+                else
+                    this->switches[2]->setVisible(true);
+
+            }
+            if(bi == 3){
+                if(this->buttons[1]->getEnable())
+                    this->buttons[1]->setEnable(false);
+                else
+                    this->buttons[1]->setEnable(true);
+
+            }
+            if(bi == 4){
+                if(this->buttons[2]->getVisible())
+                    this->buttons[2]->setVisible(false);
+                else
+                    this->buttons[2]->setVisible(true);
+
+            }
         }
         bi++;
     }

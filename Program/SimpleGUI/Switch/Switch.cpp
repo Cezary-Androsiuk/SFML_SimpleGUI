@@ -47,7 +47,7 @@ void sgui::Switch::buildTextures()
     this->_switch.shadow.setRadius(switchShadowHeight/2);
     this->_switch.shadow.setFillColor(sf::Color(100, 100, 100, 40));
 
-    this->updateState();
+    this->updateTextureState();
 
 }
 
@@ -57,6 +57,8 @@ void sgui::Switch::buildTextures()
 
 sgui::Switch::Switch(sf::FloatRect floatRect, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switchColor)
 {
+    this->enable = true;
+    this->visible = true;
     this->switchedControl = true;
     this->background.color_on = backgroundColor_on;
     this->background.color_off = backgroundColor_off;
@@ -113,18 +115,25 @@ bool sgui::Switch::checkMouseHover(sf::Vector2f mousePos) const{
 }
 
 
-void sgui::Switch::updateState(){
+void sgui::Switch::updateTextureState(){
+    sf::Color tmpColor(this->currentState ? this->background.color_on : this->background.color_off);
+    if(!this->enable){
+        tmpColor = (this->currentState ? SWITCH_BACKGROUND_DISABLE_COLOR_ON : SWITCH_BACKGROUND_DISABLE_COLOR_OFF);
+        this->_switch.handle.setFillColor(SWITCH_HANDLE_DISABLE_COLOR);
+    }
+    else{
+        this->_switch.handle.setFillColor(this->_switch.color);
+    }
+
+    this->background.left.setFillColor(tmpColor);
+    this->background.middle.setFillColor(tmpColor);
+    this->background.right.setFillColor(tmpColor);
+
     if(this->currentState){
-        this->background.left.setFillColor(this->background.color_on);
-        this->background.middle.setFillColor(this->background.color_on);
-        this->background.right.setFillColor(this->background.color_on);
         this->_switch.handle.setPosition(this->_switch.moveRange.right);
         this->_switch.shadow.setPosition(this->_switch.moveRange.shadowRight);
     }
     else{
-        this->background.left.setFillColor(this->background.color_off);
-        this->background.middle.setFillColor(this->background.color_off);
-        this->background.right.setFillColor(this->background.color_off);
         this->_switch.handle.setPosition(this->_switch.moveRange.left);
         this->_switch.shadow.setPosition(this->_switch.moveRange.shadowLeft);
     }
@@ -134,8 +143,10 @@ void sgui::Switch::updateState(){
 
 
 
-void sgui::Switch::event(const sf::Event& event)
-{
+void sgui::Switch::event(const sf::Event& event){
+    if(!this->enable) return;
+    if(!this->visible) return;
+
     if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
         if(this->checkMouseHover(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))){
             if(this->currentState){
@@ -146,14 +157,16 @@ void sgui::Switch::event(const sf::Event& event)
                 this->currentState = true;
                 this->switchedControl = false;
             }
-            this->updateState();
+            this->updateTextureState();
         }
     }
 }
 
 
-void sgui::Switch::update()
-{
+void sgui::Switch::update(){
+    if(!this->enable) return;
+    if(!this->visible) return;
+
     if(this->currentState && !this->switchedControl){
         this->switched_on = true;
         this->switchedControl = true;
@@ -172,6 +185,8 @@ void sgui::Switch::update()
 
 void sgui::Switch::render(sf::RenderTarget* window) const
 {
+    if(!this->visible) return;
+    
     window->draw(this->background.middle);
     window->draw(this->background.left);
     window->draw(this->background.right);
@@ -182,15 +197,11 @@ void sgui::Switch::render(sf::RenderTarget* window) const
 
 
 
-void sgui::Switch::setSwitchState(bool state)
-{
+void sgui::Switch::setSwitchState(bool state){
     this->currentState = state;
-    this->updateState();
+    this->updateTextureState();
 }
-
-
-const bool& sgui::Switch::getSwitchState() const
-{
+const bool& sgui::Switch::getSwitchState() const{
     return this->currentState;
 }
 
@@ -198,8 +209,23 @@ const bool& sgui::Switch::getSwitchState() const
 const bool& sgui::Switch::getSwitched_on() const{
     return this->switched_on;
 }
-
-
 const bool& sgui::Switch::getSwitched_off() const{
     return this->switched_off;
+}
+
+
+const bool& sgui::Switch::getEnable() const{
+    return this->enable;
+}
+void sgui::Switch::setEnable(const bool& enable){
+    this->enable = enable;
+    this->updateTextureState();
+}
+
+
+const bool& sgui::Switch::getVisible() const{
+    return this->visible;
+}
+void sgui::Switch::setVisible(const bool& visible){
+    this->visible = visible;
 }

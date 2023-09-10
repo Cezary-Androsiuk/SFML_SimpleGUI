@@ -11,6 +11,9 @@ namespace sgui
 {
     class Button
     {
+        #define BUTTON_DISABLE_COLOR sf::Color(120, 120, 120)
+        #define BUTTON_DISABLE_TEXT_COLOR sf::Color(80, 80, 80)
+
         sf::Vector2f position;
         
         struct Body{
@@ -25,20 +28,25 @@ namespace sgui
 
         sf::Text text;
         sf::FloatRect textSpaceGlobalBounds;
+        sf::Color textColor;
 
         mutable bool click, clickControl;
         bool press;
         bool hover;
 
+        bool enable;
+        bool visible;
+
         void buildTextures();
 
     public:
-        Button(sf::FloatRect floatRect, sf::Text text, sf::Color color, sf::Color colorHover, sf::Color colorPrress);
+        Button(sf::FloatRect floatRect, sf::Text text, sf::Color textColor, sf::Color color, sf::Color colorHover, sf::Color colorPrress);
         ~Button();
 
     private:
         void centerText();
         bool checkMouseHover(sf::Vector2f mousePos) const;
+        void updateTextureState();
 
     public:
         void event(const sf::Event& event);
@@ -50,6 +58,12 @@ namespace sgui
 
         const sf::Text& getButtonText() const;
         void setButtonText(const sf::Text& text);
+
+        const bool& getEnable() const;
+        void setEnable(const bool& enabled);
+
+        const bool& getVisible() const;
+        void setVisible(const bool& visibled);
 
     };
 }

@@ -22,6 +22,7 @@ void sgui::Button::buildTextures()
     this->body.left.setFillColor(this->body.color);
     this->body.middle.setFillColor(this->body.color);
     this->body.right.setFillColor(this->body.color);
+    this->text.setFillColor(this->textColor);
 
     this->textSpaceGlobalBounds = sf::FloatRect(
         this->body.middle.getPosition().x,
@@ -36,9 +37,12 @@ void sgui::Button::buildTextures()
 
 
 
-sgui::Button::Button(sf::FloatRect floatRect, sf::Text text, sf::Color color, sf::Color colorHover, sf::Color colorPrress)
+sgui::Button::Button(sf::FloatRect floatRect, sf::Text text, sf::Color textColor, sf::Color color, sf::Color colorHover, sf::Color colorPrress)
 {
+    this->enable = true;
+    this->visible = true;
     this->text = text;
+    this->textColor = textColor;
     this->click = false;
     this->clickControl = false;
     this->press = false;
@@ -105,10 +109,40 @@ bool sgui::Button::checkMouseHover(sf::Vector2f mousePos) const{
 }
 
 
+void sgui::Button::updateTextureState(){
+    if(!this->enable){
+        this->body.left.setFillColor(BUTTON_DISABLE_COLOR);
+        this->body.middle.setFillColor(BUTTON_DISABLE_COLOR);
+        this->body.right.setFillColor(BUTTON_DISABLE_COLOR);
+        this->text.setFillColor(BUTTON_DISABLE_TEXT_COLOR);
+        return;
+    }
+    else if(this->press){
+        this->body.left.setFillColor(this->body.colorPress);
+        this->body.middle.setFillColor(this->body.colorPress);
+        this->body.right.setFillColor(this->body.colorPress);
+    }
+    else if(this->hover){
+        this->body.left.setFillColor(this->body.colorHover);
+        this->body.middle.setFillColor(this->body.colorHover);
+        this->body.right.setFillColor(this->body.colorHover);
+    }
+    else{
+        this->body.left.setFillColor(this->body.color);
+        this->body.middle.setFillColor(this->body.color);
+        this->body.right.setFillColor(this->body.color);
+    }
+    this->text.setFillColor(this->textColor);
+}
+
+
 
 
 
 void sgui::Button::event(const sf::Event& event){
+    if(!this->enable) return;
+    if(!this->visible) return;
+
     if(event.type == sf::Event::MouseMoved){
         if(this->checkMouseHover(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
             this->hover = true;
@@ -128,27 +162,14 @@ void sgui::Button::event(const sf::Event& event){
         this->clickControl = false;
     }
 
-    
-    if(this->press){
-        this->body.left.setFillColor(this->body.colorPress);
-        this->body.middle.setFillColor(this->body.colorPress);
-        this->body.right.setFillColor(this->body.colorPress);
-    }
-    else if(this->hover){
-        this->body.left.setFillColor(this->body.colorHover);
-        this->body.middle.setFillColor(this->body.colorHover);
-        this->body.right.setFillColor(this->body.colorHover);
-    }
-    else{
-        this->body.left.setFillColor(this->body.color);
-        this->body.middle.setFillColor(this->body.color);
-        this->body.right.setFillColor(this->body.color);
-    }
+    this->updateTextureState();
 }
 
 
-void sgui::Button::update()
-{
+void sgui::Button::update(){
+    if(!this->enable) return;
+    if(!this->visible) return;
+
     if(this->press && !this->clickControl){
         this->click = true;
         this->clickControl = true;
@@ -160,6 +181,8 @@ void sgui::Button::update()
 
 void sgui::Button::render(sf::RenderTarget* window) const
 {
+    if(!this->visible) return;
+
     window->draw(this->body.middle);
     window->draw(this->body.left);
     window->draw(this->body.right);
@@ -172,16 +195,31 @@ void sgui::Button::render(sf::RenderTarget* window) const
 const bool& sgui::Button::getButtonClick() const{
     return this->click;
 }
-
 const bool& sgui::Button::getButtonPress() const{
     return this->press;
 }
 
+
 const sf::Text& sgui::Button::getButtonText() const{
     return this->text;
 }
-
 void sgui::Button::setButtonText(const sf::Text& text){
     this->text = text;
     this->centerText();
+}
+
+const bool& sgui::Button::getEnable() const{
+    return this->enable;
+}
+void sgui::Button::setEnable(const bool& enable){
+    this->enable = enable;
+    this->updateTextureState();
+}
+
+
+const bool& sgui::Button::getVisible() const{
+    return this->visible;
+}
+void sgui::Button::setVisible(const bool& visible){
+    this->visible = visible;
 }

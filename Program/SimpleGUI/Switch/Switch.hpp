@@ -13,6 +13,9 @@ namespace sgui
     {
         #define SWITCH_HANDLE_SIZE_RATIO 0.75f
         #define SWITCH_SHADOW_SIZE_RATIO 0.85f
+        #define SWITCH_BACKGROUND_DISABLE_COLOR_ON sf::Color(120, 120, 120)
+        #define SWITCH_BACKGROUND_DISABLE_COLOR_OFF sf::Color(140, 140, 140)
+        #define SWITCH_HANDLE_DISABLE_COLOR sf::Color(190,190,190)
 
         sf::Vector2f position;
         struct Background{
@@ -45,6 +48,9 @@ namespace sgui
         bool currentState;
         bool mouseLeftKeyPressed;
 
+        bool enable;
+        bool visible;
+
         void buildTextures();
 
     public:
@@ -53,7 +59,7 @@ namespace sgui
 
     private:
         bool checkMouseHover(sf::Vector2f mousePos) const;
-        void updateState();
+        void updateTextureState();
 
     public:
         void event(const sf::Event& event);
@@ -65,6 +71,12 @@ namespace sgui
 
         const bool& getSwitched_on() const;
         const bool& getSwitched_off() const;
+
+        const bool& getEnable() const;
+        void setEnable(const bool& enabled);
+
+        const bool& getVisible() const;
+        void setVisible(const bool& visibled);
 
     };
 }
