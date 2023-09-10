@@ -75,8 +75,8 @@ namespace sgui
         void setColorPress(const sf::Color& color);
         void setTextColor(const sf::Color& color);
         void setText(const sf::Text& text);
-        void setEnable(const bool& enabled);
-        void setVisible(const bool& visibled);
+        void setEnable(const bool& enable);
+        void setVisible(const bool& visible);
     };
 }
 

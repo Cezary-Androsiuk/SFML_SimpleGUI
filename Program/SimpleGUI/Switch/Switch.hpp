@@ -93,8 +93,8 @@ namespace sgui
         void setBackgroundColor_off(const sf::Color& color);
         void setSwitchColor(const sf::Color& color);
         void setShadowColor(const sf::Color& color);
-        void setEnable(const bool& enabled);
-        void setVisible(const bool& visibled);
+        void setEnable(const bool& enable);
+        void setVisible(const bool& visible);
     };
 }
 

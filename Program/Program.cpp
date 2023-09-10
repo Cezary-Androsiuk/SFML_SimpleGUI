@@ -141,7 +141,7 @@ void Program::render()
 
     for(const auto& b : this->buttons)
         b->render(this->window);
-    
+
     this->window->display();
 }
 
