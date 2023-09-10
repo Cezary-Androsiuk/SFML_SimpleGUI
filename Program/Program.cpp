@@ -28,7 +28,7 @@ void Program::initWindow()
 void Program::initObjects()
 {
     for(int i=0; i<10; i++)
-        this->switches.push_back(new sgui::Switch(sf::FloatRect(100, 60 + i*25, 174/4, 88/4), false, sf::Color(10, 110, 240), sf::Color(180, 180, 180), sf::Color(255, 255, 255)));
+        this->switches.push_back(new sgui::Switch(sf::FloatRect(100, 60 + i*25, 174/4, 88/4), false));
 
     for(int i=0; i<10; i++)
         this->buttons.push_back(new sgui::Button(sf::FloatRect(200, 60 + i*38, 260/2, 70/2), sf::Text("Touch ME!", this->font, 1+i*2), sf::Color::White,
@@ -80,6 +80,7 @@ void Program::update()
         b->update();
 
 
+    // ####################################################################################### TEST SECTION
     int si=0;
     for(const auto& s : this->switches){
         if(s->getSwitched_on()){
@@ -90,6 +91,11 @@ void Program::update()
         }
         si++;
     }
+    if(this->switches[9]->getSwitchState()){
+        for(const auto& s : this->switches){
+            s->setBackgroundColor_on(sf::Color(rand()%255,rand()%255,rand()%255));
+        }
+    }
     int bi=0;
     for(const auto& b : this->buttons){
         if(b->getButtonClick()){
@@ -99,33 +105,29 @@ void Program::update()
                     this->switches[1]->setEnable(false);
                 else
                     this->switches[1]->setEnable(true);
-
             }
             if(bi == 2){
                 if(this->switches[2]->getVisible())
                     this->switches[2]->setVisible(false);
                 else
                     this->switches[2]->setVisible(true);
-
             }
             if(bi == 3){
                 if(this->buttons[1]->getEnable())
                     this->buttons[1]->setEnable(false);
                 else
                     this->buttons[1]->setEnable(true);
-
             }
             if(bi == 4){
                 if(this->buttons[2]->getVisible())
                     this->buttons[2]->setVisible(false);
                 else
                     this->buttons[2]->setVisible(true);
-
             }
         }
         bi++;
     }
-
+    // ####################################################################################### TEST SECTION
 }
 
 void Program::render()

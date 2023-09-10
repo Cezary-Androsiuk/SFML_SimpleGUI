@@ -11,17 +11,21 @@ namespace sgui
 {
     class Switch
     {
-        #define SWITCH_HANDLE_SIZE_RATIO 0.75f
-        #define SWITCH_SHADOW_SIZE_RATIO 0.9f
-        // #define SWITCH_BACKGROUND_DISABLE_COLOR_ON sf::Color(120, 120, 120)
-        // #define SWITCH_BACKGROUND_DISABLE_COLOR_OFF sf::Color(140, 140, 140)
-        // #define SWITCH_HANDLE_DISABLE_COLOR sf::Color(190,190,190)
-        #define SWITCH_SHADOW_COLOR sf::Color(100, 100, 100, 40)
-        #define SWITCH_DISABLE_TRANSPARENT_VALUE 100
+        // SWITCH DEFAULT
+        #define __SD_POSITION sf::Vector2f(0.f, 0.f)
+        #define __SD_SIZE sf::Vector2f()
+        #define __SD_STATE false
+        #define __SD_BACKGROUND_COLOR_ON sf::Color(10, 240, 110)
+        #define __SD_BACKGROUND_COLOR_OFF sf::Color(180, 180, 180)
+        #define __SD_SWITCH_COLOR sf::Color(255, 255, 255)
+        #define __SD_SHADOW_COLOR sf::Color(100, 100, 100, 40)
 
-        sf::Vector2f position;
+        #define __SD_DISABLE_ALPHA_VALUE 100
+        #define __SD_HANDLE_SIZE_RATIO 0.75f
+        #define __SD_SHADOW_SIZE_RATIO 0.9f
+
+        sf::FloatRect bounds;
         struct Background{
-            sf::FloatRect globalBounds;
             sf::RectangleShape shape;
             sf::Color color_on;
             sf::Color color_off;
@@ -31,6 +35,7 @@ namespace sgui
             sf::RectangleShape shape;
             sf::Color color;
             sf::RectangleShape shadow;
+            sf::Color shadowColor;
 
             struct MoveRange{
                 sf::Vector2f left;
@@ -50,10 +55,13 @@ namespace sgui
         bool enable;
         bool visible;
 
+        void initData();
         void buildTextures();
 
     public:
-        Switch(sf::FloatRect floatRect, bool state, sf::Color backgroundColor_on, sf::Color backgroundColor_off, sf::Color switchColor);
+        Switch();
+        Switch(sf::FloatRect floatRect);
+        Switch(sf::FloatRect floatRect, bool state);
         ~Switch();
 
     private:
@@ -64,18 +72,30 @@ namespace sgui
         void update();
         void render(sf::RenderTarget* window) const;
 
-        void setSwitchState(bool state);
-        const bool& getSwitchState() const;
 
+        // getter / setter
         const bool& getSwitched_on() const;
         const bool& getSwitched_off() const;
 
+        // controls
+        const bool& getSwitchState() const;
+        const sf::FloatRect& getBounds() const;
+        const sf::Color& getBackgroundColor_on() const;
+        const sf::Color& getBackgroundColor_off() const;
+        const sf::Color& getSwitchColor() const;
+        const sf::Color& getShadowColor() const;
         const bool& getEnable() const;
-        void setEnable(const bool& enabled);
-
         const bool& getVisible() const;
-        void setVisible(const bool& visibled);
 
+
+        void setSwitchState(bool state);
+        void setBounds(const sf::FloatRect& size);
+        void setBackgroundColor_on(const sf::Color& color);
+        void setBackgroundColor_off(const sf::Color& color);
+        void setSwitchColor(const sf::Color& color);
+        void setShadowColor(const sf::Color& color);
+        void setEnable(const bool& enabled);
+        void setVisible(const bool& visibled);
     };
 }
 
