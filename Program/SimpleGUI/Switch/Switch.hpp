@@ -1,7 +1,6 @@
 #ifndef SWITCH_HPP
 #define SWITCH_HPP
 
-#include <cstdio>
 #include <cmath>
 
 #include <SFML/Graphics.hpp>

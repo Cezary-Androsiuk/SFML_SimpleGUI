@@ -1,7 +1,6 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-#include <cstdio>
 #include <cmath>
 
 #include <SFML/Graphics.hpp>
@@ -31,7 +30,7 @@ namespace sgui
         sf::Text text;
         sf::Color textColor;
 
-        mutable bool click, clickControl;
+        bool click, clickControl;
         bool press;
         bool hover;
 
