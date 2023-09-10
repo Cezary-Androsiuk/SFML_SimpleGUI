@@ -39,7 +39,7 @@ void sgui::Switch::buildTextures()
     this->_switch.shape.setFillColor(this->_switch.color);
 
     this->_switch.shadow.setSize(sf::Vector2f(switchShadowHeight, switchShadowHeight));
-    this->_switch.shadow.setFillColor(sf::Color(100, 100, 100, 40));
+    this->_switch.shadow.setFillColor(SWITCH_SHADOW_COLOR);
 
     this->updateTextureState();
 
@@ -74,16 +74,15 @@ sgui::Switch::~Switch()
 
 
 void sgui::Switch::updateTextureState(){
-    sf::Color tmpColor(this->currentState ? this->background.color_on : this->background.color_off);
+    sf::Color tmpBackgroundColor(this->currentState ? this->background.color_on : this->background.color_off);
+    sf::Color tmpSwitchColor(this->_switch.color);
     if(!this->enable){
-        tmpColor = (this->currentState ? SWITCH_BACKGROUND_DISABLE_COLOR_ON : SWITCH_BACKGROUND_DISABLE_COLOR_OFF);
-        this->_switch.shape.setFillColor(SWITCH_HANDLE_DISABLE_COLOR);
-    }
-    else{
-        this->_switch.shape.setFillColor(this->_switch.color);
+        tmpBackgroundColor.a = SWITCH_DISABLE_TRANSPARENT_VALUE;
+        tmpSwitchColor.a = SWITCH_DISABLE_TRANSPARENT_VALUE;
     }
 
-    this->background.shape.setFillColor(tmpColor);
+    this->background.shape.setFillColor(tmpBackgroundColor);
+    this->_switch.shape.setFillColor(tmpSwitchColor);
 
     if(this->currentState){
         this->_switch.shape.setPosition(this->_switch.moveRange.right);

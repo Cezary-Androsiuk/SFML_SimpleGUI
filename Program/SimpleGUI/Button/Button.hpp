@@ -11,8 +11,9 @@ namespace sgui
 {
     class Button
     {
-        #define BUTTON_DISABLE_COLOR sf::Color(120, 120, 120)
-        #define BUTTON_DISABLE_TEXT_COLOR sf::Color(80, 80, 80)
+        // #define BUTTON_DISABLE_COLOR sf::Color(120, 120, 120)
+        // #define BUTTON_DISABLE_TEXT_COLOR sf::Color(80, 80, 80)
+        #define BUTTON_DISABLE_TRANSPARENT_VALUE 100
         
         sf::FloatRect globalBounds;
         sf::RectangleShape shape;

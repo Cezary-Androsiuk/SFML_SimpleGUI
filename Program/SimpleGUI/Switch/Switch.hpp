@@ -13,9 +13,11 @@ namespace sgui
     {
         #define SWITCH_HANDLE_SIZE_RATIO 0.75f
         #define SWITCH_SHADOW_SIZE_RATIO 0.9f
-        #define SWITCH_BACKGROUND_DISABLE_COLOR_ON sf::Color(120, 120, 120)
-        #define SWITCH_BACKGROUND_DISABLE_COLOR_OFF sf::Color(140, 140, 140)
-        #define SWITCH_HANDLE_DISABLE_COLOR sf::Color(190,190,190)
+        // #define SWITCH_BACKGROUND_DISABLE_COLOR_ON sf::Color(120, 120, 120)
+        // #define SWITCH_BACKGROUND_DISABLE_COLOR_OFF sf::Color(140, 140, 140)
+        // #define SWITCH_HANDLE_DISABLE_COLOR sf::Color(190,190,190)
+        #define SWITCH_SHADOW_COLOR sf::Color(100, 100, 100, 40)
+        #define SWITCH_DISABLE_TRANSPARENT_VALUE 100
 
         sf::Vector2f position;
         struct Background{

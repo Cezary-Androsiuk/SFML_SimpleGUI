@@ -57,12 +57,7 @@ void sgui::Button::centerText(){
 
 
 void sgui::Button::updateTextureState(){
-    if(!this->enable){
-        this->shape.setFillColor(BUTTON_DISABLE_COLOR);
-        this->text.setFillColor(BUTTON_DISABLE_TEXT_COLOR);
-        return;
-    }
-    else if(this->press){
+    if(this->press){
         this->shape.setFillColor(this->colorPress);
     }
     else if(this->hover){
@@ -72,6 +67,15 @@ void sgui::Button::updateTextureState(){
         this->shape.setFillColor(this->color);
     }
     this->text.setFillColor(this->textColor);
+    
+    if(!this->enable){
+        sf::Color tmpColor = this->shape.getFillColor();
+        tmpColor.a = BUTTON_DISABLE_TRANSPARENT_VALUE;
+        this->shape.setFillColor(tmpColor);
+        tmpColor = this->text.getFillColor();
+        tmpColor.a = BUTTON_DISABLE_TRANSPARENT_VALUE;
+        this->text.setFillColor(tmpColor);
+    }
 }
 
 
