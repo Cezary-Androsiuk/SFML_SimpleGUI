@@ -30,9 +30,11 @@ void Program::initObjects()
     for(int i=0; i<10; i++)
         this->switches.push_back(new sgui::Switch(sf::FloatRect(100, 60 + i*25, 174/4, 88/4), false));
 
-    for(int i=0; i<10; i++)
-        this->buttons.push_back(new sgui::Button(sf::FloatRect(200, 60 + i*38, 260/2, 70/2), sf::Text("Touch ME!", this->font, 1+i*2), sf::Color::White,
-        sf::Color(10, 110, 240), sf::Color(30, 130, 255), sf::Color(10, 90, 210)));
+    for(int i=0; i<10; i++){
+        sgui::Button* b = new sgui::Button(sf::FloatRect(200, 60 + i*38, 260/2, 70/2));
+        b->setText(sf::Text("Touch ME!", this->font, 1+i*2));
+        this->buttons.push_back(b);
+    }
 
 }
 
@@ -98,7 +100,7 @@ void Program::update()
     }
     int bi=0;
     for(const auto& b : this->buttons){
-        if(b->getButtonClick()){
+        if(b->getClick()){
             printf("button %d was pressed\n", bi);
             if(bi == 1){
                 if(this->switches[1]->getEnable())

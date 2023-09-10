@@ -161,6 +161,7 @@ void sgui::Switch::render(sf::RenderTarget* window) const
 
 
 
+/*      GETTERS / SETTERS      */
 const bool& sgui::Switch::getSwitched_on() const{
     return this->switched_on;
 }
@@ -171,6 +172,7 @@ const bool& sgui::Switch::getSwitched_off() const{
 
 
 
+/*          CONTROLS          */
 /*      GETTERS      */
 const bool& sgui::Switch::getSwitchState() const{
     return this->currentState;

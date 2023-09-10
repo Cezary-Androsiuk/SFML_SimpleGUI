@@ -11,11 +11,18 @@ namespace sgui
 {
     class Button
     {
-        // #define BUTTON_DISABLE_COLOR sf::Color(120, 120, 120)
-        // #define BUTTON_DISABLE_TEXT_COLOR sf::Color(80, 80, 80)
-        #define BUTTON_DISABLE_TRANSPARENT_VALUE 100
+        // BUTTON DEFAULT
+        #define __BD_POSITION sf::Vector2f(0.f, 0.f)
+        #define __BD_SIZE sf::Vector2f(130, 35)
+        #define __BD_COLOR sf::Color(10, 110, 240)
+        #define __BD_COLOR_HOVER sf::Color(30, 130, 255)
+        #define __BD_COLOR_PRESS sf::Color(10, 90, 210)
+        #define __BD_TEXT sf::Text()
+        #define __BD_TEXT_COLOR sf::Color::Black
+
+        #define __BD_DISABLE_ALPHA_VALUE 100
         
-        sf::FloatRect globalBounds;
+        sf::FloatRect bounds;
         sf::RectangleShape shape;
         sf::Color color;
         sf::Color colorHover;
@@ -31,10 +38,12 @@ namespace sgui
         bool enable;
         bool visible;
 
+        void initData();
         void buildTextures();
 
     public:
-        Button(sf::FloatRect floatRect, sf::Text text, sf::Color textColor, sf::Color color, sf::Color colorHover, sf::Color colorPrress);
+        Button();
+        Button(sf::FloatRect bounds);
         ~Button();
 
     private:
@@ -46,18 +55,29 @@ namespace sgui
         void update();
         void render(sf::RenderTarget* window) const;
 
-        const bool& getButtonClick() const;
-        const bool& getButtonPress() const;
-
-        const sf::Text& getButtonText() const;
-        void setButtonText(const sf::Text& text);
-
+        // getter / setter
+        const bool& getClick() const;
+        const bool& getPress() const;
+        
+        // controls
+        const sf::FloatRect& getBounds() const;
+        const sf::Color& getColor() const;
+        const sf::Color& getColorHover() const;
+        const sf::Color& getColorPress() const;
+        const sf::Color& getTextColor() const;
+        const sf::Text& getText() const;
         const bool& getEnable() const;
-        void setEnable(const bool& enabled);
-
         const bool& getVisible() const;
-        void setVisible(const bool& visibled);
 
+
+        void setBounds(const sf::FloatRect& size);
+        void setColor(const sf::Color& color);
+        void setColorHover(const sf::Color& color);
+        void setColorPress(const sf::Color& color);
+        void setTextColor(const sf::Color& color);
+        void setText(const sf::Text& text);
+        void setEnable(const bool& enabled);
+        void setVisible(const bool& visibled);
     };
 }
 

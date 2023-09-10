@@ -13,7 +13,7 @@ namespace sgui
     {
         // SWITCH DEFAULT
         #define __SD_POSITION sf::Vector2f(0.f, 0.f)
-        #define __SD_SIZE sf::Vector2f()
+        #define __SD_SIZE sf::Vector2f(43, 22)
         #define __SD_STATE false
         #define __SD_BACKGROUND_COLOR_ON sf::Color(10, 240, 110)
         #define __SD_BACKGROUND_COLOR_OFF sf::Color(180, 180, 180)
@@ -60,8 +60,8 @@ namespace sgui
 
     public:
         Switch();
-        Switch(sf::FloatRect floatRect);
-        Switch(sf::FloatRect floatRect, bool state);
+        Switch(sf::FloatRect bounds);
+        Switch(sf::FloatRect bounds, bool state);
         ~Switch();
 
     private:
