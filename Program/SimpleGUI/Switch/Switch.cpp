@@ -1,5 +1,10 @@
 #include "Switch.hpp"
 
+
+
+
+
+/*      INITIALIZE      */
 void sgui::Switch::initData(){
     this->enable = true;
     this->visible = true;
@@ -23,10 +28,9 @@ void sgui::Switch::buildTextures(){
 
 
 
-sgui::Switch::Switch() : Switch(sf::FloatRect(__SD_POSITION, __SD_SIZE), __SD_STATE){
-}
-sgui::Switch::Switch(sf::FloatRect bounds) : Switch(bounds, __SD_STATE){
-}
+/*      CONSTRUCTORS      */
+sgui::Switch::Switch() : Switch(sf::FloatRect(__SD_POSITION, __SD_SIZE), __SD_STATE) {}
+sgui::Switch::Switch(sf::FloatRect bounds) : Switch(bounds, __SD_STATE) {}
 sgui::Switch::Switch(sf::FloatRect bounds, bool state){
     this->bounds = bounds;
     this->state = state;
@@ -34,10 +38,7 @@ sgui::Switch::Switch(sf::FloatRect bounds, bool state){
     this->initData();
     this->buildTextures();
 }
-
-
-sgui::Switch::~Switch()
-{
+sgui::Switch::~Switch(){
 
 }
 
@@ -45,6 +46,7 @@ sgui::Switch::~Switch()
 
 
 
+/*      PRIVATE      */
 void sgui::Switch::updateTextureState(){
     if(this->background.shape.getGlobalBounds() != this->bounds){
         // COMPUTING
@@ -112,6 +114,7 @@ void sgui::Switch::updateTextureState(){
 
 
 
+/*      PUBLIC      */
 void sgui::Switch::event(const sf::Event& event){
     if(!this->enable) return;
     if(!this->visible) return;
@@ -164,6 +167,7 @@ void sgui::Switch::render(sf::RenderTarget* window) const
 
 
 
+
 /*      GETTERS / SETTERS      */
 const bool& sgui::Switch::getSwitched_on() const{
     return this->switched_on;
@@ -171,6 +175,7 @@ const bool& sgui::Switch::getSwitched_on() const{
 const bool& sgui::Switch::getSwitched_off() const{
     return this->switched_off;
 }
+
 
 
 
@@ -201,6 +206,9 @@ const bool& sgui::Switch::getEnable() const{
 const bool& sgui::Switch::getVisible() const{
     return this->visible;
 }
+
+
+
 
 
 /*      SETTERS      */

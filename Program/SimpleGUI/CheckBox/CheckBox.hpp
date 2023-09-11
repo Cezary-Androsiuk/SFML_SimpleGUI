@@ -48,9 +48,9 @@ namespace sgui
 
     public:
         CheckBox();
-        CheckBox(sf::Vector2f position);
-        CheckBox(sf::Vector2f position, float size);
-        CheckBox(sf::Vector2f position, float size, bool state);
+        CheckBox(sf::Vector2f pos);
+        CheckBox(sf::Vector2f pos, float size);
+        CheckBox(sf::Vector2f pos, float size, bool state);
         ~CheckBox();
 
     private:

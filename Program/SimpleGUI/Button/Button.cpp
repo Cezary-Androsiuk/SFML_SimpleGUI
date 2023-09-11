@@ -1,5 +1,10 @@
 #include "Button.hpp"
 
+
+
+
+
+/*      INITIALIZE      */
 void sgui::Button::initData(){
     this->enable = true;
     this->visible = true;
@@ -23,17 +28,15 @@ void sgui::Button::buildTextures(){
 
 
 
-sgui::Button::Button() : Button(sf::FloatRect(__BD_POSITION, __BD_SIZE)){
-}
+
+/*      CONSTRUCTORS      */
+sgui::Button::Button() : Button(sf::FloatRect(__BD_POSITION, __BD_SIZE)) {}
 sgui::Button::Button(sf::FloatRect bounds){
     this->bounds = bounds;
     this->initData();
     this->buildTextures();
 }
-
-
-sgui::Button::~Button()
-{
+sgui::Button::~Button(){
 
 }
 
@@ -41,6 +44,7 @@ sgui::Button::~Button()
 
 
 
+/*      PRIVATE      */
 void sgui::Button::centerText(){
     this->text.setPosition(sf::Vector2f(
         this->shape.getGlobalBounds().left + (this->shape.getGlobalBounds().width - this->text.getGlobalBounds().width)/2,
@@ -90,6 +94,7 @@ void sgui::Button::updateTextureState(){
 
 
 
+/*      PUBLIC      */
 void sgui::Button::event(const sf::Event& event){
     if(!this->enable) return;
     if(!this->visible) return;
@@ -141,6 +146,7 @@ void sgui::Button::render(sf::RenderTarget* window) const
 
 
 
+
 /*      GETTERS / SETTERS      */
 const bool& sgui::Button::getClick() const{
     return this->click;
@@ -148,6 +154,7 @@ const bool& sgui::Button::getClick() const{
 const bool& sgui::Button::getPress() const{
     return this->press;
 }
+
 
 
 
@@ -178,6 +185,9 @@ const bool& sgui::Button::getEnable() const{
 const bool& sgui::Button::getVisible() const{
     return this->visible;
 }
+
+
+
 
 
 /*      SETTERS      */

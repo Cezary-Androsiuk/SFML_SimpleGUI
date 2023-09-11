@@ -1,6 +1,9 @@
 #include "CheckBox.hpp"
 
 
+
+
+/*      INITIALIZE      */
 void sgui::CheckBox::initData(){
     this->enable = true;
     this->visible = true;
@@ -15,26 +18,28 @@ void sgui::CheckBox::initData(){
     this->colorHoverChecked = __CBD_COLOR_HOVER_CHECKED;
     this->colorChecked = __CBD_COLOR_CHECKED;
 }
+
+
 void sgui::CheckBox::buildTextures(){
     this->border.setFillColor(sf::Color::Transparent);
     this->updateTextureState();
 }
 
-sgui::CheckBox::CheckBox() : CheckBox(__CBD_POSITION, __CBD_SIZE, __CBD_STATE){
-}
-sgui::CheckBox::CheckBox(sf::Vector2f position) : CheckBox(position, __CBD_SIZE, __CBD_STATE){
-}
-sgui::CheckBox::CheckBox(sf::Vector2f position, float size) : CheckBox(position, size, __CBD_STATE){
-}
-sgui::CheckBox::CheckBox(sf::Vector2f position, float size, bool state){
-    this->bounds.pos = position;
+
+
+
+
+/*      CONSTRUCTORS      */
+sgui::CheckBox::CheckBox() : CheckBox(__CBD_POSITION, __CBD_SIZE, __CBD_STATE){}
+sgui::CheckBox::CheckBox(sf::Vector2f pos) : CheckBox(pos, __CBD_SIZE, __CBD_STATE){}
+sgui::CheckBox::CheckBox(sf::Vector2f pos, float size) : CheckBox(pos, size, __CBD_STATE){}
+sgui::CheckBox::CheckBox(sf::Vector2f pos, float size, bool state){
+    this->bounds.pos = pos;
     this->bounds.size = size;
     this->state = state;
     this->initData();
     this->buildTextures();
 }
-
-
 sgui::CheckBox::~CheckBox(){
     
 }
@@ -42,6 +47,8 @@ sgui::CheckBox::~CheckBox(){
 
 
 
+
+/*      PRIVATE      */
 void sgui::CheckBox::updateTextureState(){
     if(this->border.getGlobalBounds() != sf::FloatRect(this->bounds.pos, sf::Vector2f(this->bounds.size, this->bounds.size))){
         float x = this->bounds.pos.x, y = this->bounds.pos.y;
@@ -89,6 +96,11 @@ void sgui::CheckBox::updateTextureState(){
     this->shapeChecked.setFillColor(tmpColorCheck);
 }
 
+
+
+
+
+/*      PUBLIC      */
 void sgui::CheckBox::event(const sf::Event& event){
     if(!this->enable) return;
     if(!this->visible) return;
@@ -115,6 +127,8 @@ void sgui::CheckBox::event(const sf::Event& event){
 
     this->updateTextureState();
 }
+
+
 void sgui::CheckBox::update(){
     if(!this->enable) return;
     if(!this->visible) return;
@@ -133,6 +147,8 @@ void sgui::CheckBox::update(){
     else
         this->check_off = false;
 }
+
+
 void sgui::CheckBox::render(sf::RenderTarget* window) const{
     if(!this->visible) return;
 
@@ -144,6 +160,7 @@ void sgui::CheckBox::render(sf::RenderTarget* window) const{
 
 
 
+
 /*      GETTERS / SETTERS      */
 const bool& sgui::CheckBox::getChecked_on() const{
     return this->check_on;
@@ -151,6 +168,7 @@ const bool& sgui::CheckBox::getChecked_on() const{
 const bool& sgui::CheckBox::getChecked_off() const{
     return this->check_off;
 }
+
 
 
 
@@ -184,6 +202,9 @@ const bool& sgui::CheckBox::getEnable() const{
 const bool& sgui::CheckBox::getVisible() const{
     return this->visible;
 }
+
+
+
 
 
 /*      SETTERS      */
