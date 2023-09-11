@@ -26,6 +26,7 @@ private:
 
     std::vector<sgui::Switch*> switches;
     std::vector<sgui::Button*> buttons;
+    std::vector<sgui::CheckBox*> checkBoxes;
 
     void initParams();
     void initFonts();

@@ -12,26 +12,28 @@ namespace sgui
     {
         // CHECKBOX DEFAULT
         #define __CBD_POSITION sf::Vector2f(0.f, 0.f)
-        #define __CBD_SIZE sf::Vector2f(130, 35)
+        #define __CBD_SIZE 30.f
         #define __CBD_STATE false
+        #define __CBD_COLOR_BORDER sf::Color(10, 90, 210)
         #define __CBD_COLOR_BACKGROUND sf::Color(0, 0, 0, 0)
-        #define __CBD_COLOR_HOVER sf::Color(30, 130, 255)
-        #define __CBD_COLOR_HOVER_CHECKED sf::Color(30, 130, 255)
+        #define __CBD_COLOR_HOVER sf::Color(10, 90, 210, 80)
+        #define __CBD_COLOR_HOVER_CHECKED sf::Color(10, 90, 210, 200)
         #define __CBD_COLOR_CHECKED sf::Color(10, 90, 210)
 
-        #define __CBD_DISABLE_ALPHA_VALUE 100
-        #define __CBD_BORDER_RATIO 0.05f
-        #define __CBD_BORDER_CHECKED_RATIO 0.85f
+        #define __CBD_DISABLE_ALPHA_PCT 100.f/255.f
+        #define __CBD_BORDER_RATIO 0.20f
+        #define __CBD_BORDER_CHECKED_RATIO 0.50f
         
         sf::FloatRect bounds;
-        sf::RectangleShape shape;
+        sf::RectangleShape border;
         sf::RectangleShape background;
-        sf::RectangleShape shape_checked;
+            sf::RectangleShape shapeChecked;
 
+        sf::Color colorBorder;
         sf::Color colorBackground;
-        sf::Color colorHover;
-        sf::Color colorHoverChecked;
-        sf::Color colorChecked;
+            sf::Color colorHover;
+            sf::Color colorHoverChecked;
+            sf::Color colorChecked;
 
         bool check_on, check_off, checkControl;
         bool state;
@@ -45,8 +47,9 @@ namespace sgui
 
     public:
         CheckBox();
-        CheckBox(sf::FloatRect bounds);
-        CheckBox(sf::FloatRect bounds, bool state);
+        CheckBox(sf::Vector2f position);
+        CheckBox(sf::Vector2f position, float size);
+        CheckBox(sf::Vector2f position, float size, bool state);
         ~CheckBox();
 
     private:

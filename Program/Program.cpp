@@ -36,6 +36,11 @@ void Program::initObjects()
         this->buttons.push_back(b);
     }
 
+    for(int i=0; i<10; i++){
+        sgui::CheckBox* cb = new sgui::CheckBox(sf::Vector2f(350, 60 + i*33), 30.f);
+        this->checkBoxes.push_back(cb);
+    }
+
 }
 
 Program::Program()
@@ -52,6 +57,8 @@ Program::~Program()
         delete s;
     for(const auto& b : this->buttons)
         delete b;
+    for(const auto& cb : this->checkBoxes)
+        delete cb;
     delete this->window;
 }
 
@@ -74,12 +81,16 @@ void Program::update()
             s->event(this->event);
         for(const auto& b : this->buttons)
             b->event(this->event);
+        for(const auto& cb : this->checkBoxes)
+            cb->event(this->event);
     }
 
     for(const auto& s : this->switches)
         s->update();
     for(const auto& b : this->buttons)
         b->update();
+    for(const auto& cb : this->checkBoxes)
+        cb->update();
 
 
     // ####################################################################################### TEST SECTION
@@ -129,6 +140,16 @@ void Program::update()
         }
         bi++;
     }
+    int cbi=0;
+    for(const auto& cb : this->checkBoxes){
+        if(cb->getChecked_on()){
+            printf("checkbox %d was checked\n", cbi);
+        }
+        if(cb->getChecked_off()){
+            printf("checkbox %d was unchecked\n", cbi);
+        }
+        cbi++;
+    }
     // ####################################################################################### TEST SECTION
 }
 
@@ -141,6 +162,9 @@ void Program::render()
 
     for(const auto& b : this->buttons)
         b->render(this->window);
+
+    for(const auto& cb : this->checkBoxes)
+        cb->render(this->window);
 
     this->window->display();
 }
