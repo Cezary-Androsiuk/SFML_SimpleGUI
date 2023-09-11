@@ -69,6 +69,7 @@ namespace sgui
         const bool& getCheckState() const;
         const sf::Vector2f& getPosition() const;
         const float& getSize() const;
+        const sf::Color& getColorBorder() const;
         const sf::Color& getColorBackground() const;
         const sf::Color& getColorHover() const;
         const sf::Color& getColorHoverChecked() const;
@@ -80,6 +81,7 @@ namespace sgui
         void setCheckState(const bool& size);
         void setPosition(const sf::Vector2f& pos);
         void setSize(const float& size);
+        void setColorBorder(const sf::Color& color);
         void setColorBackground(const sf::Color& color);
         void setColorHover(const sf::Color& color);
         void setColorHoverChecked(const sf::Color& color);

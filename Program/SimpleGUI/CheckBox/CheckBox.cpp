@@ -184,6 +184,9 @@ const sf::Vector2f& sgui::CheckBox::getPosition() const{
 const float& sgui::CheckBox::getSize() const{
     return this->bounds.size;
 }
+const sf::Color& sgui::CheckBox::getColorBorder() const{
+    return this->colorBorder;
+}
 const sf::Color& sgui::CheckBox::getColorBackground() const{
     return this->colorBackground;
 }
@@ -218,6 +221,10 @@ void sgui::CheckBox::setPosition(const sf::Vector2f& pos){
 }
 void sgui::CheckBox::setSize(const float& size){
     this->bounds.size = size;
+    this->updateTextureState();
+}
+void sgui::CheckBox::setColorBorder(const sf::Color& color){
+    this->colorBorder = color;
     this->updateTextureState();
 }
 void sgui::CheckBox::setColorBackground(const sf::Color& color){
