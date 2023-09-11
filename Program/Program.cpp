@@ -41,6 +41,13 @@ void Program::initObjects()
         this->checkBoxes.push_back(cb);
     }
 
+    for(int i=0; i<1; i++){
+        sgui::ImageBox* ib = new sgui::ImageBox("./src/default.png", sf::FloatRect(400, 60, 480, 270));
+        // ib->setBounds(sf::FloatRect(0, 0, 460, 250));
+        ib->setColorBackground(sf::Color::Transparent);
+        this->imageBoxes.push_back(ib);
+    }
+
 }
 
 Program::Program()
@@ -59,6 +66,8 @@ Program::~Program()
         delete b;
     for(const auto& cb : this->checkBoxes)
         delete cb;
+    for(const auto& ib : this->imageBoxes)
+        delete ib;
     delete this->window;
 }
 
@@ -83,6 +92,8 @@ void Program::update()
             b->event(this->event);
         for(const auto& cb : this->checkBoxes)
             cb->event(this->event);
+        for(const auto& ib : this->imageBoxes)
+            ib->event(this->event);
     }
 
     for(const auto& s : this->switches)
@@ -91,6 +102,8 @@ void Program::update()
         b->update();
     for(const auto& cb : this->checkBoxes)
         cb->update();
+    for(const auto& ib : this->imageBoxes)
+        ib->update();
 
 
     // ####################################################################################### TEST SECTION
@@ -165,6 +178,9 @@ void Program::render()
 
     for(const auto& cb : this->checkBoxes)
         cb->render(this->window);
+
+    for(const auto& ib : this->imageBoxes)
+        ib->render(this->window);
 
     this->window->display();
 }

@@ -8,10 +8,11 @@
 void sgui::ImageBox::initData(){
     this->freeze = false;
     this->visible = true;
-
+    
     this->imageTexture.loadFromFile(this->imagePath);
     this->imageTextureTrim.width = this->imageTexture.getSize().x;
     this->imageTextureTrim.height = this->imageTexture.getSize().y;
+    
     
     this->colorImage = __IBD_COLOR_IMAGE;
     this->colorBackground = __IBD_COLOR_BACKGROUND;
@@ -27,11 +28,11 @@ void sgui::ImageBox::buildTextures(){
 
 
 /*      CONSTRUCTORS      */
-sgui::ImageBox::ImageBox() : ImageBox(__IBD_IMAGE, __IBD_POSITION) {}
-sgui::ImageBox::ImageBox(const sf::String& imagePath) : ImageBox(imagePath, __IBD_POSITION) {}
-sgui::ImageBox::ImageBox(const sf::String& imagePath, sf::Vector2f pos) {
+sgui::ImageBox::ImageBox() : ImageBox(__IBD_IMAGE, sf::FloatRect(__IBD_POSITION, __IBD_SIZE)) {}
+sgui::ImageBox::ImageBox(const sf::String& imagePath) : ImageBox(imagePath, sf::FloatRect(__IBD_POSITION, __IBD_SIZE)) {}
+sgui::ImageBox::ImageBox(const sf::String& imagePath, sf::FloatRect bounds) {
     this->imagePath = imagePath;
-    this->pos = pos;
+    this->bounds = bounds;
     this->initData();
     this->buildTextures();
 }
@@ -47,12 +48,17 @@ sgui::ImageBox::~ImageBox(){
 void sgui::ImageBox::updateTextureState(){
     if(this->freeze) return;
 
-    this->image.setPosition(this->pos.x, this->pos.y);
+    float x = this->bounds.left, y = this->bounds.top;
+    sf::Vector2u psize = this->imageTexture.getSize();
+    float xscale = this->bounds.width / psize.x, yscale = this->bounds.height / psize.y;
+    
+    this->image.setPosition(x, y);
     this->image.setTexture(this->imageTexture);
     this->image.setTextureRect(this->imageTextureTrim);
     this->image.setColor(this->colorImage);
+    this->image.setScale(xscale, yscale);
     
-    this->background.setPosition(this->pos);
+    this->background.setPosition(x, y);
     this->background.setSize(sf::Vector2f(this->image.getGlobalBounds().width, this->image.getGlobalBounds().height));
     this->background.setFillColor(this->colorBackground);
     this->freeze = true; // if there are not any changes in setters then do not update data
@@ -92,8 +98,8 @@ const sf::String& sgui::ImageBox::getImagePath() const{
 const sf::IntRect& sgui::ImageBox::getImageTextureTrim() const{
     return this->imageTextureTrim;
 }
-const sf::Vector2f& sgui::ImageBox::getPosition() const{
-    return this->pos;
+const sf::FloatRect& sgui::ImageBox::getBounds() const{
+    return this->bounds;
 }
 const sf::Color& sgui::ImageBox::getColorImage() const{
     return this->colorImage;
@@ -121,8 +127,8 @@ void sgui::ImageBox::setImageTextureTrim(const sf::IntRect& imageTextureTrim){
     this->freeze = false;
     this->updateTextureState();
 }
-void sgui::ImageBox::setPosition(const sf::Vector2f& pos){
-    this->pos = pos;
+void sgui::ImageBox::setBounds(const sf::FloatRect& bounds){
+    this->bounds = bounds;
     this->freeze = false;
     this->updateTextureState();
 }
