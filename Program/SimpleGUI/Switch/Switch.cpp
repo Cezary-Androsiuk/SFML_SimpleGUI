@@ -3,7 +3,10 @@
 void sgui::Switch::initData(){
     this->enable = true;
     this->visible = true;
-    this->switchedControl = true;
+    this->state = false;
+    this->switched_on = false;
+    this->switched_off = false;
+    this->switchedControl = true; // if false spams "switched_off"
 
     this->background.color_on = __SD_BACKGROUND_COLOR_ON;
     this->background.color_off = __SD_BACKGROUND_COLOR_OFF;
@@ -26,7 +29,7 @@ sgui::Switch::Switch(sf::FloatRect bounds) : Switch(bounds, __SD_STATE){
 }
 sgui::Switch::Switch(sf::FloatRect bounds, bool state){
     this->bounds = bounds;
-    this->currentState = state;
+    this->state = state;
 
     this->initData();
     this->buildTextures();
@@ -81,7 +84,7 @@ void sgui::Switch::updateTextureState(){
         this->_switch.shadow.setFillColor(this->_switch.shadowColor);
     }
 
-    sf::Color tmpBackgroundColor(this->currentState ? this->background.color_on : this->background.color_off);
+    sf::Color tmpBackgroundColor(this->state ? this->background.color_on : this->background.color_off);
     sf::Color tmpSwitchColor(this->_switch.color);
     sf::Color tmpShadowColor(this->_switch.shadowColor);
 
@@ -95,7 +98,7 @@ void sgui::Switch::updateTextureState(){
     this->_switch.shape.setFillColor(tmpSwitchColor);
     this->_switch.shadow.setFillColor(tmpShadowColor);
 
-    if(this->currentState){
+    if(this->state){
         this->_switch.shape.setPosition(this->_switch.moveRange.right);
         this->_switch.shadow.setPosition(this->_switch.moveRange.shadowRight);
     }
@@ -114,18 +117,18 @@ void sgui::Switch::event(const sf::Event& event){
     if(!this->visible) return;
 
     if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
-        if(this->background.shape.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)){
-            if(this->currentState){
-                this->currentState = false;
+        if(this->bounds.contains(event.mouseButton.x, event.mouseButton.y)){
+            if(this->state){
+                this->state = false;
                 this->switchedControl = false;
             }
             else{
-                this->currentState = true;
+                this->state = true;
                 this->switchedControl = false;
             }
-            this->updateTextureState();
         }
     }
+    this->updateTextureState();
 }
 
 
@@ -133,14 +136,14 @@ void sgui::Switch::update(){
     if(!this->enable) return;
     if(!this->visible) return;
 
-    if(this->currentState && !this->switchedControl){
+    if(this->state && !this->switchedControl){
         this->switched_on = true;
         this->switchedControl = true;
     }
     else
         this->switched_on = false;
 
-    if(!this->currentState && !this->switchedControl){
+    if(!this->state && !this->switchedControl){
         this->switched_off = true;
         this->switchedControl = true;
     }
@@ -175,7 +178,7 @@ const bool& sgui::Switch::getSwitched_off() const{
 /*          CONTROLS          */
 /*      GETTERS      */
 const bool& sgui::Switch::getSwitchState() const{
-    return this->currentState;
+    return this->state;
 }
 const sf::FloatRect& sgui::Switch::getBounds() const{
     return this->bounds;
@@ -202,7 +205,7 @@ const bool& sgui::Switch::getVisible() const{
 
 /*      SETTERS      */
 void sgui::Switch::setSwitchState(bool state){
-    this->currentState = state;
+    this->state = state;
     this->updateTextureState();
 }
 void sgui::Switch::setBounds(const sf::FloatRect& size){

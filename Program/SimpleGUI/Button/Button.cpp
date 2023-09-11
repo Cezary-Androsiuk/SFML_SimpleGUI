@@ -95,7 +95,7 @@ void sgui::Button::event(const sf::Event& event){
     if(!this->visible) return;
 
     if(event.type == sf::Event::MouseMoved){
-        if(this->shape.getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y))
+        if(this->bounds.contains(event.mouseMove.x, event.mouseMove.y))
             this->hover = true;
         else
             this->hover = false;
@@ -103,7 +103,7 @@ void sgui::Button::event(const sf::Event& event){
 
 
     if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
-        if(this->shape.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)){
+        if(this->bounds.contains(event.mouseButton.x, event.mouseButton.y)){
             this->press = true;
         }
     }

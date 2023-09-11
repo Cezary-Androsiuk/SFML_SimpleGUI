@@ -14,7 +14,7 @@ namespace sgui
         #define __SD_POSITION sf::Vector2f(0.f, 0.f)
         #define __SD_SIZE sf::Vector2f(43, 22)
         #define __SD_STATE false
-        #define __SD_BACKGROUND_COLOR_ON sf::Color(10, 240, 110)
+        #define __SD_BACKGROUND_COLOR_ON sf::Color(10, 90, 210)
         #define __SD_BACKGROUND_COLOR_OFF sf::Color(180, 180, 180)
         #define __SD_SWITCH_COLOR sf::Color(255, 255, 255)
         #define __SD_SHADOW_COLOR sf::Color(100, 100, 100, 40)
@@ -47,9 +47,7 @@ namespace sgui
 
         bool switched_on, switched_off;
         bool switchedControl;
-
-        bool currentState;
-        bool mouseLeftKeyPressed;
+        bool state;
 
         bool enable;
         bool visible;
