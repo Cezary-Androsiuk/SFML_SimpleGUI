@@ -27,7 +27,8 @@ sgui::CheckBox::CheckBox(sf::Vector2f position) : CheckBox(position, __CBD_SIZE,
 sgui::CheckBox::CheckBox(sf::Vector2f position, float size) : CheckBox(position, size, __CBD_STATE){
 }
 sgui::CheckBox::CheckBox(sf::Vector2f position, float size, bool state){
-    this->bounds = sf::FloatRect(position, sf::Vector2f(size, size));
+    this->bounds.pos = position;
+    this->bounds.size = size;
     this->state = state;
     this->initData();
     this->buildTextures();
@@ -42,9 +43,9 @@ sgui::CheckBox::~CheckBox(){
 
 
 void sgui::CheckBox::updateTextureState(){
-    if(this->border.getGlobalBounds() != this->bounds){
-        float x = this->bounds.left, y = this->bounds.top;
-        float width = this->bounds.width, height = this->bounds.height;
+    if(this->border.getGlobalBounds() != sf::FloatRect(this->bounds.pos, sf::Vector2f(this->bounds.size, this->bounds.size))){
+        float x = this->bounds.pos.x, y = this->bounds.pos.y;
+        float width = this->bounds.size, height = this->bounds.size;
         float borderSize = ((width + height)/2 * __CBD_BORDER_RATIO)/2;
         float checkedWidth = width * __CBD_BORDER_CHECKED_RATIO, checkedHeight = height * __CBD_BORDER_CHECKED_RATIO;
         float checkedWidthOffset = width - checkedWidth, checkedHeightOffset = height - checkedHeight;
@@ -93,14 +94,14 @@ void sgui::CheckBox::event(const sf::Event& event){
     if(!this->visible) return;
 
     if(event.type == sf::Event::MouseMoved){
-        if(this->bounds.contains(event.mouseMove.x, event.mouseMove.y))
+        if(sf::FloatRect(this->bounds.pos, sf::Vector2f(this->bounds.size, this->bounds.size)).contains(event.mouseMove.x, event.mouseMove.y))
             this->hover = true;
         else
             this->hover = false;
     }
 
     if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
-        if(this->bounds.contains(event.mouseButton.x, event.mouseButton.y)){
+        if(sf::FloatRect(this->bounds.pos, sf::Vector2f(this->bounds.size, this->bounds.size)).contains(event.mouseButton.x, event.mouseButton.y)){
             if(this->state){
                 this->state = false;
                 this->checkControl = false;
@@ -159,8 +160,11 @@ const bool& sgui::CheckBox::getChecked_off() const{
 const bool& sgui::CheckBox::getCheckState() const{
     return this->state;
 }
-const sf::FloatRect& sgui::CheckBox::getBounds() const{
-    return this->bounds;
+const sf::Vector2f& sgui::CheckBox::getPosition() const{
+    return this->bounds.pos;
+}
+const float& sgui::CheckBox::getSize() const{
+    return this->bounds.size;
 }
 const sf::Color& sgui::CheckBox::getColorBackground() const{
     return this->colorBackground;
@@ -185,25 +189,37 @@ const bool& sgui::CheckBox::getVisible() const{
 /*      SETTERS      */
 void sgui::CheckBox::setCheckState(const bool& state){
     this->state = state;
+    this->updateTextureState();
 }
-void sgui::CheckBox::setBounds(const sf::FloatRect& size){
-    this->bounds = size;
+void sgui::CheckBox::setPosition(const sf::Vector2f& pos){
+    this->bounds.pos = pos;
+    this->updateTextureState();
+}
+void sgui::CheckBox::setSize(const float& size){
+    this->bounds.size = size;
+    this->updateTextureState();
 }
 void sgui::CheckBox::setColorBackground(const sf::Color& color){
     this->colorBackground = color;
+    this->updateTextureState();
 }
 void sgui::CheckBox::setColorHover(const sf::Color& color){
     this->colorHover = color;
+    this->updateTextureState();
 }
 void sgui::CheckBox::setColorHoverChecked(const sf::Color& color){
     this->colorHoverChecked = color;
+    this->updateTextureState();
 }
 void sgui::CheckBox::setColorChecked(const sf::Color& color){
     this->colorChecked = color;
+    this->updateTextureState();
 }
 void sgui::CheckBox::setEnable(const bool& enable){
     this->enable = enable;
+    this->updateTextureState();
 }
 void sgui::CheckBox::setVisible(const bool& visible){
     this->visible = visible;
+    this->updateTextureState();
 }

@@ -1,8 +1,6 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-#include <cmath>
-
 #include <SFML/Graphics.hpp>
 
 // SimpleGUI

@@ -1,8 +1,6 @@
 #ifndef CHECKBOX_HPP
 #define CHECKBOX_HPP
 
-#include <cmath>
-
 #include <SFML/Graphics.hpp>
 
 // SimpleGUI
@@ -24,7 +22,10 @@ namespace sgui
         #define __CBD_BORDER_RATIO 0.20f
         #define __CBD_BORDER_CHECKED_RATIO 0.50f
         
-        sf::FloatRect bounds;
+        struct Bounds{
+            sf::Vector2f pos;
+            float size;
+        } bounds;
         sf::RectangleShape border;
         sf::RectangleShape background;
             sf::RectangleShape shapeChecked;
@@ -66,7 +67,8 @@ namespace sgui
         
         // controls
         const bool& getCheckState() const;
-        const sf::FloatRect& getBounds() const;
+        const sf::Vector2f& getPosition() const;
+        const float& getSize() const;
         const sf::Color& getColorBackground() const;
         const sf::Color& getColorHover() const;
         const sf::Color& getColorHoverChecked() const;
@@ -76,7 +78,8 @@ namespace sgui
 
 
         void setCheckState(const bool& size);
-        void setBounds(const sf::FloatRect& size);
+        void setPosition(const sf::Vector2f& pos);
+        void setSize(const float& size);
         void setColorBackground(const sf::Color& color);
         void setColorHover(const sf::Color& color);
         void setColorHoverChecked(const sf::Color& color);

@@ -1,8 +1,6 @@
 #ifndef SWITCH_HPP
 #define SWITCH_HPP
 
-#include <cmath>
-
 #include <SFML/Graphics.hpp>
 
 // SimpleGUI
