@@ -73,7 +73,7 @@ namespace sgui
         const bool& getSwitched_off() const;
 
         // controls
-        const bool& getSwitchState() const;
+        const bool& getState() const;
         const sf::FloatRect& getBounds() const;
         const sf::Color& getBackgroundColor_on() const;
         const sf::Color& getBackgroundColor_off() const;
@@ -83,7 +83,7 @@ namespace sgui
         const bool& getVisible() const;
 
 
-        void setSwitchState(bool state);
+        void setState(bool state);
         void setBounds(const sf::FloatRect& size);
         void setBackgroundColor_on(const sf::Color& color);
         void setBackgroundColor_off(const sf::Color& color);

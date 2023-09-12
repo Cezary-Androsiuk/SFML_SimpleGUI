@@ -66,7 +66,7 @@ namespace sgui
         const bool& getChecked_off() const;
         
         // controls
-        const bool& getCheckState() const;
+        const bool& getState() const;
         const sf::Vector2f& getPosition() const;
         const float& getSize() const;
         const sf::Color& getColorBorder() const;
@@ -78,7 +78,7 @@ namespace sgui
         const bool& getVisible() const;
 
 
-        void setCheckState(const bool& size);
+        void setState(const bool& size);
         void setPosition(const sf::Vector2f& pos);
         void setSize(const float& size);
         void setColorBorder(const sf::Color& color);

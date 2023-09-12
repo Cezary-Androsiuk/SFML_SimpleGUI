@@ -175,7 +175,7 @@ const bool& sgui::CheckBox::getChecked_off() const{
 
 /*          CONTROLS          */
 /*      GETTERS      */
-const bool& sgui::CheckBox::getCheckState() const{
+const bool& sgui::CheckBox::getState() const{
     return this->state;
 }
 const sf::Vector2f& sgui::CheckBox::getPosition() const{
@@ -211,7 +211,7 @@ const bool& sgui::CheckBox::getVisible() const{
 
 
 /*      SETTERS      */
-void sgui::CheckBox::setCheckState(const bool& state){
+void sgui::CheckBox::setState(const bool& state){
     this->state = state;
     this->updateTextureState();
 }

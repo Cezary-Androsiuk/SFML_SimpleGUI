@@ -182,7 +182,7 @@ const bool& sgui::Switch::getSwitched_off() const{
 
 /*          CONTROLS          */
 /*      GETTERS      */
-const bool& sgui::Switch::getSwitchState() const{
+const bool& sgui::Switch::getState() const{
     return this->state;
 }
 const sf::FloatRect& sgui::Switch::getBounds() const{
@@ -212,7 +212,7 @@ const bool& sgui::Switch::getVisible() const{
 
 
 /*      SETTERS      */
-void sgui::Switch::setSwitchState(bool state){
+void sgui::Switch::setState(bool state){
     this->state = state;
     this->updateTextureState();
 }
