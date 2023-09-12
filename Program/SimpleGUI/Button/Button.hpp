@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../SimpleGUI.hpp"
+
 // SimpleGUI
-namespace sgui
-{
-    class Button
-    {
+namespace sgui{
+    class Button : public SGUI{
         // BUTTON DEFAULT
         #define __BD_POSITION sf::Vector2f(0.f, 0.f)
         #define __BD_SIZE sf::Vector2f(130, 35)

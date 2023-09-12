@@ -6,9 +6,11 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../SimpleGUI.hpp"
+
 // SimpleGUI
 namespace sgui{
-    class RadioButton{
+    class RadioButton : public SGUI{
         // RADIOBUTTON DEFAULT
         #define __RBD_POSITION sf::Vector2f(0.f, 0.f)
         #define __RBD_RADIUS 15.f

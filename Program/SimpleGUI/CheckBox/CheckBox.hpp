@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../SimpleGUI.hpp"
+
 // SimpleGUI
-namespace sgui
-{
-    class CheckBox
-    {
+namespace sgui{
+    class CheckBox : public SGUI{
         // CHECKBOX DEFAULT
         #define __CBD_POSITION sf::Vector2f(0.f, 0.f)
         #define __CBD_SIZE 30.f

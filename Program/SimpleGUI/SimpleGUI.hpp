@@ -1,6 +1,12 @@
 #ifndef SIMPLEGUI_HPP
 #define SIMPLEGUI_HPP
 
+namespace sgui{
+    // SimpleGraphicalUserInterface
+    class SGUI{
+    };
+}
+
 #include "Switch/Switch.hpp"
 #include "Button/Button.hpp"
 #include "CheckBox/CheckBox.hpp"

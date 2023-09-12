@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../SimpleGUI.hpp"
+
 // SimpleGUI
-namespace sgui
-{
-    class Switch
-    {
+namespace sgui{
+    class Switch : public SGUI{
         // SWITCH DEFAULT
         #define __SD_POSITION sf::Vector2f(0.f, 0.f)
         #define __SD_SIZE sf::Vector2f(43, 22)

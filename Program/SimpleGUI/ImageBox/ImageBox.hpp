@@ -3,9 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../SimpleGUI.hpp"
+
 // SimpleGUI
 namespace sgui{
-    class ImageBox{
+    class ImageBox : public SGUI{
         // IMAGEBOX DEFAULT
         #define __IBD_POSITION sf::Vector2f(0.f, 0.f)
         #define __IBD_SIZE sf::Vector2f(480.f, 270.f)
