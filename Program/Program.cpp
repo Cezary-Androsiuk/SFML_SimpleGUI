@@ -48,6 +48,18 @@ void Program::initObjects()
         this->imageBoxes.push_back(ib);
     }
 
+    for(int i=0; i<3; i++){
+        sgui::RadioButton* rb = new sgui::RadioButton(sf::Vector2f(900, 60 + i*33), 15.f);
+        this->radioButtons1.push_back(rb);
+    }
+    sgui::RadioButton::changeGroup(this->radioButtons1);
+
+    for(int i=0; i<4; i++){
+        sgui::RadioButton* rb = new sgui::RadioButton(sf::Vector2f(900, 60 + 4*33 + i*33), 15.f);
+        this->radioButtons2.push_back(rb);
+    }
+    sgui::RadioButton::changeGroup(this->radioButtons2);
+
 }
 
 Program::Program()
@@ -68,6 +80,10 @@ Program::~Program()
         delete cb;
     for(const auto& ib : this->imageBoxes)
         delete ib;
+    for(const auto& rb : this->radioButtons1)
+        delete rb;
+    for(const auto& rb : this->radioButtons2)
+        delete rb;
     delete this->window;
 }
 
@@ -94,6 +110,10 @@ void Program::update()
             cb->event(this->event);
         for(const auto& ib : this->imageBoxes)
             ib->event(this->event);
+        for(const auto& rb : this->radioButtons1)
+            rb->event(this->event);
+        for(const auto& rb : this->radioButtons2)
+            rb->event(this->event);
     }
 
     for(const auto& s : this->switches)
@@ -104,6 +124,10 @@ void Program::update()
         cb->update();
     for(const auto& ib : this->imageBoxes)
         ib->update();
+    for(const auto& rb : this->radioButtons1)
+        rb->update();
+    for(const auto& rb : this->radioButtons2)
+        rb->update();
 
 
     // ####################################################################################### TEST SECTION
@@ -117,7 +141,7 @@ void Program::update()
         }
         si++;
     }
-    if(this->switches[9]->getSwitchState()){
+    if(this->switches[9]->getState()){
         for(const auto& s : this->switches){
             s->setBackgroundColor_on(sf::Color(rand()%255,rand()%255,rand()%255));
         }
@@ -163,12 +187,29 @@ void Program::update()
         }
         cbi++;
     }
+
+    int rbi=0;
+    for(const auto& rb : this->radioButtons1){
+        if(rb->getChecked_on())
+            printf("radiobutton1 %d is selected\n", rbi);
+        rbi++;
+    }
+
+    rbi=0;
+    for(const auto& rb : this->radioButtons2){
+        if(rb->getChecked_on())
+            printf("radiobutton2 %d is selected\n", rbi);
+        rbi++;
+    }
     // ####################################################################################### TEST SECTION
 }
 
 void Program::render()
 {
     this->window->clear(sf::Color(30, 30, 30));
+
+    // sf::View v(sf::FloatRect(0,0,480, 270));
+    // this->window->setView(v);
 
     for(const auto& s : this->switches)
         s->render(this->window);
@@ -181,6 +222,12 @@ void Program::render()
 
     for(const auto& ib : this->imageBoxes)
         ib->render(this->window);
+        
+    for(const auto& rb : this->radioButtons1)
+        rb->render(this->window);
+
+    for(const auto& rb : this->radioButtons2)
+        rb->render(this->window);
 
     this->window->display();
 }

@@ -2,6 +2,7 @@
 #define RADIOBUTTON_HPP
 
 #include <vector>
+#include <cmath>
 
 #include <SFML/Graphics.hpp>
 
@@ -12,7 +13,7 @@ namespace sgui{
         #define __RBD_POSITION sf::Vector2f(0.f, 0.f)
         #define __RBD_RADIUS 15.f
         #define __RBD_COLOR_BORDER sf::Color(10, 90, 210)
-        #define __RBD_COLOR_BACKGROUND sf::Color(0, 0, 0, 0)
+        #define __RBD_COLOR_BACKGROUND sf::Color(255, 255, 255, 0)
         #define __RBD_COLOR_HOVER sf::Color(10, 90, 210, 80)
         #define __RBD_COLOR_CHECKED sf::Color(10, 90, 210)
 
@@ -33,7 +34,7 @@ namespace sgui{
             sf::Color colorHover;
             sf::Color colorChecked;
 
-        std::vector<sgui::RadioButton *const> group;
+        std::vector<sgui::RadioButton *> group;
 
         bool check_on, checkControl;
         bool state;
@@ -53,9 +54,12 @@ namespace sgui{
 
     private:
         void updateTextureState();
+        bool contains(float x, float y) const;
+        bool contains(sf::Vector2f point) const;
+        void diselectGroup() const; // const because does not change THIS object
 
     protected:
-        void setGroup(const std::vector<sgui::RadioButton *const> group);
+        void setGroup(const std::vector<sgui::RadioButton *>& group);
 
     public:
         void event(const sf::Event& event);
@@ -64,10 +68,9 @@ namespace sgui{
 
         // getter / setter
         const bool& getChecked_on() const;
-        static void createGroup(std::vector<sgui::RadioButton *const> group); // to create group that will contain up to one selected RadioButton
         
         // controls
-        const bool& getCheckState() const;
+        const bool& getState() const;
         const sf::Vector2f& getPosition() const;
         const float& getRadius() const;
         const sf::Color& getColorBorder() const;
@@ -78,7 +81,7 @@ namespace sgui{
         const bool& getVisible() const;
 
 
-        void setCheckState(const bool& state);
+        void setState(const bool& state);
         void setPosition(const sf::Vector2f& pos);
         void setRadius(const float& radius);
         void setColorBorder(const sf::Color& color);
@@ -87,6 +90,9 @@ namespace sgui{
         void setColorChecked(const sf::Color& color);
         void setEnable(const bool& enable);
         void setVisible(const bool& visible);
+
+        // static
+        static void changeGroup(const std::vector<sgui::RadioButton *>& group); // to create group that will contain up to one selected RadioButton
     };
 }
 

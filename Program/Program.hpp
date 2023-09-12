@@ -28,6 +28,8 @@ private:
     std::vector<sgui::Button*> buttons;
     std::vector<sgui::CheckBox*> checkBoxes;
     std::vector<sgui::ImageBox*> imageBoxes;
+    std::vector<sgui::RadioButton*> radioButtons1;
+    std::vector<sgui::RadioButton*> radioButtons2;
 
     void initParams();
     void initFonts();
