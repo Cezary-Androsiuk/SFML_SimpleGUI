@@ -60,7 +60,10 @@ void Program::initObjects()
     }
     sgui::RadioButton::createGroup(this->radioButtons2);
 
-
+    this->groupBoxes.push_back(new sgui::GroupBox(sf::FloatRect(100, 500, 200, 50)));
+    this->groupBoxes[0]->setColorBackground(sf::Color(40,40,40));
+    groupBoxes[0]->addObject(new sgui::Button(sf::FloatRect(10,10,52,14)));
+    groupBoxes[0]->addObject(new sgui::Button(sf::FloatRect(70,10,52,14)));
 
 }
 
@@ -86,6 +89,8 @@ Program::~Program()
         delete rb;
     for(const auto& rb : this->radioButtons2)
         delete rb;
+    for(const auto& gb : this->groupBoxes)
+        delete gb;
     delete this->window;
 }
 
@@ -116,6 +121,8 @@ void Program::update()
             rb->event(this->event);
         for(const auto& rb : this->radioButtons2)
             rb->event(this->event);
+        for(const auto& gb : this->groupBoxes)
+            gb->event(this->event);
     }
 
     for(const auto& s : this->switches)
@@ -130,6 +137,8 @@ void Program::update()
         rb->update();
     for(const auto& rb : this->radioButtons2)
         rb->update();
+    for(const auto& gb : this->groupBoxes)
+        gb->update();
 
 
     // ####################################################################################### TEST SECTION
@@ -203,6 +212,20 @@ void Program::update()
             printf("radiobutton2 %d is selected\n", rbi);
         rbi++;
     }
+
+    auto gropBoxObjects = this->groupBoxes[0]->getAllObjects();
+    if(typeid(*gropBoxObjects[0]) == typeid(sgui::Button)){
+        sgui::Button* b1 = dynamic_cast<sgui::Button*>(gropBoxObjects[0]);
+        if(b1->getClick())
+            printf("B1 was Clicked!\n");
+    }
+    else fprintf(stderr, "object is not a button!\n");
+    if(typeid(*gropBoxObjects[1]) == typeid(sgui::Button)){
+        sgui::Button* b2 = dynamic_cast<sgui::Button*>(gropBoxObjects[1]);
+        if(b2->getClick())
+            printf("B2 was Clicked!\n");
+    }
+    else fprintf(stderr, "object is not a button!\n");
     // ####################################################################################### TEST SECTION
 }
 
@@ -230,6 +253,8 @@ void Program::render()
 
     for(const auto& rb : this->radioButtons2)
         rb->render(this->window);
+    for(const auto& gb : this->groupBoxes)
+        gb->render(this->window);
 
     this->window->display();
 }

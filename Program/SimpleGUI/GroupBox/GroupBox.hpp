@@ -12,7 +12,7 @@ namespace sgui{
         // GROUPBOX DEFAULT
         #define __GBD_POSITION sf::Vector2f(0.f, 0.f)
         #define __GBD_SIZE sf::Vector2f(1280.f, 720.f)
-        #define __GBD_COLOR_BACKGROUND sf::Color(255, 255, 255, 0)
+        #define __GBD_COLOR_BACKGROUND sf::Color::Transparent
 
         #define __GBD_DISABLE_ALPHA_PCT 100.f/255.f
         
@@ -56,6 +56,10 @@ namespace sgui{
         void setVisible(const bool& visible);
 
         // other
+        // to remove/modify/getResponse from a single object 
+        std::vector<sgui::SguiObject*>& getAllObjects();
+        // to add object call for example: groupBox->addObject(new sgui::Button());
+        // objects position is relative to groupBox and they will be deleted while deleting groupBox
         void addObject(sgui::SguiObject* object);
     };
 }

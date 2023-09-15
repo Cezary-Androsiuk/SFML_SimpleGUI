@@ -6,6 +6,7 @@
 namespace sgui{
     class SguiObject{
     public:
+        virtual ~SguiObject();
         virtual void event(const sf::Event& event) = 0;
         virtual void update() = 0;
         virtual void render(sf::RenderTarget* window) const = 0;
