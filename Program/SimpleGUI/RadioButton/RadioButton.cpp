@@ -246,7 +246,7 @@ void sgui::RadioButton::setVisible(const bool& visible){
 
 
 /*      STATIC      */
-void sgui::RadioButton::changeGroup(const std::vector<sgui::RadioButton *>& group){
+void sgui::RadioButton::createGroup(const std::vector<sgui::RadioButton *>& group){
     for(auto& gi : group){
         std::vector<sgui::RadioButton *> singleGroup;
         for(auto& gj : group){

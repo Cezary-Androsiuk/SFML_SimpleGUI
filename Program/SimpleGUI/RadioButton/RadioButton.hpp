@@ -88,7 +88,7 @@ namespace sgui{
         void setVisible(const bool& visible);
 
         // static
-        static void changeGroup(const std::vector<sgui::RadioButton *>& group); // to create group that will contain up to one selected RadioButton
+        static void createGroup(const std::vector<sgui::RadioButton *>& group); // to create group that will contain up to one selected RadioButton
     };
 }
 
