@@ -53,19 +53,19 @@ void sgui::GroupBox::updateTextureState(){
 /*      PUBLIC      */
 void sgui::GroupBox::event(const sf::Event& event){
     for(auto& i : this->objects)
-        i.event(event);
+        i->event(event);
 }
 
 
 void sgui::GroupBox::update(){
     for(auto& i : this->objects)
-        i.update();
+        i->update();
 }
 
 
 void sgui::GroupBox::render(sf::RenderTarget* window) const{
     for(const auto& i : this->objects)
-        i.render(window);
+        i->render(window);
 }
 
 
@@ -107,4 +107,13 @@ void sgui::GroupBox::setEnable(const bool& enable){
 void sgui::GroupBox::setVisible(const bool& visible){
     this->visible = visible;
     this->updateTextureState();
+}
+
+
+
+
+
+/*      OTHER      */
+void sgui::GroupBox::addObject(sgui::SguiObject* object){
+    this->objects.push_back(object);
 }

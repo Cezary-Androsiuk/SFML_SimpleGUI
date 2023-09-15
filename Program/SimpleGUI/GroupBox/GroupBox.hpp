@@ -5,10 +5,10 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../SimpleGUI.hpp"
+#include "../SguiObject/SguiObject.hpp"
 
 namespace sgui{
-    class GroupBox : public SGUI{
+    class GroupBox : public SguiObject{
         // GROUPBOX DEFAULT
         #define __GBD_POSITION sf::Vector2f(0.f, 0.f)
         #define __GBD_SIZE sf::Vector2f(1280.f, 720.f)
@@ -22,7 +22,7 @@ namespace sgui{
         sf::Color colorBackground;
         
         //* Elements in GroupBox
-        std::vector<sgui::SGUI> objects;
+        std::vector<sgui::SguiObject*> objects;
         //*/
 
         bool enable;
@@ -50,11 +50,13 @@ namespace sgui{
         const bool& getEnable() const;
         const bool& getVisible() const;
 
-
         void setBounds(const sf::FloatRect& bounds);
         void setColorBackground(const sf::Color& color);
         void setEnable(const bool& enable);
         void setVisible(const bool& visible);
+
+        // other
+        void addObject(sgui::SguiObject* object);
     };
 }
 

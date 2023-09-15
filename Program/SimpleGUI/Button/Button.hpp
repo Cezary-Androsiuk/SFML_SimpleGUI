@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../SimpleGUI.hpp"
+#include "../SguiObject/SguiObject.hpp"
 
 // SimpleGUI
 namespace sgui{
-    class Button : public SGUI{
+    class Button : public SguiObject{
         // BUTTON DEFAULT
         #define __BD_POSITION sf::Vector2f(0.f, 0.f)
         #define __BD_SIZE sf::Vector2f(130, 35)
@@ -67,7 +67,7 @@ namespace sgui{
         const bool& getVisible() const;
 
 
-        void setBounds(const sf::FloatRect& size);
+        void setBounds(const sf::FloatRect& bounds);
         void setColor(const sf::Color& color);
         void setColorHover(const sf::Color& color);
         void setColorPress(const sf::Color& color);

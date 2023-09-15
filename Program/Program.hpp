@@ -30,6 +30,7 @@ private:
     std::vector<sgui::ImageBox*> imageBoxes;
     std::vector<sgui::RadioButton*> radioButtons1;
     std::vector<sgui::RadioButton*> radioButtons2;
+    std::vector<sgui::GroupBox*> groupBoxes;
 
     void initParams();
     void initFonts();

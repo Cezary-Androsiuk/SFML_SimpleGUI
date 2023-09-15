@@ -30,11 +30,13 @@ void sgui::RadioButton::buildTextures(){
 
 
 /*      CONSTRUCTORS      */
-sgui::RadioButton::RadioButton() : RadioButton(__RBD_POSITION, __RBD_RADIUS) {}
-sgui::RadioButton::RadioButton(sf::Vector2f pos) : RadioButton(pos, __RBD_RADIUS) {}
-sgui::RadioButton::RadioButton(sf::Vector2f pos, float radius) {
-    this->bounds.pos = pos;
-    this->bounds.radius = radius;
+sgui::RadioButton::RadioButton() : RadioButton(sf::FloatRect(__RBD_POSITION, sf::Vector2f(__RBD_RADIUS, __RBD_RADIUS))) {}
+sgui::RadioButton::RadioButton(sf::FloatRect bounds) {
+    if(bounds.width != bounds.height){
+        fprintf(stderr, "bounds.width and bounds.height need to be equal!\n");
+        exit(0);
+    }
+    this->bounds = bounds;
     this->initData();
     this->buildTextures();
 }
@@ -48,19 +50,21 @@ sgui::RadioButton::~RadioButton(){
 
 /*      PRIVATE      */
 void sgui::RadioButton::updateTextureState(){
-    if(this->background.getPosition() != this->bounds.pos || this->background.getRadius() != this->bounds.radius){
-        this->background.setPosition(this->bounds.pos);
-        this->background.setRadius(this->bounds.radius);
+    if(this->background.getGlobalBounds() != this->bounds){
+        float x = this->bounds.left, y = this->bounds.top;
+        float radius = this->bounds.width;
+        this->background.setPosition(x, y);
+        this->background.setRadius(radius);
 
-        float borderSize = this->bounds.radius * __RBD_BORDER_RATIO;
-        float borderCheckedSize = this->bounds.radius * __RBD_BORDER_CHECKED_RATIO;
+        float borderSize = radius * __RBD_BORDER_RATIO;
+        float borderCheckedSize = radius * __RBD_BORDER_CHECKED_RATIO;
 
-        this->border.setRadius(this->bounds.radius - borderSize);
+        this->border.setRadius(radius - borderSize);
         this->border.setOutlineThickness(borderSize);
-        this->border.setPosition(this->bounds.pos.x + borderSize, this->bounds.pos.y + borderSize);
+        this->border.setPosition(x + borderSize, y + borderSize);
 
         this->shapeChecked.setRadius(borderCheckedSize);
-        this->shapeChecked.setPosition(this->bounds.pos.x + this->bounds.radius/2, this->bounds.pos.y + this->bounds.radius/2);
+        this->shapeChecked.setPosition(x + radius/2, y + radius/2);
     }
 
     this->background.setFillColor(this->colorBackground);
@@ -171,11 +175,8 @@ const bool& sgui::RadioButton::getChecked_on() const{
 const bool& sgui::RadioButton::getState() const{
     return this->state;
 }
-const sf::Vector2f& sgui::RadioButton::getPosition() const{
-    return this->bounds.pos;
-}
-const float& sgui::RadioButton::getRadius() const{
-    return this->bounds.radius;
+const sf::FloatRect& sgui::RadioButton::getBounds() const{
+    return this->bounds;
 }
 const sf::Color& sgui::RadioButton::getColorBorder() const{
     return this->colorBorder;
@@ -207,12 +208,12 @@ void sgui::RadioButton::setState(const bool& state){
         this->diselectGroup();
     this->updateTextureState();
 }
-void sgui::RadioButton::setPosition(const sf::Vector2f& pos){
-    this->bounds.pos = pos;
-    this->updateTextureState();
-}
-void sgui::RadioButton::setRadius(const float& radius){
-    this->bounds.radius = radius;
+void sgui::RadioButton::setBounds(const sf::FloatRect& bounds){
+    if(bounds.width != bounds.height){
+        fprintf(stderr, "bounds.width and bounds.height need to be equal!\n");
+        exit(0);
+    }
+    this->bounds = bounds;
     this->updateTextureState();
 }
 void sgui::RadioButton::setColorBorder(const sf::Color& color){

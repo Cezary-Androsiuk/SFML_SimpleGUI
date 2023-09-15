@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../SimpleGUI.hpp"
+#include "../SguiObject/SguiObject.hpp"
 
 // SimpleGUI
 namespace sgui{
-    class ImageBox : public SGUI{
+    class ImageBox : public SguiObject{
         // IMAGEBOX DEFAULT
         #define __IBD_POSITION sf::Vector2f(0.f, 0.f)
         #define __IBD_SIZE sf::Vector2f(480.f, 270.f)
@@ -48,17 +48,17 @@ namespace sgui{
         void render(sf::RenderTarget* window) const;
         
         // controls
+        const sf::FloatRect& getBounds() const;
         const sf::String& getImagePath() const;
         const sf::IntRect& getImageTextureTrim() const;
-        const sf::FloatRect& getBounds() const;
         const sf::Color& getColorImage() const;
         const sf::Color& getColorBackground() const;
         const bool& getVisible() const;
 
 
+        void setBounds(const sf::FloatRect& bounds);
         void setImagePath(const sf::String& imagePath);
         void setImageTextureTrim(const sf::IntRect& imageTextureTrim);
-        void setBounds(const sf::FloatRect& bounds);
         void setColorImage(const sf::Color& color);
         void setColorBackground(const sf::Color& color);
         void setVisible(const bool& visible);

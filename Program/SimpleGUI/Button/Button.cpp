@@ -191,8 +191,8 @@ const bool& sgui::Button::getVisible() const{
 
 
 /*      SETTERS      */
-void sgui::Button::setBounds(const sf::FloatRect& size){
-    this->bounds = size;
+void sgui::Button::setBounds(const sf::FloatRect& bounds){
+    this->bounds = bounds;
     this->updateTextureState();
 }
 void sgui::Button::setColor(const sf::Color& color){

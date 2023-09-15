@@ -37,7 +37,7 @@ void Program::initObjects()
     }
 
     for(int i=0; i<10; i++){
-        sgui::CheckBox* cb = new sgui::CheckBox(sf::Vector2f(350, 60 + i*33), 30.f);
+        sgui::CheckBox* cb = new sgui::CheckBox(sf::FloatRect(350, 60 + i*33, 30.f, 30.f));
         this->checkBoxes.push_back(cb);
     }
 
@@ -49,13 +49,13 @@ void Program::initObjects()
     }
 
     for(int i=0; i<3; i++){
-        sgui::RadioButton* rb = new sgui::RadioButton(sf::Vector2f(900, 60 + i*33), 15.f);
+        sgui::RadioButton* rb = new sgui::RadioButton(sf::FloatRect(900, 60 + i*33, 15.f, 15.f));
         this->radioButtons1.push_back(rb);
     }
     sgui::RadioButton::changeGroup(this->radioButtons1);
 
     for(int i=0; i<4; i++){
-        sgui::RadioButton* rb = new sgui::RadioButton(sf::Vector2f(900, 60 + 4*33 + i*33), 15.f);
+        sgui::RadioButton* rb = new sgui::RadioButton(sf::FloatRect(900, 60 + 4*33 + i*33, 15.f, 15.f));
         this->radioButtons2.push_back(rb);
     }
     sgui::RadioButton::changeGroup(this->radioButtons2);

@@ -216,8 +216,8 @@ void sgui::Switch::setState(bool state){
     this->state = state;
     this->updateTextureState();
 }
-void sgui::Switch::setBounds(const sf::FloatRect& size){
-    this->bounds = size;
+void sgui::Switch::setBounds(const sf::FloatRect& bounds){
+    this->bounds = bounds;
     this->updateTextureState();
 }
 void sgui::Switch::setBackgroundColor_on(const sf::Color& color){

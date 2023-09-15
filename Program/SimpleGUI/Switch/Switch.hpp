@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../SimpleGUI.hpp"
+#include "../SguiObject/SguiObject.hpp"
 
 // SimpleGUI
 namespace sgui{
-    class Switch : public SGUI{
+    class Switch : public SguiObject{
         // SWITCH DEFAULT
         #define __SD_POSITION sf::Vector2f(0.f, 0.f)
         #define __SD_SIZE sf::Vector2f(43, 22)
@@ -84,7 +84,7 @@ namespace sgui{
 
 
         void setState(bool state);
-        void setBounds(const sf::FloatRect& size);
+        void setBounds(const sf::FloatRect& bounds);
         void setBackgroundColor_on(const sf::Color& color);
         void setBackgroundColor_off(const sf::Color& color);
         void setSwitchColor(const sf::Color& color);
