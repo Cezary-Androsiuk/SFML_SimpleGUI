@@ -11,8 +11,8 @@ namespace sgui{
         virtual void update() = 0;
         virtual void render(sf::RenderTarget* window) const = 0;
 
-        virtual const sf::FloatRect& getBounds() const = 0;
-        virtual void setBounds(const sf::FloatRect& bounds) = 0;
+        virtual const sf::Vector2f& getPosition() const = 0;
+        virtual void setPosition(const sf::Vector2f& pos) = 0;
     };
 }
 

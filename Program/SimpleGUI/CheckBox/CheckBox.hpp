@@ -22,7 +22,8 @@ namespace sgui{
         #define __CBD_BORDER_RATIO 0.20f
         #define __CBD_BORDER_CHECKED_RATIO 0.50f
         
-        sf::FloatRect bounds;
+        sf::Vector2f pos;
+        float size;
         sf::RectangleShape border;
         sf::RectangleShape background;
             sf::RectangleShape shapeChecked;
@@ -45,8 +46,8 @@ namespace sgui{
 
     public:
         CheckBox();
-        CheckBox(sf::FloatRect bounds);
-        CheckBox(sf::FloatRect bounds, bool state);
+        CheckBox(sf::Vector2f pos, float size);
+        CheckBox(sf::Vector2f pos, float size, bool state);
         ~CheckBox();
 
     private:
@@ -62,8 +63,10 @@ namespace sgui{
         const bool& getChecked_off() const;
         
         // controls
+        // const sf::FloatRect& getBounds() const;
+        const sf::Vector2f& getPosition() const;
+        const float& getSize() const;
         const bool& getState() const;
-        const sf::FloatRect& getBounds() const;
         const sf::Color& getColorBorder() const;
         const sf::Color& getColorBackground() const;
         const sf::Color& getColorHover() const;
@@ -73,8 +76,10 @@ namespace sgui{
         const bool& getVisible() const;
 
 
+        // void setBounds(const sf::FloatRect& bounds);
+        void setPosition(const sf::Vector2f& pos);
+        void setSize(const float& size);
         void setState(const bool& size);
-        void setBounds(const sf::FloatRect& bounds);
         void setColorBorder(const sf::Color& color);
         void setColorBackground(const sf::Color& color);
         void setColorHover(const sf::Color& color);

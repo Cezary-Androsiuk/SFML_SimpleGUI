@@ -21,7 +21,8 @@ namespace sgui{
         #define __SD_HANDLE_SIZE_RATIO 0.75f
         #define __SD_SHADOW_SIZE_RATIO 0.9f
 
-        sf::FloatRect bounds;
+        sf::Vector2f pos;
+        sf::Vector2f size;
         struct Background{
             sf::RectangleShape shape;
             sf::Color color_on;
@@ -73,8 +74,9 @@ namespace sgui{
         const bool& getSwitched_off() const;
 
         // controls
+        const sf::Vector2f& getPosition() const;
+        const sf::Vector2f& getSize() const;
         const bool& getState() const;
-        const sf::FloatRect& getBounds() const;
         const sf::Color& getBackgroundColor_on() const;
         const sf::Color& getBackgroundColor_off() const;
         const sf::Color& getSwitchColor() const;
@@ -83,8 +85,9 @@ namespace sgui{
         const bool& getVisible() const;
 
 
+        void setPosition(const sf::Vector2f& pos);
+        void setSize(const sf::Vector2f& size);
         void setState(bool state);
-        void setBounds(const sf::FloatRect& bounds);
         void setBackgroundColor_on(const sf::Color& color);
         void setBackgroundColor_off(const sf::Color& color);
         void setSwitchColor(const sf::Color& color);

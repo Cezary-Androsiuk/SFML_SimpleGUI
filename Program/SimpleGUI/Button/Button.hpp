@@ -19,7 +19,8 @@ namespace sgui{
 
         #define __BD_DISABLE_ALPHA_VALUE 100
         
-        sf::FloatRect bounds;
+        sf::Vector2f pos;
+        sf::Vector2f size;
         sf::RectangleShape shape;
         sf::Color color;
         sf::Color colorHover;
@@ -57,7 +58,8 @@ namespace sgui{
         const bool& getPress() const;
         
         // controls
-        const sf::FloatRect& getBounds() const;
+        const sf::Vector2f& getPosition() const;
+        const sf::Vector2f& getSize() const;
         const sf::Color& getColor() const;
         const sf::Color& getColorHover() const;
         const sf::Color& getColorPress() const;
@@ -67,7 +69,8 @@ namespace sgui{
         const bool& getVisible() const;
 
 
-        void setBounds(const sf::FloatRect& bounds);
+        void setPosition(const sf::Vector2f& pos);
+        void setSize(const sf::Vector2f& size);
         void setColor(const sf::Color& color);
         void setColorHover(const sf::Color& color);
         void setColorPress(const sf::Color& color);

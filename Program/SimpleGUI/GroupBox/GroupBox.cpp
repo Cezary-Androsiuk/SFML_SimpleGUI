@@ -23,7 +23,8 @@ void sgui::GroupBox::buildTextures(){
 /*      CONSTRUCTORS      */
 sgui::GroupBox::GroupBox() : GroupBox(sf::FloatRect(__GBD_POSITION, __GBD_POSITION)){}
 sgui::GroupBox::GroupBox(sf::FloatRect bounds){
-    this->bounds = bounds;
+    this->pos = sf::Vector2f(bounds.left, bounds.top);
+    this->size = sf::Vector2f(bounds.width, bounds.height);
     this->initData();
     this->buildTextures();
 }
@@ -38,16 +39,18 @@ sgui::GroupBox::~GroupBox(){
 
 /*      PRIVATE      */
 void sgui::GroupBox::updateTextureState(){
-    if(this->bounds != this->background.getGlobalBounds()){
-        float xdiff = this->bounds.left - this->background.getGlobalBounds().left;
-        float ydiff = this->bounds.top - this->background.getGlobalBounds().top;
+    if(this->pos != this->background.getPosition()){
+        float xdiff = this->pos.x - this->background.getGlobalBounds().left;
+        float ydiff = this->pos.y - this->background.getGlobalBounds().top;
         for(auto& o : this->objects){
-            sf::FloatRect objectBounds(o->getBounds());
-            o->setBounds(sf::FloatRect(objectBounds.left + xdiff, objectBounds.top + ydiff, objectBounds.width, objectBounds.height));
+            sf::Vector2f objPos(o->getPosition());
+            o->setPosition(sf::Vector2f(objPos.x + xdiff, objPos.y + ydiff));
         }
 
-        this->background.setPosition(this->bounds.left, this->bounds.top);
-        this->background.setSize(sf::Vector2f(this->bounds.width, this->bounds.height));
+        this->background.setPosition(this->pos.x, this->pos.y);
+    }
+    if(this->size != this->background.getSize()){
+        this->background.setSize(sf::Vector2f(this->size.x, this->size.y));
     }
     this->background.setFillColor(this->colorBackground);
 }
@@ -90,8 +93,11 @@ void sgui::GroupBox::render(sf::RenderTarget* window) const{
 
 /*          CONTROLS          */
 /*      GETTERS      */
-const sf::FloatRect& sgui::GroupBox::getBounds() const{
-    return this->bounds;
+const sf::Vector2f& sgui::GroupBox::getPosition() const{
+    return this->pos;
+}
+const sf::Vector2f& sgui::GroupBox::getSize() const{
+    return this->size;
 }
 const sf::Color& sgui::GroupBox::getColorBackground() const{
     return this->colorBackground;
@@ -108,9 +114,11 @@ const bool& sgui::GroupBox::getVisible() const{
 
 
 /*      SETTERS      */
-void sgui::GroupBox::setBounds(const sf::FloatRect& bounds){
-    this->bounds = bounds;
-    this->updateTextureState();
+void sgui::GroupBox::setPosition(const sf::Vector2f& pos){
+    this->pos = pos;
+}
+void sgui::GroupBox::setSize(const sf::Vector2f& size){
+    this->size = size;
 }
 void sgui::GroupBox::setColorBackground(const sf::Color& color){
     this->colorBackground = color;
@@ -134,8 +142,7 @@ std::vector<sgui::SguiObject*>& sgui::GroupBox::getAllObjects(){
     return this->objects;
 }
 void sgui::GroupBox::addObject(sgui::SguiObject* object){
-    sf::FloatRect objectBounds = object->getBounds();
-    object->setBounds(sf::FloatRect(objectBounds.left + this->bounds.left, objectBounds.top + this->bounds.top, 
-    objectBounds.width, objectBounds.height));
+    sf::Vector2f objPos = object->getPosition();
+    object->setPosition(sf::Vector2f(objPos.x + this->pos.x, objPos.y + this->pos.y));
     this->objects.push_back(object);
 }

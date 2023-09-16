@@ -32,7 +32,8 @@ void sgui::Switch::buildTextures(){
 sgui::Switch::Switch() : Switch(sf::FloatRect(__SD_POSITION, __SD_SIZE), __SD_STATE) {}
 sgui::Switch::Switch(sf::FloatRect bounds) : Switch(bounds, __SD_STATE) {}
 sgui::Switch::Switch(sf::FloatRect bounds, bool state){
-    this->bounds = bounds;
+    this->pos = sf::Vector2f(bounds.left, bounds.top);
+    this->size = sf::Vector2f(bounds.width, bounds.height);
     this->state = state;
 
     this->initData();
@@ -48,10 +49,10 @@ sgui::Switch::~Switch(){
 
 /*      PRIVATE      */
 void sgui::Switch::updateTextureState(){
-    if(this->background.shape.getGlobalBounds() != this->bounds){
+    if(this->background.shape.getPosition() != this->pos || this->background.shape.getSize() != this->size){
         // COMPUTING
-        float x = this->bounds.left, y = this->bounds.top;
-        float width = this->bounds.width, height = this->bounds.height;
+        float x = this->pos.x, y = this->pos.y;
+        float width = this->size.x, height = this->size.y;
         float switchHeight = height * __SD_HANDLE_SIZE_RATIO;
         float switchShadowHeight = height * __SD_SHADOW_SIZE_RATIO;
         float diffHeight = (switchShadowHeight - switchHeight)/2;
@@ -120,7 +121,7 @@ void sgui::Switch::event(const sf::Event& event){
     if(!this->visible) return;
 
     if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
-        if(this->bounds.contains(event.mouseButton.x, event.mouseButton.y)){
+        if(sf::FloatRect(this->pos, this->size).contains(event.mouseButton.x, event.mouseButton.y)){
             if(this->state){
                 this->state = false;
                 this->switchedControl = false;
@@ -182,11 +183,14 @@ const bool& sgui::Switch::getSwitched_off() const{
 
 /*          CONTROLS          */
 /*      GETTERS      */
+const sf::Vector2f& sgui::Switch::getPosition() const{
+    return this->pos;
+}
+const sf::Vector2f& sgui::Switch::getSize() const{
+    return this->size;
+}
 const bool& sgui::Switch::getState() const{
     return this->state;
-}
-const sf::FloatRect& sgui::Switch::getBounds() const{
-    return this->bounds;
 }
 const sf::Color& sgui::Switch::getBackgroundColor_on() const{
     return this->background.color_on;
@@ -212,12 +216,14 @@ const bool& sgui::Switch::getVisible() const{
 
 
 /*      SETTERS      */
+void sgui::Switch::setPosition(const sf::Vector2f& pos){
+    this->pos = pos;
+}
+void sgui::Switch::setSize(const sf::Vector2f& size){
+    this->size = size;
+}
 void sgui::Switch::setState(bool state){
     this->state = state;
-    this->updateTextureState();
-}
-void sgui::Switch::setBounds(const sf::FloatRect& bounds){
-    this->bounds = bounds;
     this->updateTextureState();
 }
 void sgui::Switch::setBackgroundColor_on(const sf::Color& color){

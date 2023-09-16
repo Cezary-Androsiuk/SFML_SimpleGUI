@@ -15,14 +15,15 @@ namespace sgui{
         #define __IBD_COLOR_IMAGE sf::Color(255, 255, 255)
         #define __IBD_COLOR_BACKGROUND sf::Color(0, 0, 0)
         
-        sf::String imagePath;
-        sf::Texture imageTexture;
-        sf::IntRect imageTextureTrim;
-
-        sf::FloatRect bounds;
+        sf::Vector2f pos;
+        sf::Vector2f size;
         sf::Sprite image;
         sf::RectangleShape background;
         sf::Vector2f imageScale;
+
+        sf::String imagePath;
+        sf::Texture imageTexture;
+        sf::IntRect imageTextureTrim;
 
         sf::Color colorImage;
         sf::Color colorBackground;
@@ -48,7 +49,8 @@ namespace sgui{
         void render(sf::RenderTarget* window) const;
         
         // controls
-        const sf::FloatRect& getBounds() const;
+        const sf::Vector2f& getPosition() const;
+        const sf::Vector2f& getSize() const;
         const sf::String& getImagePath() const;
         const sf::IntRect& getImageTextureTrim() const;
         const sf::Color& getColorImage() const;
@@ -56,7 +58,8 @@ namespace sgui{
         const bool& getVisible() const;
 
 
-        void setBounds(const sf::FloatRect& bounds);
+        void setPosition(const sf::Vector2f& pos);
+        void setSize(const sf::Vector2f& size);
         void setImagePath(const sf::String& imagePath);
         void setImageTextureTrim(const sf::IntRect& imageTextureTrim);
         void setColorImage(const sf::Color& color);

@@ -16,7 +16,8 @@ namespace sgui{
 
         #define __GBD_DISABLE_ALPHA_PCT 100.f/255.f
         
-        sf::FloatRect bounds;
+        sf::Vector2f pos;
+        sf::Vector2f size;
         sf::RectangleShape background;
 
         sf::Color colorBackground;
@@ -45,12 +46,14 @@ namespace sgui{
         void render(sf::RenderTarget* window) const;
         
         // controls
-        const sf::FloatRect& getBounds() const;
+        const sf::Vector2f& getPosition() const;
+        const sf::Vector2f& getSize() const;
         const sf::Color& getColorBackground() const;
         const bool& getEnable() const;
         const bool& getVisible() const;
 
-        void setBounds(const sf::FloatRect& bounds);
+        void setPosition(const sf::Vector2f& pos);
+        void setSize(const sf::Vector2f& size);
         void setColorBackground(const sf::Color& color);
         void setEnable(const bool& enable);
         void setVisible(const bool& visible);

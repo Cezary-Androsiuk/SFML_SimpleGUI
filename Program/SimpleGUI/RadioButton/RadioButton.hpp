@@ -23,7 +23,8 @@ namespace sgui{
         #define __RBD_BORDER_RATIO 0.20f
         #define __RBD_BORDER_CHECKED_RATIO 0.50f
         
-        sf::FloatRect bounds;
+        sf::Vector2f pos;
+        float radius;
         sf::CircleShape border;
         sf::CircleShape background;
             sf::CircleShape shapeChecked;
@@ -47,7 +48,7 @@ namespace sgui{
 
     public:
         RadioButton();
-        RadioButton(sf::FloatRect bounds);
+        RadioButton(sf::Vector2f pos, float radius);
         ~RadioButton();
 
     private:
@@ -68,8 +69,9 @@ namespace sgui{
         const bool& getChecked_on() const;
         
         // controls
+        const sf::Vector2f& getPosition() const;
+        const float& getRadius() const;
         const bool& getState() const;
-        const sf::FloatRect& getBounds() const;
         const sf::Color& getColorBorder() const;
         const sf::Color& getColorBackground() const;
         const sf::Color& getColorHover() const;
@@ -78,8 +80,9 @@ namespace sgui{
         const bool& getVisible() const;
 
 
+        void setPosition(const sf::Vector2f& pos);
+        void setRadius(const float& radius);
         void setState(const bool& state);
-        void setBounds(const sf::FloatRect& bounds);
         void setColorBorder(const sf::Color& color);
         void setColorBackground(const sf::Color& color);
         void setColorHover(const sf::Color& color);

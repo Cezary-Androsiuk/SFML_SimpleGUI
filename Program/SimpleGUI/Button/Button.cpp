@@ -32,7 +32,8 @@ void sgui::Button::buildTextures(){
 /*      CONSTRUCTORS      */
 sgui::Button::Button() : Button(sf::FloatRect(__BD_POSITION, __BD_SIZE)) {}
 sgui::Button::Button(sf::FloatRect bounds){
-    this->bounds = bounds;
+    this->pos = sf::Vector2f(bounds.left, bounds.top);
+    this->size = sf::Vector2f(bounds.width, bounds.height);
     this->initData();
     this->buildTextures();
 }
@@ -54,14 +55,10 @@ void sgui::Button::centerText(){
 
 
 void sgui::Button::updateTextureState(){
-    if(this->shape.getGlobalBounds() != this->bounds){
-        // COMPUTING
-        float x = this->bounds.left, y = this->bounds.top;
-        float width = this->bounds.width, height = this->bounds.height;
-        
+    if(this->shape.getPosition() != this->pos || this->shape.getSize() != this->size){
         // SET SIZE AND POSITION
-        this->shape.setSize(sf::Vector2f(width, height));
-        this->shape.setPosition(sf::Vector2f(x, y));
+        this->shape.setSize(size);
+        this->shape.setPosition(pos);
 
         this->shape.setFillColor(this->color);
         this->text.setFillColor(this->textColor);
@@ -100,7 +97,7 @@ void sgui::Button::event(const sf::Event& event){
     if(!this->visible) return;
 
     if(event.type == sf::Event::MouseMoved){
-        if(this->bounds.contains(event.mouseMove.x, event.mouseMove.y))
+        if(sf::FloatRect(this->pos, this->size).contains(event.mouseMove.x, event.mouseMove.y))
             this->hover = true;
         else
             this->hover = false;
@@ -108,7 +105,7 @@ void sgui::Button::event(const sf::Event& event){
 
 
     if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
-        if(this->bounds.contains(event.mouseButton.x, event.mouseButton.y)){
+        if(sf::FloatRect(this->pos, this->size).contains(event.mouseButton.x, event.mouseButton.y)){
             this->press = true;
         }
     }
@@ -161,8 +158,11 @@ const bool& sgui::Button::getPress() const{
 
 /*          CONTROLS          */
 /*      GETTERS      */
-const sf::FloatRect& sgui::Button::getBounds() const{
-    return this->bounds;
+const sf::Vector2f& sgui::Button::getPosition() const{
+    return this->pos;
+}
+const sf::Vector2f& sgui::Button::getSize() const{
+    return this->size;
 }
 const sf::Color& sgui::Button::getColor() const{
     return this->color;
@@ -191,9 +191,11 @@ const bool& sgui::Button::getVisible() const{
 
 
 /*      SETTERS      */
-void sgui::Button::setBounds(const sf::FloatRect& bounds){
-    this->bounds = bounds;
-    this->updateTextureState();
+void sgui::Button::setPosition(const sf::Vector2f& pos){
+    this->pos = pos;
+}
+void sgui::Button::setSize(const sf::Vector2f& size){
+    this->size = size;
 }
 void sgui::Button::setColor(const sf::Color& color){
     this->color = color;
