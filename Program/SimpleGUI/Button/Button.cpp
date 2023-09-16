@@ -51,6 +51,9 @@ void sgui::Button::centerText(){
         this->shape.getGlobalBounds().left + (this->shape.getGlobalBounds().width - this->text.getGlobalBounds().width)/2,
         this->shape.getGlobalBounds().top + (this->shape.getGlobalBounds().height - this->text.getGlobalBounds().height)/2
     ));
+    // FINALLY !!! 
+    sf::Vector2f error(this->text.getGlobalBounds().left - this->text.getPosition().x, this->text.getGlobalBounds().top - this->text.getPosition().y);
+    this->text.setPosition(this->text.getPosition() - error);
 }
 
 
