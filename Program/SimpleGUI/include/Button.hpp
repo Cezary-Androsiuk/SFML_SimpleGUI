@@ -26,6 +26,7 @@ namespace sgui{
         sf::Color colorHover;
         sf::Color colorPress;
 
+        sf::Font font;
         sf::Text text;
         sf::Color textColor;
 

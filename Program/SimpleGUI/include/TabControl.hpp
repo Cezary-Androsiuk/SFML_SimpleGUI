@@ -9,33 +9,43 @@
 
 #include "SguiObject.hpp"
 #include "GroupBox.hpp"
+#include "Button.hpp"
 
 namespace sgui{
     class TabControl : public SguiObject{
         // TABCONTROL DEFAULT
         #define __TCD_POSITION sf::Vector2f(0.f, 0.f)
         #define __TCD_SIZE sf::Vector2f(640.f, 360.f)
-        #define __TCD_TAB_SIZE sf::Vector2f(70.f, 20.f)
-        #define __TCD_TAB_NAME std::string("tab")
+        #define __TCD_TAB_BUTTON_SIZE sf::Vector2f(70.f, 20.f)
+        #define __TCD_TAB_BUTTON_NAME std::string("-")
+        #define __TCD_TAB_BUTTON_OUTER true
 
-        #define __TCD_COLOR_TAB sf::Color(10, 90, 210)
-        #define __TCD_COLOR_TAB_HOVER sf::Color(10, 90, 210, 80)
-        #define __TCD_COLOR_TAB_CHECKED sf::Color(10, 90, 210)
+        #define __TCD_COLOR_TAB_BUTTON sf::Color(10, 110, 240)
+        #define __TCD_COLOR_TAB_BUTTON_HOVER sf::Color(10, 90, 210)
+        #define __TCD_COLOR_TAB_BUTTON_PRESS sf::Color(10, 70, 180)
         #define __TCD_COLOR_BACKGROUND sf::Color::Transparent
+
+        #define __TCD_TAB_BUTTON_TEXT_SIZE sf::Uint32(8)
+        #define __TCD_TAB_BUTTON_TEXT_FONT_PATH std::string("./res/fonts/OpenSans-Regular.ttf")
 
         #define __TCD_DISABLE_ALPHA_VALUE 100
         
         sf::Vector2f pos;
         sf::Vector2f size;
         std::string currentTab;
-        // std::vector<std::string> tabNames;
         std::map<std::string, sgui::GroupBox*> tabs;
+        std::map<std::string, sgui::Button*> tabButtons;
 
-        sf::Color colorTab;
-        sf::Color colorTabHover;
-        sf::Color colorTabChecked;
+        sf::Color colorTabButton;
+        sf::Color colorTabButtonHover;
+        sf::Color colorTabButtonPress;
         sf::Color colorBackground;
         sf::Vector2f tabButtonSize;
+        bool tabButtonsOuter;
+
+        sf::Font font;
+        bool fontLoaded;
+        sf::Uint32 fontSize;
         
         bool enable;
         bool visible;
@@ -50,7 +60,7 @@ namespace sgui{
 
     private:
         void createTab(std::string tabName);
-        void centerText(sf::Text& text, const sf::FloatRect& shape);
+        void createTabButton(std::string tabName);
         void updateShapes();
         void updateColors();
         void updatePosition();
@@ -62,6 +72,7 @@ namespace sgui{
         
         // getters
         const sf::Vector2f& getPosition() const;
+        const bool& getTabButtonsOuterDisplay() const;
         // const sf::Vector2f& getSize() const;
         // const sf::Color& getColorTab() const;
         // const sf::Color& getColorTabHover() const;
@@ -76,6 +87,7 @@ namespace sgui{
 
         // setters
         void setPosition(const sf::Vector2f& pos);
+        void getTabButtonsOuterDisplay(const bool& display);
         // void setSize(const sf::Vector2f& size);
         // void setColorTab(const sf::Color& color);
         // void setColorTabHover(const sf::Color& color);
@@ -87,6 +99,7 @@ namespace sgui{
         // void setTabVisible(std::string tabName, const bool& visible);
         // void setEnable(const bool& enable);
         // void setVisible(const bool& visible);
+        void setFont(sf::Font& font);
 
         // other
         bool addTab(std::string tabName);

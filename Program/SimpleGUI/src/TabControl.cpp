@@ -5,11 +5,15 @@
 
 /*      INITIALIZE      */
 void sgui::TabControl::initData(){
-    this->colorTab = __TCD_COLOR_TAB;
-    this->colorTabHover = __TCD_COLOR_TAB_HOVER;
-    this->colorTabChecked = __TCD_COLOR_TAB_CHECKED;
+    this->colorTabButton = __TCD_COLOR_TAB_BUTTON;
+    this->colorTabButtonHover = __TCD_COLOR_TAB_BUTTON_HOVER;
+    this->colorTabButtonPress = __TCD_COLOR_TAB_BUTTON_PRESS;
     this->colorBackground = __TCD_COLOR_BACKGROUND;
-    this->tabButtonSize = __TCD_TAB_SIZE;
+    this->tabButtonSize = __TCD_TAB_BUTTON_SIZE;
+    this->tabButtonsOuter = __TCD_TAB_BUTTON_OUTER;
+
+    this->fontSize = __TCD_TAB_BUTTON_TEXT_SIZE;
+    this->fontLoaded = false;
 
     this->enable = true;
     this->visible = true;
@@ -25,18 +29,23 @@ void sgui::TabControl::buildTextures(){
 
 
 /*      CONSTRUCTORS      */
-sgui::TabControl::TabControl() : TabControl(sf::FloatRect(__TCD_POSITION, __TCD_SIZE), __TCD_TAB_NAME) {}
+sgui::TabControl::TabControl() : TabControl(sf::FloatRect(__TCD_POSITION, __TCD_SIZE), __TCD_TAB_BUTTON_NAME) {}
 sgui::TabControl::TabControl(sf::FloatRect bounds, std::string tabName){
     this->pos = bounds.getPosition();
     this->size = bounds.getSize();
     this->initData();
-    this->addTab(tabName);
+    this->createTab(tabName);
     this->currentTab = tabName;
+    this->updateColors();
+    this->updateShapes();
+    this->updatePosition();
     this->buildTextures();
 }
 sgui::TabControl::~TabControl(){
     for(auto& [key, gb] : this->tabs)
         delete gb;
+    for(auto& [key, b] : this->tabButtons)
+        delete b;
 }
 
 
@@ -51,42 +60,35 @@ void sgui::TabControl::createTab(std::string tabName){
     this->tabs.insert(std::pair<std::string, sgui::GroupBox*>(
         tabName, gb
     ));
-
+    this->createTabButton(tabName);
 }
-void sgui::TabControl::centerText(sf::Text& text, const sf::FloatRect& shape){
-    // text.setPosition(sf::Vector2f(
-    //     shape.left + (shape.width - text.getGlobalBounds().left)/2,
-    //     shape.top + (shape.height - text.getCharacterSize())/2
-    // ));
-    // sf::Vector2f error(text.getGlobalBounds().getPosition() - text.getPosition());
-    // text.setPosition(text.getPosition() - error);
+
+
+void sgui::TabControl::createTabButton(std::string tabName){
+    sgui::Button* b = new sgui::Button();
+    b->setColor(this->colorTabButton);
+    b->setColorHover(this->colorTabButtonHover);
+    b->setColorPress(this->colorTabButtonPress);
+
+    if(!this->fontLoaded)
+        this->font.loadFromFile(__TCD_TAB_BUTTON_TEXT_FONT_PATH);
+
+    b->setText(sf::Text(tabName, this->font, this->fontSize));
+
+    this->tabButtons.insert(std::pair<std::string, sgui::Button*>(tabName, b));
 }
 
 
 void sgui::TabControl::updateShapes(){
-    // // set background size
-    // this->background.setSize(this->size);
-
-    // // set buttons size
-    // for(auto& [key, tabButton] : this->tabButtons){
-    //     // // if not virtual tab
-    //     // if(key == __TCD_VT_NAME)
-    //     //     continue;
-        
-    //     tabButton.setSize(this->tabButtonSize);
-    // }
-    // this->tabTextCharSize = static_cast<sf::Uint32>(this->tabButtonSize.y * __TCD_TEXT_SIZE_PCT);
-
-    // // // set buttons text
-    // // for(auto& [key, value] : this->tabTexts){
-    // //     // if not virtual tab
-    // //     if(key == __TCD_VT_NAME)
-    // //         continue;
-        
-    // //     this->centerText(value, this->tabButtons.at(key).getGlobalBounds());
-    // //     value.setCharacterSize(this->tabTextCharSize);
-    // // }
-
+    for(auto& [key, gb] : this->tabs){
+        gb->setSize((this->tabButtonsOuter ? this->size : sf::Vector2f(this->size.x, this->size.y - this->tabButtonSize.y)));
+    }
+    for(auto& [key, b] : this->tabButtons){
+        if(b->getVisible()){
+            b->setSize(this->tabButtonSize);
+        }
+    }
+    
 }
 
 
@@ -94,33 +96,36 @@ void sgui::TabControl::updateColors(){
     for(auto& [key, gb] : this->tabs){
         gb->setColorBackground(this->colorBackground);
     }
+    for(auto& [key, b] : this->tabButtons){
+        if(key == this->currentTab){
+            b->setColor(this->colorTabButtonPress);
+            b->setColorHover(this->colorTabButtonPress);
+            b->setColorPress(this->colorTabButtonPress);
+        }
+        else{
+            b->setColor(this->colorTabButton);
+            b->setColorHover(this->colorTabButtonHover);
+            b->setColorPress(this->colorTabButtonPress);
+        }
+    }
 }
 
 
 void sgui::TabControl::updatePosition(){
-    // // set background position
-    // sf::Vector2f objectsOffset(this->pos - this->background.getPosition());
-    // this->background.setPosition(this->pos);
-
-    // // set buttons position
-    // int i=0;
-    // float x = this->pos.x, y = this->pos.y;
-    // float bWidth = this->tabButtonSize.x, bHeight = this->tabButtonSize.y;
-    // for(auto& [key, tabButton] : this->tabButtons){
-    //     // // if not virtual tab
-    //     // if(key == __TCD_VT_NAME)
-    //     //     continue;
-        
-    //     tabButton.setPosition(x + i*bWidth, y - bHeight);
-    // }
-
-    // for(auto& [key, vector] : this->tabsObjects){
-    //     for(auto& object : vector){
-    //         object->setPosition(object->getPosition() + objectsOffset);
-    //     }
-    // }
-
-    
+    for(auto& [key, gb] : this->tabs){
+        gb->setPosition((this->tabButtonsOuter ? this->pos : sf::Vector2f(this->pos.x, this->pos.y + this->tabButtonSize.y)));
+    }
+    int i=0;
+    for(auto& [key, b] : this->tabButtons){
+        if(b->getVisible()){
+            b->setPosition((
+                this->tabButtonsOuter ? 
+                sf::Vector2f(this->pos.x + i * this->tabButtonSize.x, this->pos.y - this->tabButtonSize.y) : 
+                sf::Vector2f(this->pos.x + i * this->tabButtonSize.x, this->pos.y)
+            ));
+            i++;
+        }
+    }
 }
 
 
@@ -131,20 +136,41 @@ void sgui::TabControl::updatePosition(){
 void sgui::TabControl::event(const sf::Event& event){
     if(!this->enable) return;
     if(!this->visible) return;
-    
+
+    //* //////////// TMP 
+    if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Num1)
+        this->setCurrentTab(this->getTabs()[0]);
+    else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Num2)
+        this->setCurrentTab(this->getTabs()[1]);
+    else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Num3)
+        this->setCurrentTab(this->getTabs()[2]);
+    //* //////////// TMP 
+
+    for(auto& [key, b] : this->tabButtons)
+        b->event(event);
     this->tabs.at(this->currentTab)->event(event);
+
 }
 
 
 void sgui::TabControl::update(){
     if(!this->enable) return;
     if(!this->visible) return;
+
+    for(auto& [key, b] : this->tabButtons){
+        b->update();
+        if(b->getClick() && key != this->currentTab){
+            this->currentTab = key;
+            this->update();
+            return;
+        }
+    }
+    this->tabs.at(this->currentTab)->update();
     
     this->updateShapes();
     this->updateColors();
     this->updatePosition();
 
-    this->tabs.at(this->currentTab)->update();
 }
 
 
@@ -152,6 +178,8 @@ void sgui::TabControl::render(sf::RenderTarget* window) const{
     if(!this->visible) return;
     
     this->tabs.at(this->currentTab)->render(window);
+    for(auto& [key, b] : this->tabButtons)
+        b->render(window);
 }
 
 
@@ -161,6 +189,9 @@ void sgui::TabControl::render(sf::RenderTarget* window) const{
 /*      GETTERS      */
 const sf::Vector2f& sgui::TabControl::getPosition() const{
     return this->pos;
+}
+const bool& sgui::TabControl::getTabButtonsOuterDisplay() const{
+    return this->tabButtonsOuter;
 }
 // const sf::Vector2f& sgui::TabControl::getSize() const{
 //     return this->size;
@@ -204,6 +235,11 @@ const std::string& sgui::TabControl::getCurrentTab() const{
 void sgui::TabControl::setPosition(const sf::Vector2f& pos){
     this->pos = pos;
     this->updatePosition();
+}
+void sgui::TabControl::getTabButtonsOuterDisplay(const bool& display){
+    this->tabButtonsOuter = display;
+    this->updatePosition();
+    this->updateShapes();
 }
 // void sgui::TabControl::setSize(const sf::Vector2f& size){
 //     this->size = size;
@@ -262,6 +298,10 @@ bool sgui::TabControl::setCurrentTab(const std::string& tabName){
 //     this->visible = visible;
 //     this->updateColors();
 // }
+void sgui::TabControl::setFont(sf::Font& font){
+    this->font = font;
+    this->fontLoaded = true;
+}
 
 
 
@@ -296,6 +336,8 @@ std::vector<sgui::SguiObject*>& sgui::TabControl::getAllObjects(std::string tabN
 
 
 bool sgui::TabControl::addObject(std::string tabName, sgui::SguiObject* object){
+    this->updateShapes();
+    this->updatePosition();
     for(const auto& [key, gb] : this->tabs){
         if(key == tabName){
             gb->addObject(object);

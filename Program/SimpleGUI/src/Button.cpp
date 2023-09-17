@@ -119,8 +119,6 @@ void sgui::Button::event(const sf::Event& event){
         this->click = false;
         this->clickControl = false;
     }
-
-    this->updateTextureState();
 }
 
 
@@ -134,6 +132,7 @@ void sgui::Button::update(){
     }
     else
         this->click = false;
+    this->updateTextureState();
 }
 
 
@@ -191,9 +190,11 @@ const bool& sgui::Button::getVisible() const{
 /*      SETTERS      */
 void sgui::Button::setPosition(const sf::Vector2f& pos){
     this->pos = pos;
+    this->updateTextureState();
 }
 void sgui::Button::setSize(const sf::Vector2f& size){
     this->size = size;
+    this->updateTextureState();
 }
 void sgui::Button::setColor(const sf::Color& color){
     this->color = color;

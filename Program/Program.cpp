@@ -60,21 +60,33 @@ void Program::initObjects()
     }
     sgui::RadioButton::createGroup(this->radioButtons2);
 
-    sgui::GroupBox* gb = new sgui::GroupBox(sf::FloatRect(100, 500, 200, 50));
+    sgui::GroupBox* gb = new sgui::GroupBox(sf::FloatRect(100, 500, 200, 70));
     gb->setColorBackground(sf::Color(40,40,40));
     gb->addObject(new sgui::Button(sf::FloatRect(10,10,52,14)));
     gb->addObject(new sgui::Button(sf::FloatRect(70,10,52,14)));
     this->groupBoxes.push_back(gb);
 
-    sgui::TabControl* tb = new sgui::TabControl(sf::FloatRect(350, 500, 200, 50), "Tab1");
+    sgui::TabControl* tb = new sgui::TabControl(sf::FloatRect(350, 500, 70*3, 70), "Tab1");
+    sgui::Button* tb_b;
+    
+    // tb->addTab("Tab1");
     tb->addTab("Tab2");
-    sgui::Button* tb_b = new sgui::Button(sf::FloatRect(10,10,52,14));
+    tb->addTab("Tab3");
+
+    tb_b = new sgui::Button(sf::FloatRect(10,10,52,14));
     tb_b->setText(sf::Text("Num1", this->font, 8));
     tb->addObject("Tab1", tb_b);
-    tb_b = new sgui::Button(sf::FloatRect(70,10,52,14));
+
+    tb_b = new sgui::Button(sf::FloatRect(50,10,52,14));
     tb_b->setText(sf::Text("Num2", this->font, 8));
     tb->addObject("Tab2", tb_b);
+
+    gb = new sgui::GroupBox(sf::FloatRect(90,10,100,20));
+    gb->setColorBackground(sf::Color(190,40,40));
+    tb->addObject("Tab3", gb);
+    
     tb->setColorBackground(sf::Color(40,40,40));
+
     this->tabControlls.push_back(tb);
 }
 
@@ -122,12 +134,6 @@ void Program::update()
         else if(this->event.type == sf::Event::KeyPressed && this->event.key.code == sf::Keyboard::Escape){
             this->window->close();
         }
-        else if(this->event.type == sf::Event::KeyPressed && this->event.key.code == sf::Keyboard::Num1){
-            this->tabControlls[0]->setCurrentTab(this->tabControlls[0]->getTabs()[0]);
-        }
-        else if(this->event.type == sf::Event::KeyPressed && this->event.key.code == sf::Keyboard::Num2){
-            this->tabControlls[0]->setCurrentTab(this->tabControlls[0]->getTabs()[1]);
-        }
 
         for(const auto& s : this->switches)
             s->event(this->event);
@@ -165,7 +171,9 @@ void Program::update()
         tb->update();
 
 
-    // ####################################################################################### TEST SECTION
+// ############################################################################################################################# 
+// ############################################################################################################################# TEST SECTION
+// ############################################################################################################################# 
     int si=0;
     for(const auto& s : this->switches){
         if(s->getSwitched_on()){
@@ -268,7 +276,9 @@ void Program::update()
     else fprintf(stderr, "object is not a button!\n");
 
     
-    // ####################################################################################### TEST SECTION
+// ############################################################################################################################# 
+// ############################################################################################################################# TEST SECTION
+// ############################################################################################################################# 
 }
 
 void Program::render()

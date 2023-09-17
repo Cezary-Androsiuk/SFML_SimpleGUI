@@ -39,19 +39,16 @@ sgui::GroupBox::~GroupBox(){
 
 /*      PRIVATE      */
 void sgui::GroupBox::updateTextureState(){
-    if(this->pos != this->background.getPosition()){
-        float xdiff = this->pos.x - this->background.getGlobalBounds().left;
-        float ydiff = this->pos.y - this->background.getGlobalBounds().top;
-        for(auto& o : this->objects){
-            sf::Vector2f objPos(o->getPosition());
-            o->setPosition(sf::Vector2f(objPos.x + xdiff, objPos.y + ydiff));
-        }
+    float xdiff = this->pos.x - this->background.getGlobalBounds().left;
+    float ydiff = this->pos.y - this->background.getGlobalBounds().top;
+    for(auto& o : this->objects){
+        sf::Vector2f objPos(o->getPosition());
+        o->setPosition(sf::Vector2f(objPos.x + xdiff, objPos.y + ydiff));
+    }
+    this->background.setPosition(this->pos.x, this->pos.y);
 
-        this->background.setPosition(this->pos.x, this->pos.y);
-    }
-    if(this->size != this->background.getSize()){
-        this->background.setSize(sf::Vector2f(this->size.x, this->size.y));
-    }
+    this->background.setSize(sf::Vector2f(this->size.x, this->size.y));
+        
     this->background.setFillColor(this->colorBackground);
 }
 
@@ -115,9 +112,11 @@ const bool& sgui::GroupBox::getVisible() const{
 /*      SETTERS      */
 void sgui::GroupBox::setPosition(const sf::Vector2f& pos){
     this->pos = pos;
+    this->updateTextureState();
 }
 void sgui::GroupBox::setSize(const sf::Vector2f& size){
     this->size = size;
+    this->updateTextureState();
 }
 void sgui::GroupBox::setColorBackground(const sf::Color& color){
     this->colorBackground = color;
