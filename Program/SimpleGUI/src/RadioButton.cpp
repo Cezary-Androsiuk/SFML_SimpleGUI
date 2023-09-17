@@ -158,17 +158,10 @@ void sgui::RadioButton::render(sf::RenderTarget* window) const{
 
 
 
-/*      GETTERS / SETTERS      */
+/*      GETTERS      */
 const bool& sgui::RadioButton::getChecked_on() const{
     return this->check_on;
 }
-
-
-
-
-
-/*          CONTROLS          */
-/*      GETTERS      */
 const sf::Vector2f& sgui::RadioButton::getPosition() const{
     return this->pos;
 }

@@ -90,7 +90,6 @@ void sgui::ImageBox::render(sf::RenderTarget* window) const{
 
 
 
-/*          CONTROLS          */
 /*      GETTERS      */
 const sf::Vector2f& sgui::ImageBox::getPosition() const{
     return this->pos;

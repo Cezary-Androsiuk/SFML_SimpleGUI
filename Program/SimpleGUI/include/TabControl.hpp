@@ -23,7 +23,7 @@ namespace sgui{
         #define __TCD_COLOR_TAB_CHECKED sf::Color(10, 90, 210)
         #define __TCD_COLOR_BACKGROUND sf::Color::Transparent
 
-        #define __TCD_DISABLE_ALPHA_PCT 100.f/255.f
+        #define __TCD_DISABLE_ALPHA_VALUE 100
         
         sf::Vector2f pos;
         sf::Vector2f size;
@@ -74,7 +74,7 @@ namespace sgui{
         // const bool& getEnable() const;
         // const bool& getVisible() const;
 
-        // // setters
+        // setters
         void setPosition(const sf::Vector2f& pos);
         // void setSize(const sf::Vector2f& size);
         // void setColorTab(const sf::Color& color);

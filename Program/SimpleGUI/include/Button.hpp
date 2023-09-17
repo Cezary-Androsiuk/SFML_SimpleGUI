@@ -52,12 +52,10 @@ namespace sgui{
         void event(const sf::Event& event);
         void update();
         void render(sf::RenderTarget* window) const;
-
-        // getter / setter
+        
+        // getters
         const bool& getClick() const;
         const bool& getPress() const;
-        
-        // controls
         const sf::Vector2f& getPosition() const;
         const sf::Vector2f& getSize() const;
         const sf::Color& getColor() const;
@@ -68,7 +66,7 @@ namespace sgui{
         const bool& getEnable() const;
         const bool& getVisible() const;
 
-
+        // setters
         void setPosition(const sf::Vector2f& pos);
         void setSize(const sf::Vector2f& size);
         void setColor(const sf::Color& color);

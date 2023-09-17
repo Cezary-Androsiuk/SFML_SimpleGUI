@@ -149,20 +149,13 @@ void sgui::Button::render(sf::RenderTarget* window) const
 
 
 
-/*      GETTERS / SETTERS      */
+/*      GETTERS      */
 const bool& sgui::Button::getClick() const{
     return this->click;
 }
 const bool& sgui::Button::getPress() const{
     return this->press;
 }
-
-
-
-
-
-/*          CONTROLS          */
-/*      GETTERS      */
 const sf::Vector2f& sgui::Button::getPosition() const{
     return this->pos;
 }

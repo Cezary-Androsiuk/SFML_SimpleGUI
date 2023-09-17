@@ -11,7 +11,10 @@ namespace sgui{
         virtual void update() = 0;
         virtual void render(sf::RenderTarget* window) const = 0;
 
+        // getters
         virtual const sf::Vector2f& getPosition() const = 0;
+
+        // setters
         virtual void setPosition(const sf::Vector2f& pos) = 0;
     };
 }

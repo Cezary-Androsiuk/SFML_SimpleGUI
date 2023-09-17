@@ -159,20 +159,13 @@ void sgui::CheckBox::render(sf::RenderTarget* window) const{
 
 
 
-/*      GETTERS / SETTERS      */
+/*      GETTERS      */
 const bool& sgui::CheckBox::getChecked_on() const{
     return this->check_on;
 }
 const bool& sgui::CheckBox::getChecked_off() const{
     return this->check_off;
 }
-
-
-
-
-
-/*          CONTROLS          */
-/*      GETTERS      */
 const sf::Vector2f& sgui::CheckBox::getPosition() const{
     return this->pos;
 }

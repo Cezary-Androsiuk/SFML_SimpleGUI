@@ -169,20 +169,13 @@ void sgui::Switch::render(sf::RenderTarget* window) const
 
 
 
-/*      GETTERS / SETTERS      */
+/*      GETTERS      */
 const bool& sgui::Switch::getSwitched_on() const{
     return this->switched_on;
 }
 const bool& sgui::Switch::getSwitched_off() const{
     return this->switched_off;
 }
-
-
-
-
-
-/*          CONTROLS          */
-/*      GETTERS      */
 const sf::Vector2f& sgui::Switch::getPosition() const{
     return this->pos;
 }

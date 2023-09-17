@@ -48,7 +48,7 @@ namespace sgui{
         void update();
         void render(sf::RenderTarget* window) const;
         
-        // controls
+        // getters
         const sf::Vector2f& getPosition() const;
         const sf::Vector2f& getSize() const;
         const sf::String& getImagePath() const;
@@ -57,7 +57,7 @@ namespace sgui{
         const sf::Color& getColorBackground() const;
         const bool& getVisible() const;
 
-
+        // setters
         void setPosition(const sf::Vector2f& pos);
         void setSize(const sf::Vector2f& size);
         void setImagePath(const sf::String& imagePath);

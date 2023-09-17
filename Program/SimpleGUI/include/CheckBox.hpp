@@ -58,12 +58,9 @@ namespace sgui{
         void update();
         void render(sf::RenderTarget* window) const;
 
-        // getter / setter
+        // getters
         const bool& getChecked_on() const;
         const bool& getChecked_off() const;
-        
-        // controls
-        // const sf::FloatRect& getBounds() const;
         const sf::Vector2f& getPosition() const;
         const float& getSize() const;
         const bool& getState() const;
@@ -75,8 +72,7 @@ namespace sgui{
         const bool& getEnable() const;
         const bool& getVisible() const;
 
-
-        // void setBounds(const sf::FloatRect& bounds);
+        // setters
         void setPosition(const sf::Vector2f& pos);
         void setSize(const float& size);
         void setState(const bool& size);

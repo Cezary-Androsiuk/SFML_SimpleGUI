@@ -64,11 +64,9 @@ namespace sgui{
         void event(const sf::Event& event);
         void update();
         void render(sf::RenderTarget* window) const;
-
-        // getter / setter
-        const bool& getChecked_on() const;
         
-        // controls
+        // getters
+        const bool& getChecked_on() const;
         const sf::Vector2f& getPosition() const;
         const float& getRadius() const;
         const bool& getState() const;
@@ -79,7 +77,7 @@ namespace sgui{
         const bool& getEnable() const;
         const bool& getVisible() const;
 
-
+        // setters
         void setPosition(const sf::Vector2f& pos);
         void setRadius(const float& radius);
         void setState(const bool& state);

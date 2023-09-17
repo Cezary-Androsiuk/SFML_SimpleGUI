@@ -91,7 +91,6 @@ void sgui::GroupBox::render(sf::RenderTarget* window) const{
 
 
 
-/*          CONTROLS          */
 /*      GETTERS      */
 const sf::Vector2f& sgui::GroupBox::getPosition() const{
     return this->pos;
