@@ -62,8 +62,8 @@ void Program::initObjects()
 
     this->groupBoxes.push_back(new sgui::GroupBox(sf::FloatRect(100, 500, 200, 50)));
     this->groupBoxes[0]->setColorBackground(sf::Color(40,40,40));
-    groupBoxes[0]->addObject(new sgui::Button(sf::FloatRect(10,10,52,14)));
-    groupBoxes[0]->addObject(new sgui::Button(sf::FloatRect(70,10,52,14)));
+    this->groupBoxes[0]->addObject(new sgui::Button(sf::FloatRect(10,10,52,14)));
+    this->groupBoxes[0]->addObject(new sgui::Button(sf::FloatRect(70,10,52,14)));
 
 }
 
@@ -91,6 +91,7 @@ Program::~Program()
         delete rb;
     for(const auto& gb : this->groupBoxes)
         delete gb;
+
     delete this->window;
 }
 
@@ -238,19 +239,14 @@ void Program::render()
 
     for(const auto& s : this->switches)
         s->render(this->window);
-
     for(const auto& b : this->buttons)
         b->render(this->window);
-
     for(const auto& cb : this->checkBoxes)
         cb->render(this->window);
-
     for(const auto& ib : this->imageBoxes)
         ib->render(this->window);
-        
     for(const auto& rb : this->radioButtons1)
         rb->render(this->window);
-
     for(const auto& rb : this->radioButtons2)
         rb->render(this->window);
     for(const auto& gb : this->groupBoxes)

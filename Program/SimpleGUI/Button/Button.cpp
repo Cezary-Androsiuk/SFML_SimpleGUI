@@ -52,6 +52,8 @@ void sgui::Button::centerText(){
         this->shape.getGlobalBounds().top + (this->shape.getGlobalBounds().height - this->text.getCharacterSize())/2
     ));
     // FINALLY !!! 
+    // Do You know what means that I can display text where i want him to be? That means is time for Adventu... for implementing a Label Class!
+    // well... i forgot about large and small letter height... still not finished, but is better than before to display const text
     sf::Vector2f error(this->text.getGlobalBounds().left - this->text.getPosition().x, this->text.getGlobalBounds().top - this->text.getPosition().y);
     this->text.setPosition(this->text.getPosition() - error);
 }

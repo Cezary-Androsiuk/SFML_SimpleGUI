@@ -1,6 +1,8 @@
 #ifndef SIMPLEGUI_HPP
 #define SIMPLEGUI_HPP
 
+#include "SguiObject/SguiObject.hpp"
+
 #include "Switch/Switch.hpp"
 #include "Button/Button.hpp"
 #include "CheckBox/CheckBox.hpp"

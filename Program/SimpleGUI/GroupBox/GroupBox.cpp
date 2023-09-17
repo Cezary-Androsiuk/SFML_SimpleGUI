@@ -8,7 +8,7 @@ void sgui::GroupBox::initData(){
     this->enable = true;
     this->visible = true;
 
-    // this->colorBackground = __GBD_COLOR_BACKGROUND;
+    this->colorBackground = __GBD_COLOR_BACKGROUND;
 }
 
 

@@ -9,9 +9,3 @@ int main()
         p.render();
     }
 }
-
-/*
-
-TODO add enable/disable and visible options
-
-*/
