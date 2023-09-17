@@ -31,6 +31,7 @@ private:
     std::vector<sgui::RadioButton*> radioButtons1;
     std::vector<sgui::RadioButton*> radioButtons2;
     std::vector<sgui::GroupBox*> groupBoxes;
+    std::vector<sgui::TabControl*> tabControlls;
 
     void initParams();
     void initFonts();

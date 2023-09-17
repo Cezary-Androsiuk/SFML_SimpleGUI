@@ -60,11 +60,22 @@ void Program::initObjects()
     }
     sgui::RadioButton::createGroup(this->radioButtons2);
 
-    this->groupBoxes.push_back(new sgui::GroupBox(sf::FloatRect(100, 500, 200, 50)));
-    this->groupBoxes[0]->setColorBackground(sf::Color(40,40,40));
-    this->groupBoxes[0]->addObject(new sgui::Button(sf::FloatRect(10,10,52,14)));
-    this->groupBoxes[0]->addObject(new sgui::Button(sf::FloatRect(70,10,52,14)));
+    sgui::GroupBox* gb = new sgui::GroupBox(sf::FloatRect(100, 500, 200, 50));
+    gb->setColorBackground(sf::Color(40,40,40));
+    gb->addObject(new sgui::Button(sf::FloatRect(10,10,52,14)));
+    gb->addObject(new sgui::Button(sf::FloatRect(70,10,52,14)));
+    this->groupBoxes.push_back(gb);
 
+    sgui::TabControl* tb = new sgui::TabControl(sf::FloatRect(350, 500, 200, 50), "Tab1");
+    tb->addTab("Tab2");
+    sgui::Button* tb_b = new sgui::Button(sf::FloatRect(10,10,52,14));
+    tb_b->setText(sf::Text("Num1", this->font, 8));
+    tb->addObject("Tab1", tb_b);
+    tb_b = new sgui::Button(sf::FloatRect(70,10,52,14));
+    tb_b->setText(sf::Text("Num2", this->font, 8));
+    tb->addObject("Tab2", tb_b);
+    tb->setColorBackground(sf::Color(40,40,40));
+    this->tabControlls.push_back(tb);
 }
 
 Program::Program()
@@ -91,6 +102,8 @@ Program::~Program()
         delete rb;
     for(const auto& gb : this->groupBoxes)
         delete gb;
+    for(const auto& tb : this->tabControlls)
+        delete tb;
 
     delete this->window;
 }
@@ -109,6 +122,12 @@ void Program::update()
         else if(this->event.type == sf::Event::KeyPressed && this->event.key.code == sf::Keyboard::Escape){
             this->window->close();
         }
+        else if(this->event.type == sf::Event::KeyPressed && this->event.key.code == sf::Keyboard::Num1){
+            this->tabControlls[0]->setCurrentTab(this->tabControlls[0]->getTabs()[0]);
+        }
+        else if(this->event.type == sf::Event::KeyPressed && this->event.key.code == sf::Keyboard::Num2){
+            this->tabControlls[0]->setCurrentTab(this->tabControlls[0]->getTabs()[1]);
+        }
 
         for(const auto& s : this->switches)
             s->event(this->event);
@@ -124,6 +143,8 @@ void Program::update()
             rb->event(this->event);
         for(const auto& gb : this->groupBoxes)
             gb->event(this->event);
+        for(const auto& tb : this->tabControlls)
+            tb->event(this->event);
     }
 
     for(const auto& s : this->switches)
@@ -140,6 +161,8 @@ void Program::update()
         rb->update();
     for(const auto& gb : this->groupBoxes)
         gb->update();
+    for(const auto& tb : this->tabControlls)
+        tb->update();
 
 
     // ####################################################################################### TEST SECTION
@@ -227,6 +250,24 @@ void Program::update()
             printf("B2 was Clicked!\n");
     }
     else fprintf(stderr, "object is not a button!\n");
+
+
+    auto tb1 = this->tabControlls[0]->getAllObjects(this->tabControlls[0]->getTabs()[0]);
+    if(typeid(*(tb1[0])) == typeid(sgui::Button)){
+        sgui::Button* b1 = dynamic_cast<sgui::Button*>(tb1[0]);
+        if(b1->getClick())
+            printf("B1 on TabControl was Clicked!\n");
+    }
+    else fprintf(stderr, "object is not a button!\n");
+    auto tb2 = this->tabControlls[0]->getAllObjects(this->tabControlls[0]->getTabs()[1]);
+    if(typeid(*(tb2[0])) == typeid(sgui::Button)){
+        sgui::Button* b2 = dynamic_cast<sgui::Button*>(tb2[0]);
+        if(b2->getClick())
+            printf("B2 on TabControl was Clicked!\n");
+    }
+    else fprintf(stderr, "object is not a button!\n");
+
+    
     // ####################################################################################### TEST SECTION
 }
 
@@ -251,6 +292,8 @@ void Program::render()
         rb->render(this->window);
     for(const auto& gb : this->groupBoxes)
         gb->render(this->window);
+    for(const auto& tb : this->tabControlls)
+        tb->render(this->window);
 
     this->window->display();
 }

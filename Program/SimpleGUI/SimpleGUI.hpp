@@ -9,5 +9,6 @@
 #include "include/ImageBox.hpp"
 #include "include/RadioButton.hpp"
 #include "include/GroupBox.hpp"
+#include "include/TabControl.hpp"
 
 #endif
