@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../SguiObject/SguiObject.hpp"
+#include "SguiObject.hpp"
 
 namespace sgui{
     class GroupBox : public SguiObject{

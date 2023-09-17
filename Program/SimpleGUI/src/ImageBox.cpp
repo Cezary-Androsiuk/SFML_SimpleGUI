@@ -1,4 +1,4 @@
-#include "ImageBox.hpp"
+#include "../include/ImageBox.hpp"
 
 
 
@@ -9,7 +9,8 @@ void sgui::ImageBox::initData(){
     this->freeze = false;
     this->visible = true;
     
-    this->imageTexture.loadFromFile(this->imagePath);
+    if(!this->imageTexture.loadFromFile(this->imagePath))
+        this->imageTexture.loadFromFile(__IBD_IMAGE);
     this->imageTextureTrim.width = this->imageTexture.getSize().x;
     this->imageTextureTrim.height = this->imageTexture.getSize().y;
     

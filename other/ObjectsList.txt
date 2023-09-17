@@ -1,0 +1,14 @@
+
+SguiObject
+    Button          +
+    CheckBox        +
+    ComboBox        
+    GroupBox        +
+    ImageBox        +
+    Label           
+    LoadingBar      
+    RadioButton     +
+    Switch          +
+    TabControl      
+    TextBox         
+    TextField       

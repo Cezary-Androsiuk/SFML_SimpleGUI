@@ -42,7 +42,7 @@ void Program::initObjects()
     }
 
     for(int i=0; i<1; i++){
-        sgui::ImageBox* ib = new sgui::ImageBox("./src/default.png", sf::FloatRect(400, 60, 480, 270));
+        sgui::ImageBox* ib = new sgui::ImageBox("./res/images/default.png", sf::FloatRect(400, 60, 480, 270));
         // ib->setBounds(sf::FloatRect(0, 0, 460, 250));
         ib->setColorBackground(sf::Color::Transparent);
         this->imageBoxes.push_back(ib);

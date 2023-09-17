@@ -1,4 +1,4 @@
-#include "GroupBox.hpp"
+#include "../include/GroupBox.hpp"
 
 
 

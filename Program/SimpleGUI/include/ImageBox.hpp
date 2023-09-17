@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../SguiObject/SguiObject.hpp"
+#include "SguiObject.hpp"
 
 // SimpleGUI
 namespace sgui{
@@ -11,7 +11,7 @@ namespace sgui{
         // IMAGEBOX DEFAULT
         #define __IBD_POSITION sf::Vector2f(0.f, 0.f)
         #define __IBD_SIZE sf::Vector2f(480.f, 270.f)
-        #define __IBD_IMAGE sf::String("./src/default.png")
+        #define __IBD_IMAGE sf::String("./res/images/default.png")
         #define __IBD_COLOR_IMAGE sf::Color(255, 255, 255)
         #define __IBD_COLOR_BACKGROUND sf::Color(0, 0, 0)
         

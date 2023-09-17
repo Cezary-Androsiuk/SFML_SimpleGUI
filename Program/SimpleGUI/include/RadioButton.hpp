@@ -6,7 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../SguiObject/SguiObject.hpp"
+#include "SguiObject.hpp"
 
 // SimpleGUI
 namespace sgui{

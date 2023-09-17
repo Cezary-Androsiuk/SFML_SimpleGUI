@@ -12,7 +12,7 @@
 #define WIN_SIZE_HEIGHT 720
 #define FPS 120
 
-#define STANDARD_FONT_PATH "./src/OpenSans-Regular.ttf"
+#define STANDARD_FONT_PATH "./res/fonts/OpenSans-Regular.ttf"
 
 class Program
 {
