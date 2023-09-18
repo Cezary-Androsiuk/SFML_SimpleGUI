@@ -16,13 +16,13 @@ void sgui::Button::initData(){
     this->color = __BD_COLOR;
     this->colorHover = __BD_COLOR_HOVER;
     this->colorPress = __BD_COLOR_PRESS;
-    this->text = __BD_TEXT;
-    this->textColor = __BD_TEXT_COLOR;
+    this->colorText = __BD_TEXT_COLOR;
 }
 
 
 void sgui::Button::buildTextures(){
-    this->updateTextureState();
+    this->updateShape();
+    this->updateColor();
 }
 
 
@@ -47,48 +47,52 @@ sgui::Button::~Button(){
 
 /*      PRIVATE      */
 void sgui::Button::centerText(){
+    sf::FloatRect sfr = this->shape.getGlobalBounds();
+    sf::FloatRect tfr = this->text.getGlobalBounds();
     this->text.setPosition(sf::Vector2f(
-        this->shape.getGlobalBounds().left + (this->shape.getGlobalBounds().width - this->text.getGlobalBounds().width)/2,
-        this->shape.getGlobalBounds().top + (this->shape.getGlobalBounds().height - this->text.getCharacterSize())/2
+        sfr.left + (sfr.width - tfr.width)/2,
+        sfr.top + (sfr.height - this->text.getCharacterSize())/2
     ));
-    // FINALLY !!! 
-    // Do You know what means that I can display text where i want him to be? That means is time for Adventu... for implementing a Label Class!
-    // well... i forgot about large and small letter height... still not finished, but is better than before to display const text
-    sf::Vector2f error(this->text.getGlobalBounds().left - this->text.getPosition().x, this->text.getGlobalBounds().top - this->text.getPosition().y);
+    tfr = this->text.getGlobalBounds();
+    sf::Vector2f error(tfr.left - this->text.getPosition().x, tfr.top - this->text.getPosition().y);
     this->text.setPosition(this->text.getPosition() - error);
 }
 
 
-void sgui::Button::updateTextureState(){
-    if(this->shape.getPosition() != this->pos || this->shape.getSize() != this->size){
-        // SET SIZE AND POSITION
-        this->shape.setSize(size);
-        this->shape.setPosition(pos);
+void sgui::Button::updateShape(){
+    // SET SIZE AND POSITION
+    this->shape.setSize(size);
+    this->shape.setPosition(pos);
+    this->centerText();
+}
 
-        this->shape.setFillColor(this->color);
-        this->text.setFillColor(this->textColor);
 
-        this->centerText();
-    }
+void sgui::Button::updateColor(){
+    if(this->enable){
+        this->text.setFillColor(this->colorText);
 
-    if(this->press){
-        this->shape.setFillColor(this->colorPress);
-    }
-    else if(this->hover){
-        this->shape.setFillColor(this->colorHover);
+        if(this->press)
+            this->shape.setFillColor(this->colorPress);
+        else if(this->hover)
+            this->shape.setFillColor(this->colorHover);
+        else
+            this->shape.setFillColor(this->color);
     }
     else{
-        this->shape.setFillColor(this->color);
-    }
-    this->text.setFillColor(this->textColor);
-    
-    if(!this->enable){
-        sf::Color tmpColor = this->shape.getFillColor();
-        tmpColor.a = __BD_DISABLE_ALPHA_VALUE;
-        this->shape.setFillColor(tmpColor);
-        tmpColor = this->text.getFillColor();
-        tmpColor.a = __BD_DISABLE_ALPHA_VALUE;
-        this->text.setFillColor(tmpColor);
+        // set standard color to avoid keeping disable while button is pressed
+        this->shape.setFillColor(sf::Color(
+            this->color.r,
+            this->color.g,
+            this->color.b,
+            __BD_DISABLE_ALPHA_VALUE
+        ));
+        
+        this->text.setFillColor(sf::Color(
+            this->colorText.r,
+            this->colorText.g,
+            this->colorText.b,
+            __BD_DISABLE_ALPHA_VALUE
+        ));
     }
 }
 
@@ -132,12 +136,12 @@ void sgui::Button::update(){
     }
     else
         this->click = false;
-    this->updateTextureState();
+    this->updateShape();
+    this->updateColor();
 }
 
 
-void sgui::Button::render(sf::RenderTarget* window) const
-{
+void sgui::Button::render(sf::RenderTarget* window) const{
     if(!this->visible) return;
 
     window->draw(this->shape);
@@ -170,8 +174,8 @@ const sf::Color& sgui::Button::getColorHover() const{
 const sf::Color& sgui::Button::getColorPress() const{
     return this->colorPress;
 }
-const sf::Color& sgui::Button::getTextColor() const{
-    return this->textColor;
+const sf::Color& sgui::Button::getColorText() const{
+    return this->colorText;
 }
 const sf::Text& sgui::Button::getText() const{
     return this->text;
@@ -190,27 +194,27 @@ const bool& sgui::Button::getVisible() const{
 /*      SETTERS      */
 void sgui::Button::setPosition(const sf::Vector2f& pos){
     this->pos = pos;
-    this->updateTextureState();
+    this->updateShape();
 }
 void sgui::Button::setSize(const sf::Vector2f& size){
     this->size = size;
-    this->updateTextureState();
+    this->updateShape();
 }
 void sgui::Button::setColor(const sf::Color& color){
     this->color = color;
-    this->updateTextureState();
+    this->updateColor();
 }
 void sgui::Button::setColorHover(const sf::Color& color){
     this->colorHover = color;
-    this->updateTextureState();
+    this->updateColor();
 }
 void sgui::Button::setColorPress(const sf::Color& color){
     this->colorPress = color;
-    this->updateTextureState();
+    this->updateColor();
 }
-void sgui::Button::setTextColor(const sf::Color& color){
-    this->textColor = color;
-    this->updateTextureState();
+void sgui::Button::setColorText(const sf::Color& color){
+    this->colorText = color;
+    this->updateColor();
 }
 void sgui::Button::setText(const sf::Text& text){
     this->text = text;
@@ -218,9 +222,8 @@ void sgui::Button::setText(const sf::Text& text){
 }
 void sgui::Button::setEnable(const bool& enable){
     this->enable = enable;
-    this->updateTextureState();
+    this->updateColor();
 }
 void sgui::Button::setVisible(const bool& visible){
     this->visible = visible;
-    this->updateTextureState();
 }

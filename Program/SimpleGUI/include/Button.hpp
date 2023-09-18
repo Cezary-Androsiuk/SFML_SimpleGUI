@@ -14,7 +14,6 @@ namespace sgui{
         #define __BD_COLOR sf::Color(10, 110, 240)
         #define __BD_COLOR_HOVER sf::Color(30, 130, 255)
         #define __BD_COLOR_PRESS sf::Color(10, 90, 210)
-        #define __BD_TEXT sf::Text()
         #define __BD_TEXT_COLOR sf::Color::Black
 
         #define __BD_DISABLE_ALPHA_VALUE 100
@@ -26,9 +25,8 @@ namespace sgui{
         sf::Color colorHover;
         sf::Color colorPress;
 
-        sf::Font font;
         sf::Text text;
-        sf::Color textColor;
+        sf::Color colorText;
 
         bool click, clickControl;
         bool press;
@@ -47,7 +45,8 @@ namespace sgui{
 
     private:
         void centerText();
-        void updateTextureState();
+        void updateShape();
+        void updateColor();
 
     public:
         void event(const sf::Event& event);
@@ -62,7 +61,7 @@ namespace sgui{
         const sf::Color& getColor() const;
         const sf::Color& getColorHover() const;
         const sf::Color& getColorPress() const;
-        const sf::Color& getTextColor() const;
+        const sf::Color& getColorText() const;
         const sf::Text& getText() const;
         const bool& getEnable() const;
         const bool& getVisible() const;
@@ -73,7 +72,7 @@ namespace sgui{
         void setColor(const sf::Color& color);
         void setColorHover(const sf::Color& color);
         void setColorPress(const sf::Color& color);
-        void setTextColor(const sf::Color& color);
+        void setColorText(const sf::Color& color);
         void setText(const sf::Text& text);
         void setEnable(const bool& enable);
         void setVisible(const bool& visible);
