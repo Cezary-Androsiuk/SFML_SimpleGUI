@@ -50,10 +50,7 @@ namespace sgui{
 
         std::vector<sgui::RadioButton *> group;
 
-        // bool check_on, checkControl;
-        // bool state;
-        // bool hover;
-        uint8_t statex;
+        uint8_t state;
 
         bool enable;
         bool visible;

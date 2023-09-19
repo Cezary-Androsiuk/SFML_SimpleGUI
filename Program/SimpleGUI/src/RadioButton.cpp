@@ -6,10 +6,10 @@
 
 /*      INITIALIZE      */
 void sgui::RadioButton::initData(){
-    _BITSET0(this->statex, _dev::rbs::Selected);
-    _BITSET0(this->statex, _dev::rbs::ChangedON);
-    _BITSET0(this->statex, _dev::rbs::ChangedCtrl);
-    _BITSET0(this->statex, _dev::rbs::Hover);
+    _BITSET0(this->state, _dev::rbs::Selected);
+    _BITSET0(this->state, _dev::rbs::ChangedON);
+    _BITSET0(this->state, _dev::rbs::ChangedCtrl);
+    _BITSET0(this->state, _dev::rbs::Hover);
     this->enable = true;
     this->visible = true;
 
@@ -72,17 +72,17 @@ void sgui::RadioButton::updateColor(){
     sf::Color tmpShapeColor;
 
     if(this->enable){
-        if(_BITGET(this->statex, _dev::rbs::Selected))
+        if(_BITGET(this->state, _dev::rbs::Selected))
             tmpShapeColor = this->colorChecked;
         else{
-            if(_BITGET(this->statex, _dev::rbs::Hover))
+            if(_BITGET(this->state, _dev::rbs::Hover))
                 tmpShapeColor = this->colorHover;
             else 
                 tmpShapeColor = this->colorUnchecked;
         }
     }
     else{
-        if(_BITGET(this->statex, _dev::rbs::Selected))
+        if(_BITGET(this->state, _dev::rbs::Selected))
             tmpShapeColor = this->colorChecked;
         else
             tmpShapeColor = this->colorUnchecked;
@@ -139,16 +139,16 @@ void sgui::RadioButton::event(const sf::Event& event){
 
     if(event.type == sf::Event::MouseMoved){
         if(this->contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
-            _BITSET1(this->statex, _dev::rbs::Hover);
+            _BITSET1(this->state, _dev::rbs::Hover);
         else
-            _BITSET0(this->statex, _dev::rbs::Hover);
+            _BITSET0(this->state, _dev::rbs::Hover);
     }
 
     if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
         if(this->contains(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))){
-            if(!_BITGET(this->statex, _dev::rbs::Selected)){
-                _BITSET1(this->statex, _dev::rbs::Selected);
-                _BITSET1(this->statex, _dev::rbs::ChangedCtrl);
+            if(!_BITGET(this->state, _dev::rbs::Selected)){
+                _BITSET1(this->state, _dev::rbs::Selected);
+                _BITSET1(this->state, _dev::rbs::ChangedCtrl);
                 this->diselectGroup();
             }
         }
@@ -162,12 +162,12 @@ void sgui::RadioButton::update(){
     if(!this->enable) return;
     if(!this->visible) return;
 
-    if(_BITGET(this->statex, _dev::rbs::Selected) && _BITGET(this->statex, _dev::rbs::ChangedCtrl)){
-        _BITSET1(this->statex, _dev::rbs::ChangedON);
-        _BITSET0(this->statex, _dev::rbs::ChangedCtrl);
+    if(_BITGET(this->state, _dev::rbs::Selected) && _BITGET(this->state, _dev::rbs::ChangedCtrl)){
+        _BITSET1(this->state, _dev::rbs::ChangedON);
+        _BITSET0(this->state, _dev::rbs::ChangedCtrl);
     }
     else
-        _BITSET0(this->statex, _dev::rbs::ChangedON);
+        _BITSET0(this->state, _dev::rbs::ChangedON);
 }
 
 
@@ -191,13 +191,13 @@ const float& sgui::RadioButton::getRadius() const{
     return this->radius;
 }
 bool sgui::RadioButton::getCheckedOn() const{
-    return _BITGET(this->statex, _dev::rbs::ChangedON);
+    return _BITGET(this->state, _dev::rbs::ChangedON);
 }
 bool sgui::RadioButton::getState() const{
-    return _BITGET(this->statex, _dev::rbs::Selected);
+    return _BITGET(this->state, _dev::rbs::Selected);
 }
 bool sgui::RadioButton::getHover() const{
-    return _BITGET(this->statex, _dev::rbs::Hover);
+    return _BITGET(this->state, _dev::rbs::Hover);
 }
 const sf::Color& sgui::RadioButton::getColorBorder() const{
     return this->colorBorder;
@@ -236,11 +236,11 @@ void sgui::RadioButton::setRadius(const float& radius){
 }
 void sgui::RadioButton::setState(const bool& state){
     if(state){
-        _BITSET1(this->statex, _dev::rbs::Selected);
+        _BITSET1(this->state, _dev::rbs::Selected);
         this->diselectGroup();
     } 
     else 
-        _BITSET0(this->statex, _dev::rbs::Selected);
+        _BITSET0(this->state, _dev::rbs::Selected);
     this->updateColor();
 }
 void sgui::RadioButton::setColorBorder(const sf::Color& color){
