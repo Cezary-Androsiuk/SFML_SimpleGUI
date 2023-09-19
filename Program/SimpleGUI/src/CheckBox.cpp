@@ -172,10 +172,10 @@ const sf::Vector2f& sgui::CheckBox::getPosition() const{
 const float& sgui::CheckBox::getSize() const{
     return this->size;
 }
-bool sgui::CheckBox::getChecked_on() const{
+bool sgui::CheckBox::getCheckedOn() const{
     return _BITGET(this->state, _dev::cbs::ChangedON);
 }
-bool sgui::CheckBox::getChecked_off() const{
+bool sgui::CheckBox::getCheckedOff() const{
     return _BITGET(this->state, _dev::cbs::ChangedOFF);
 }
 bool sgui::CheckBox::getCheckedState() const{

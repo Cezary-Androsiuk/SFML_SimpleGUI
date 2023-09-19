@@ -76,8 +76,8 @@ namespace sgui{
         // getters
         const sf::Vector2f& getPosition() const;
         const float& getSize() const;
-        bool getChecked_on() const;
-        bool getChecked_off() const;
+        bool getCheckedOn() const;
+        bool getCheckedOff() const;
         bool getCheckedState() const;
         bool getHoverState() const;
         const sf::Color& getColorBorder() const;
