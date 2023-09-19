@@ -1,9 +1,6 @@
 #ifndef PROGRAM_HPP
 #define PROGRAM_HPP
 
-#include <cstdio>
-#include <vector>
-
 #include <SFML/Graphics.hpp>
 
 #include "SimpleGUI/SimpleGUI.hpp"

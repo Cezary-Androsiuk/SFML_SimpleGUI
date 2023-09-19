@@ -1,7 +1,9 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+#include <cstdio>
 #include <cmath>
+#include <vector>
 
 #include <SFML/Graphics.hpp>
 

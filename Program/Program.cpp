@@ -222,10 +222,10 @@ void Program::update()
     }
     int cbi=0;
     for(const auto& cb : this->checkBoxes){
-        if(cb->getChecked_on()){
+        if(cb->getCheckedOn()){
             printf("checkbox %d was checked\n", cbi);
         }
-        if(cb->getChecked_off()){
+        if(cb->getCheckedOff()){
             printf("checkbox %d was unchecked\n", cbi);
         }
         cbi++;
@@ -233,14 +233,14 @@ void Program::update()
 
     int rbi=0;
     for(const auto& rb : this->radioButtons1){
-        if(rb->getChecked_on())
+        if(rb->getCheckedOn())
             printf("radiobutton1 %d is selected\n", rbi);
         rbi++;
     }
 
     rbi=0;
     for(const auto& rb : this->radioButtons2){
-        if(rb->getChecked_on())
+        if(rb->getCheckedOn())
             printf("radiobutton2 %d is selected\n", rbi);
         rbi++;
     }
@@ -279,6 +279,8 @@ void Program::update()
 // ############################################################################################################################# 
 // ############################################################################################################################# TEST SECTION
 // ############################################################################################################################# 
+
+    // this->window->waitEvent(this->event);
 }
 
 void Program::render()

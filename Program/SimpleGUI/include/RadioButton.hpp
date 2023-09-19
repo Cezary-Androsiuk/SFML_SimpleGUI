@@ -4,41 +4,56 @@
 #include <vector>
 #include <cmath>
 
-#include <SFML/Graphics.hpp>
-
+#include "common.hpp"
 #include "SguiObject.hpp"
 
 // SimpleGUI
 namespace sgui{
-    class RadioButton : public SguiObject{
-        // RADIOBUTTON DEFAULT
-        #define __RBD_POSITION sf::Vector2f(0.f, 0.f)
-        #define __RBD_RADIUS 15.f
-        #define __RBD_COLOR_BORDER sf::Color(10, 90, 210)
-        #define __RBD_COLOR_BACKGROUND sf::Color(255, 255, 255, 0)
-        #define __RBD_COLOR_HOVER sf::Color(10, 90, 210, 80)
-        #define __RBD_COLOR_CHECKED sf::Color(10, 90, 210)
+    namespace _dev{
+        namespace rbs{ // RadioButtonState
+            // RADIOBUTTON DEFAULT
+            #define __RBD_POSITION sf::Vector2f(0.f, 0.f)
+            #define __RBD_RADIUS 15.f
+            #define __RBD_COLOR_BORDER sf::Color(10, 90, 210)
+            #define __RBD_COLOR_BACKGROUND sf::Color(255, 255, 255, 0)
+            #define __RBD_COLOR_HOVER sf::Color(10, 90, 210, 80)
+            #define __RBD_COLOR_CHECKED sf::Color(10, 90, 210)
+            #define __RBD_COLOR_UNCHECKED sf::Color::Transparent
 
-        #define __RBD_DISABLE_ALPHA_PCT 100.f/255.f
-        #define __RBD_BORDER_RATIO 0.20f
-        #define __RBD_BORDER_CHECKED_RATIO 0.50f
+            #define __RBD_DISABLE_ALPHA_VALUE 100
+            #define __RBD_BORDER_RATIO 0.20f
+            #define __RBD_BORDER_CHECKED_RATIO 0.50f
+
+            enum{
+                None     = 0     , // 0000 0000
+                Hover    = 1 << 0, // 0000 0001
+                Selected = 1 << 1, // 0000 0010
+
+                ChangedON   = 1 << 4, // 0001 0000
+                ChangedCtrl = 1 << 5  // 0010 0000
+            };
+        }
+    }
+    class RadioButton : public SguiObject{
         
         sf::Vector2f pos;
         float radius;
         sf::CircleShape border;
-        sf::CircleShape background;
-            sf::CircleShape shapeChecked;
-
         sf::Color colorBorder;
+        sf::CircleShape background;
         sf::Color colorBackground;
-            sf::Color colorHover;
-            sf::Color colorChecked;
+
+        sf::CircleShape shapeChecked;
+        sf::Color colorHover;
+        sf::Color colorChecked;
+        sf::Color colorUnchecked;
 
         std::vector<sgui::RadioButton *> group;
 
-        bool check_on, checkControl;
-        bool state;
-        bool hover;
+        // bool check_on, checkControl;
+        // bool state;
+        // bool hover;
+        uint8_t statex;
 
         bool enable;
         bool visible;
@@ -52,8 +67,9 @@ namespace sgui{
         ~RadioButton();
 
     private:
-        void updateTextureState();
-        bool contains(float x, float y) const;
+        void updateShape();
+        void updateColor();
+
         bool contains(sf::Vector2f point) const;
         void diselectGroup() const; // const because does not change THIS object
 
@@ -66,14 +82,16 @@ namespace sgui{
         void render(sf::RenderTarget* window) const;
         
         // getters
-        const bool& getChecked_on() const;
         const sf::Vector2f& getPosition() const;
         const float& getRadius() const;
-        const bool& getState() const;
+        bool getCheckedOn() const;
+        bool getState() const;
+        bool getHover() const;
         const sf::Color& getColorBorder() const;
         const sf::Color& getColorBackground() const;
         const sf::Color& getColorHover() const;
         const sf::Color& getColorChecked() const;
+        const sf::Color& getColorUnchecked() const;
         const bool& getEnable() const;
         const bool& getVisible() const;
 
@@ -85,6 +103,7 @@ namespace sgui{
         void setColorBackground(const sf::Color& color);
         void setColorHover(const sf::Color& color);
         void setColorChecked(const sf::Color& color);
+        void setColorUnchecked(const sf::Color& color);
         void setEnable(const bool& enable);
         void setVisible(const bool& visible);
 
