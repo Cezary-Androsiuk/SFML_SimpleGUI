@@ -6,19 +6,32 @@
 
 // SimpleGUI
 namespace sgui{
-    class Button : public SguiObject{
-        // BUTTON DEFAULT
-        #define __BD_POSITION sf::Vector2f(0.f, 0.f)
-        #define __BD_SIZE sf::Vector2f(130, 35)
-        #define __BD_COLOR sf::Color(10, 110, 240)
-        #define __BD_COLOR_HOVER sf::Color(30, 130, 255)
-        #define __BD_COLOR_PRESS sf::Color(10, 90, 210)
-        #define __BD_TEXT_COLOR sf::Color::Black
+    namespace _dev{
+        namespace bs{ // ButtonState
+            // BUTTON DEFAULT
+            #define __BD_POSITION sf::Vector2f(0.f, 0.f)
+            #define __BD_SIZE sf::Vector2f(130, 35)
+            #define __BD_COLOR sf::Color(10, 110, 240)
+            #define __BD_COLOR_HOVER sf::Color(30, 130, 255)
+            #define __BD_COLOR_PRESS sf::Color(10, 90, 210)
+            #define __BD_TEXT_COLOR sf::Color::Black
 
-        #define __BD_DISABLE_ALPHA_VALUE 100
-        
+            #define __BD_DISABLE_ALPHA_VALUE 100
+            
+            enum{
+                None    = 0     , // 0000 0000
+                Hover   = 1 << 0, // 0000 0001
+                Press = 1 << 1, // 0000 0010
+
+                Click     = 1 << 4, // 0001 0000
+                ClickCtrl = 1 << 5  // 0010 0000
+            };
+        }
+    }
+    class Button : public SguiObject{
         sf::Vector2f pos;
         sf::Vector2f size;
+
         sf::RectangleShape shape;
         sf::Color color;
         sf::Color colorHover;
@@ -27,9 +40,10 @@ namespace sgui{
         sf::Text text;
         sf::Color colorText;
 
-        bool click, clickControl;
-        bool press;
-        bool hover;
+        // bool click, clickControl;
+        // bool press;
+        // bool hover;
+        uint8_t state;
 
         bool enable;
         bool visible;
@@ -53,10 +67,11 @@ namespace sgui{
         void render(sf::RenderTarget* window) const;
         
         // getters
-        const bool& getClick() const;
-        const bool& getPress() const;
         const sf::Vector2f& getPosition() const;
         const sf::Vector2f& getSize() const;
+        bool getClick() const;
+        bool getPress() const;
+        bool getHover() const;
         const sf::Color& getColor() const;
         const sf::Color& getColorHover() const;
         const sf::Color& getColorPress() const;

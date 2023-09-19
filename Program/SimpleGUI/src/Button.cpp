@@ -6,12 +6,12 @@
 
 /*      INITIALIZE      */
 void sgui::Button::initData(){
+    _BITSET0(this->state, _dev::bs::Hover);
+    _BITSET0(this->state, _dev::bs::Press);
+    _BITSET0(this->state, _dev::bs::Click);
+    _BITSET1(this->state, _dev::bs::ClickCtrl);
     this->enable = true;
     this->visible = true;
-    this->hover = false;
-    this->press = false;
-    this->click = false;
-    this->clickControl = false;
 
     this->color = __BD_COLOR;
     this->colorHover = __BD_COLOR_HOVER;
@@ -76,9 +76,9 @@ void sgui::Button::updateColor(){
     if(this->enable){
         this->text.setFillColor(this->colorText);
 
-        if(this->press)
+        if(_BITGET(this->state, _dev::bs::Press))
             this->shape.setFillColor(this->colorPress);
-        else if(this->hover)
+        else if(_BITGET(this->state, _dev::bs::Hover))
             this->shape.setFillColor(this->colorHover);
         else
             this->shape.setFillColor(this->color);
@@ -112,21 +112,21 @@ void sgui::Button::event(const sf::Event& event){
 
     if(event.type == sf::Event::MouseMoved){
         if(sf::FloatRect(this->pos, this->size).contains(event.mouseMove.x, event.mouseMove.y))
-            this->hover = true;
+            _BITSET1(this->state, _dev::bs::Hover);
         else
-            this->hover = false;
+            _BITSET0(this->state, _dev::bs::Hover);
     }
 
 
     if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left){
         if(sf::FloatRect(this->pos, this->size).contains(event.mouseButton.x, event.mouseButton.y)){
-            this->press = true;
+            _BITSET1(this->state, _dev::bs::Press);
         }
     }
     else if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
-        this->press = false;
-        this->click = false;
-        this->clickControl = false;
+        _BITSET0(this->state, _dev::bs::Press);
+        _BITSET0(this->state, _dev::bs::Click);
+        _BITSET1(this->state, _dev::bs::ClickCtrl);
     }
 }
 
@@ -135,12 +135,13 @@ void sgui::Button::update(){
     if(!this->enable) return;
     if(!this->visible) return;
 
-    if(this->press && !this->clickControl){
-        this->click = true;
-        this->clickControl = true;
+    if(_BITGET(this->state, _dev::bs::Press) && _BITGET(this->state, _dev::bs::ClickCtrl)){
+        _BITSET1(this->state, _dev::bs::Click);
+        _BITSET0(this->state, _dev::bs::ClickCtrl);
     }
     else
-        this->click = false;
+        _BITSET0(this->state, _dev::bs::Click);
+
     this->updateShape();
     this->updateColor();
 }
@@ -158,17 +159,20 @@ void sgui::Button::render(sf::RenderTarget* window) const{
 
 
 /*      GETTERS      */
-const bool& sgui::Button::getClick() const{
-    return this->click;
-}
-const bool& sgui::Button::getPress() const{
-    return this->press;
-}
 const sf::Vector2f& sgui::Button::getPosition() const{
     return this->pos;
 }
 const sf::Vector2f& sgui::Button::getSize() const{
     return this->size;
+}
+bool sgui::Button::getClick() const{
+    return _BITGET(this->state, _dev::bs::Click);
+}
+bool sgui::Button::getPress() const{
+    return _BITGET(this->state, _dev::bs::Press);
+}
+bool sgui::Button::getHover() const{
+    return _BITGET(this->state, _dev::bs::Hover);
 }
 const sf::Color& sgui::Button::getColor() const{
     return this->color;
