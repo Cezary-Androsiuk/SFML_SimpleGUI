@@ -8,20 +8,24 @@
 void sgui::Switch::initData(){
     this->enable = true;
     this->visible = true;
-    this->state = false;
-    this->switched_on = false;
-    this->switched_off = false;
-    this->switchedControl = true; // if false spams "switched_off"
+    _BITSET0(this->state, _dev::ss::Hover);
+    _BITSET0(this->state, _dev::ss::SwitchedON);
+    _BITSET0(this->state, _dev::ss::SwitchedOFF);
+    _BITSET1(this->state, _dev::ss::SwitchedCtrl); // if false starts with "switched_off" pulse
 
-    this->background.color_on = __SD_BACKGROUND_COLOR_ON;
-    this->background.color_off = __SD_BACKGROUND_COLOR_OFF;
+    this->background.colorOn = __SD_BACKGROUND_COLOR_ON;
+    this->background.colorOnHover = __SD_BACKGROUND_COLOR_ON_HOVER;
+    this->background.colorOff = __SD_BACKGROUND_COLOR_OFF;
+    this->background.colorOffHover = __SD_BACKGROUND_COLOR_OFF_HOVER;
     this->_switch.color = __SD_SWITCH_COLOR;
     this->_switch.shadowColor = __SD_SHADOW_COLOR;
 }
 
 
 void sgui::Switch::buildTextures(){
-    this->updateTextureState();
+    this->updateShape();
+    this->updateSwitchState();
+    this->updateColor();
 }
 
 
@@ -29,18 +33,17 @@ void sgui::Switch::buildTextures(){
 
 
 /*      CONSTRUCTORS      */
-sgui::Switch::Switch() : Switch(sf::FloatRect(__SD_POSITION, __SD_SIZE), __SD_STATE) {}
-sgui::Switch::Switch(sf::FloatRect bounds) : Switch(bounds, __SD_STATE) {}
-sgui::Switch::Switch(sf::FloatRect bounds, bool state){
-    this->pos = sf::Vector2f(bounds.left, bounds.top);
-    this->size = sf::Vector2f(bounds.width, bounds.height);
-    this->state = state;
+sgui::Switch::Switch() : Switch(sf::FloatRect(__SD_POSITION, __SD_SIZE), __SD_SWITCHED) {}
+sgui::Switch::Switch(sf::FloatRect bounds) : Switch(bounds, __SD_SWITCHED) {}
+sgui::Switch::Switch(sf::FloatRect bounds, bool switched){
+    this->pos = bounds.getPosition();
+    this->size = bounds.getSize();
+    this->state = (switched ? _dev::ss::Switched : _dev::ss::None);
 
     this->initData();
     this->buildTextures();
 }
 sgui::Switch::~Switch(){
-
 }
 
 
@@ -48,50 +51,82 @@ sgui::Switch::~Switch(){
 
 
 /*      PRIVATE      */
-void sgui::Switch::updateTextureState(){
-    if(this->background.shape.getPosition() != this->pos || this->background.shape.getSize() != this->size){
-        // COMPUTING
-        float x = this->pos.x, y = this->pos.y;
-        float width = this->size.x, height = this->size.y;
-        float switchHeight = height * __SD_HANDLE_SIZE_RATIO;
-        float switchShadowHeight = height * __SD_SHADOW_SIZE_RATIO;
-        float diffHeight = (switchShadowHeight - switchHeight)/2;
-        float borderSize = (height - switchHeight)/2;
+void sgui::Switch::updateShape(){
+    // COMPUTING
+    float x = this->pos.x, y = this->pos.y;
+    float width = this->size.x, height = this->size.y;
+    float switchHeight = height * __SD_HANDLE_SIZE_RATIO;
+    float switchShadowHeight = height * __SD_SHADOW_SIZE_RATIO;
+    float diffHeight = (switchShadowHeight - switchHeight)/2;
+    float borderSize = (height - switchHeight)/2;
 
-        this->_switch.moveRange.left = sf::Vector2f(
-            x + borderSize,
-            y + borderSize
-        );
-        this->_switch.moveRange.right = sf::Vector2f(
-            (x + width - switchHeight - borderSize),
-            y + borderSize 
-        );
+    this->_switch.moveRange.left = sf::Vector2f(
+        x + borderSize,
+        y + borderSize
+    );
+    this->_switch.moveRange.right = sf::Vector2f(
+        (x + width - switchHeight - borderSize),
+        y + borderSize 
+    );
 
-        this->_switch.moveRange.shadowLeft = sf::Vector2f(
-            x + borderSize - diffHeight,
-            y + borderSize - diffHeight
-        );
-        this->_switch.moveRange.shadowRight = sf::Vector2f(
-            (x + width - switchHeight - borderSize) - diffHeight,
-            y + borderSize - diffHeight
-        );
+    this->_switch.moveRange.shadowLeft = sf::Vector2f(
+        x + borderSize - diffHeight,
+        y + borderSize - diffHeight
+    );
+    this->_switch.moveRange.shadowRight = sf::Vector2f(
+        (x + width - switchHeight - borderSize) - diffHeight,
+        y + borderSize - diffHeight
+    );
 
-        // SET SIZE AND POSITION
-        this->background.shape.setSize(sf::Vector2f(width, height));
-        this->background.shape.setPosition(sf::Vector2f(x, y));
+    // SET SIZE AND POSITION
+    this->background.shape.setSize(sf::Vector2f(width, height));
+    this->background.shape.setPosition(sf::Vector2f(x, y));
 
-        this->_switch.shape.setSize(sf::Vector2f(switchHeight, switchHeight));
-        this->_switch.shape.setFillColor(this->_switch.color);
+    this->_switch.shape.setSize(sf::Vector2f(switchHeight, switchHeight));
+    this->_switch.shape.setFillColor(this->_switch.color);
 
-        this->_switch.shadow.setSize(sf::Vector2f(switchShadowHeight, switchShadowHeight));
-        this->_switch.shadow.setFillColor(this->_switch.shadowColor);
+    this->_switch.shadow.setSize(sf::Vector2f(switchShadowHeight, switchShadowHeight));
+    this->_switch.shadow.setFillColor(this->_switch.shadowColor);
+}
+
+
+void sgui::Switch::updateSwitchState(){
+    if(_BITGET(this->state, _dev::ss::Switched)){
+        this->_switch.shape.setPosition(this->_switch.moveRange.right);
+        this->_switch.shadow.setPosition(this->_switch.moveRange.shadowRight);
     }
+    else{
+        this->_switch.shape.setPosition(this->_switch.moveRange.left);
+        this->_switch.shadow.setPosition(this->_switch.moveRange.shadowLeft);
+    }
+}
 
-    sf::Color tmpBackgroundColor(this->state ? this->background.color_on : this->background.color_off);
+
+void sgui::Switch::updateColor(){
+    sf::Color tmpBackgroundColor;
     sf::Color tmpSwitchColor(this->_switch.color);
     sf::Color tmpShadowColor(this->_switch.shadowColor);
 
-    if(!this->enable){
+    if(this->enable){
+        if(_BITGET(this->state, _dev::ss::Hover)){
+            if(_BITGET(this->state, _dev::ss::Switched))
+                tmpBackgroundColor = this->background.colorOnHover;
+            else
+                tmpBackgroundColor = this->background.colorOffHover;
+        }
+        else{
+            if(_BITGET(this->state, _dev::ss::Switched))
+                tmpBackgroundColor = this->background.colorOn;
+            else
+                tmpBackgroundColor = this->background.colorOff;
+        }
+    }
+    else{
+        if(_BITGET(this->state, _dev::ss::Switched))
+            tmpBackgroundColor = this->background.colorOn;
+        else
+            tmpBackgroundColor = this->background.colorOff;
+
         tmpBackgroundColor.a = __SD_DISABLE_ALPHA_VALUE;
         tmpSwitchColor.a = __SD_DISABLE_ALPHA_VALUE;
         tmpShadowColor.a = __SD_DISABLE_ALPHA_VALUE;
@@ -100,15 +135,6 @@ void sgui::Switch::updateTextureState(){
     this->background.shape.setFillColor(tmpBackgroundColor);
     this->_switch.shape.setFillColor(tmpSwitchColor);
     this->_switch.shadow.setFillColor(tmpShadowColor);
-
-    if(this->state){
-        this->_switch.shape.setPosition(this->_switch.moveRange.right);
-        this->_switch.shadow.setPosition(this->_switch.moveRange.shadowRight);
-    }
-    else{
-        this->_switch.shape.setPosition(this->_switch.moveRange.left);
-        this->_switch.shadow.setPosition(this->_switch.moveRange.shadowLeft);
-    }
 }
 
 
@@ -120,19 +146,28 @@ void sgui::Switch::event(const sf::Event& event){
     if(!this->enable) return;
     if(!this->visible) return;
 
+    if(event.type == sf::Event::MouseMoved){
+        if(sf::FloatRect(this->pos, this->size).contains(event.mouseMove.x, event.mouseMove.y))
+            _BITSET1(this->state, _dev::ss::Hover);
+        else
+            _BITSET0(this->state, _dev::ss::Hover);
+    }
+
     if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left){
         if(sf::FloatRect(this->pos, this->size).contains(event.mouseButton.x, event.mouseButton.y)){
-            if(this->state){
-                this->state = false;
-                this->switchedControl = false;
+            if(_BITGET(this->state, _dev::ss::Switched)){
+                _BITSET0(this->state, _dev::ss::Switched);
+                _BITSET0(this->state, _dev::ss::SwitchedCtrl);
             }
             else{
-                this->state = true;
-                this->switchedControl = false;
+                _BITSET1(this->state, _dev::ss::Switched);
+                _BITSET0(this->state, _dev::ss::SwitchedCtrl);
             }
         }
     }
-    this->updateTextureState();
+    this->updateShape();
+    this->updateSwitchState();
+    this->updateColor();
 }
 
 
@@ -140,24 +175,25 @@ void sgui::Switch::update(){
     if(!this->enable) return;
     if(!this->visible) return;
 
-    if(this->state && !this->switchedControl){
-        this->switched_on = true;
-        this->switchedControl = true;
+    // update Switched ON to send just single frame info
+    if(_BITGET(this->state, _dev::ss::Switched) && !_BITGET(this->state, _dev::ss::SwitchedCtrl)){
+        _BITSET1(this->state, _dev::ss::SwitchedON);
+        _BITSET1(this->state, _dev::ss::SwitchedCtrl);
     }
     else
-        this->switched_on = false;
+        _BITSET0(this->state, _dev::ss::SwitchedON);
 
-    if(!this->state && !this->switchedControl){
-        this->switched_off = true;
-        this->switchedControl = true;
+    // update Switched OFF to send just single frame info
+    if(!_BITGET(this->state, _dev::ss::Switched) && !_BITGET(this->state, _dev::ss::SwitchedCtrl)){
+        _BITSET1(this->state, _dev::ss::SwitchedOFF);
+        _BITSET1(this->state, _dev::ss::SwitchedCtrl);
     }
     else
-        this->switched_off = false;
+        _BITSET0(this->state, _dev::ss::SwitchedOFF);
 }
 
 
-void sgui::Switch::render(sf::RenderTarget* window) const
-{
+void sgui::Switch::render(sf::RenderTarget* window) const{
     if(!this->visible) return;
     
     window->draw(this->background.shape);
@@ -170,26 +206,35 @@ void sgui::Switch::render(sf::RenderTarget* window) const
 
 
 /*      GETTERS      */
-const bool& sgui::Switch::getSwitched_on() const{
-    return this->switched_on;
-}
-const bool& sgui::Switch::getSwitched_off() const{
-    return this->switched_off;
-}
 const sf::Vector2f& sgui::Switch::getPosition() const{
     return this->pos;
 }
 const sf::Vector2f& sgui::Switch::getSize() const{
     return this->size;
 }
-const bool& sgui::Switch::getState() const{
-    return this->state;
+bool sgui::Switch::getSwitchedOn() const{
+    return _BITGET(this->state, _dev::ss::SwitchedON);
 }
-const sf::Color& sgui::Switch::getBackgroundColor_on() const{
-    return this->background.color_on;
+bool sgui::Switch::getSwitchedOff() const{
+    return _BITGET(this->state, _dev::ss::SwitchedOFF);
 }
-const sf::Color& sgui::Switch::getBackgroundColor_off() const{
-    return this->background.color_off;
+bool sgui::Switch::getState() const{
+    return _BITGET(this->state, _dev::ss::Switched);
+}
+bool sgui::Switch::getHover() const{
+    return _BITGET(this->state, _dev::ss::Hover);
+}
+const sf::Color& sgui::Switch::getBackgroundColorOn() const{
+    return this->background.colorOn;
+}
+const sf::Color& sgui::Switch::getBackgroundColorOnHover() const{
+    return this->background.colorOnHover;
+}
+const sf::Color& sgui::Switch::getBackgroundColorOff() const{
+    return this->background.colorOff;
+}
+const sf::Color& sgui::Switch::getBackgroundColorOffHover() const{
+    return this->background.colorOffHover;
 }
 const sf::Color& sgui::Switch::getSwitchColor() const{
     return this->_switch.color;
@@ -211,47 +256,49 @@ const bool& sgui::Switch::getVisible() const{
 /*      SETTERS      */
 void sgui::Switch::setPosition(const sf::Vector2f& pos){
     this->pos = pos;
+    this->updateShape();
+    this->updateSwitchState();
 }
 void sgui::Switch::setSize(const sf::Vector2f& size){
     this->size = size;
+    this->updateShape();
+    this->updateSwitchState();
 }
-void sgui::Switch::setState(bool state){
-    this->state = state;
-    this->updateTextureState();
+void sgui::Switch::setState(const bool& state){
+    if(state) _BITSET1(this->state, _dev::ss::Switched);
+    else      _BITSET0(this->state, _dev::ss::Switched);
+    this->updateSwitchState();
+    this->updateColor();
 }
-void sgui::Switch::setBackgroundColor_on(const sf::Color& color){
-    this->background.color_on = color;
-    this->updateTextureState();
+void sgui::Switch::setBackgroundColorOn(const sf::Color& color){
+    this->background.colorOn = color;
+    this->updateColor();
 }
-void sgui::Switch::setBackgroundColor_off(const sf::Color& color){
-    this->background.color_off = color;
-    this->updateTextureState();
+void sgui::Switch::setBackgroundColorOnHover(const sf::Color& color){
+    this->background.colorOnHover = color;
+    this->updateColor();
+}
+void sgui::Switch::setBackgroundColorOff(const sf::Color& color){
+    this->background.colorOff = color;
+    this->updateColor();
+}
+void sgui::Switch::setBackgroundColorOffHover(const sf::Color& color){
+    this->background.colorOffHover = color;
+    this->updateColor();
 }
 void sgui::Switch::setSwitchColor(const sf::Color& color){
     this->_switch.color = color;
-    this->updateTextureState();
+    this->updateColor();
 }
 void sgui::Switch::setShadowColor(const sf::Color& color){
     this->_switch.shadowColor = color;
-    this->updateTextureState();
+    this->updateColor();
 }
 void sgui::Switch::setEnable(const bool& enable){
     this->enable = enable;
-    this->updateTextureState();
+    this->updateColor();
 }
 void sgui::Switch::setVisible(const bool& visible){
     this->visible = visible;
-    this->updateTextureState();
 }
-
-
-
-
-
-
-
-
-
-
-
 

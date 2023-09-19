@@ -176,17 +176,17 @@ void Program::update()
 // ############################################################################################################################# 
     int si=0;
     for(const auto& s : this->switches){
-        if(s->getSwitched_on()){
+        if(s->getSwitchedOn()){
             printf("switch %d was turned on\n", si);
         }
-        if(s->getSwitched_off()){
+        if(s->getSwitchedOff()){
             printf("switch %d was turned off\n", si);
         }
         si++;
     }
     if(this->switches[9]->getState()){
         for(const auto& s : this->switches){
-            s->setBackgroundColor_on(sf::Color(rand()%255,rand()%255,rand()%255));
+            s->setBackgroundColorOn(sf::Color(rand()%255,rand()%255,rand()%255));
         }
     }
     int bi=0;

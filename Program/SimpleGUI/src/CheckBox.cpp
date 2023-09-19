@@ -7,9 +7,10 @@
 void sgui::CheckBox::initData(){
     this->enable = true;
     this->visible = true;
+    _BITSET0(this->state, _dev::cbs::Hover);
     _BITSET0(this->state, _dev::cbs::ChangedON);
     _BITSET0(this->state, _dev::cbs::ChangedOFF);
-    _BITSET1(this->state, _dev::cbs::ChangedCtrl); // if false spams "checked_off"
+    _BITSET1(this->state, _dev::cbs::ChangedCtrl); // if false starts with "checked_off" pulse
 
     this->colorBorder = __CBD_COLOR_BORDER;
     this->colorBackground = __CBD_COLOR_BACKGROUND;
@@ -149,8 +150,6 @@ void sgui::CheckBox::update(){
     }
     else
         _BITSET0(this->state, _dev::cbs::ChangedOFF);
-    
-    this->updateColor();
 }
 
 

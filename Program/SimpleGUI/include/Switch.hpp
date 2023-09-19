@@ -1,32 +1,49 @@
 #ifndef SWITCH_HPP
 #define SWITCH_HPP
 
-#include <SFML/Graphics.hpp>
-
+#include "common.hpp"
 #include "SguiObject.hpp"
 
 // SimpleGUI
 namespace sgui{
+    namespace _dev{
+        namespace ss{ // SwitchState
+            // SWITCH DEFAULT
+            #define __SD_POSITION sf::Vector2f(0.f, 0.f)
+            #define __SD_SIZE sf::Vector2f(43, 22)
+            #define __SD_SWITCHED false
+            #define __SD_BACKGROUND_COLOR_ON sf::Color(10, 90, 210)
+            #define __SD_BACKGROUND_COLOR_ON_HOVER sf::Color(72, 108, 206)
+            #define __SD_BACKGROUND_COLOR_OFF sf::Color(180, 180, 180)
+            #define __SD_BACKGROUND_COLOR_OFF_HOVER sf::Color(152, 159, 190)
+            #define __SD_SWITCH_COLOR sf::Color(255, 255, 255)
+            #define __SD_SHADOW_COLOR sf::Color(100, 100, 100, 40)
+
+            #define __SD_DISABLE_ALPHA_VALUE 100
+            #define __SD_HANDLE_SIZE_RATIO 0.75f
+            #define __SD_SHADOW_SIZE_RATIO 0.9f
+
+            enum{
+                None     = 0     , // 0000 0000
+                Hover    = 1 << 0, // 0000 0001
+                Switched = 1 << 1, // 0000 0010
+
+                SwitchedON   = 1 << 4, // 0001 0000
+                SwitchedOFF  = 1 << 5, // 0010 0000
+                SwitchedCtrl = 1 << 6  // 0100 0000
+            };
+        }
+    }
+
     class Switch : public SguiObject{
-        // SWITCH DEFAULT
-        #define __SD_POSITION sf::Vector2f(0.f, 0.f)
-        #define __SD_SIZE sf::Vector2f(43, 22)
-        #define __SD_STATE false
-        #define __SD_BACKGROUND_COLOR_ON sf::Color(10, 90, 210)
-        #define __SD_BACKGROUND_COLOR_OFF sf::Color(180, 180, 180)
-        #define __SD_SWITCH_COLOR sf::Color(255, 255, 255)
-        #define __SD_SHADOW_COLOR sf::Color(100, 100, 100, 40)
-
-        #define __SD_DISABLE_ALPHA_VALUE 100
-        #define __SD_HANDLE_SIZE_RATIO 0.75f
-        #define __SD_SHADOW_SIZE_RATIO 0.9f
-
         sf::Vector2f pos;
         sf::Vector2f size;
         struct Background{
             sf::RectangleShape shape;
-            sf::Color color_on;
-            sf::Color color_off;
+            sf::Color colorOn;
+            sf::Color colorOnHover;
+            sf::Color colorOff;
+            sf::Color colorOffHover;
         } background;
 
         struct _Switch{
@@ -43,10 +60,7 @@ namespace sgui{
             } moveRange;
         } _switch;
 
-
-        bool switched_on, switched_off;
-        bool switchedControl;
-        bool state;
+        uint8_t state;
 
         bool enable;
         bool visible;
@@ -57,11 +71,13 @@ namespace sgui{
     public:
         Switch();
         Switch(sf::FloatRect bounds);
-        Switch(sf::FloatRect bounds, bool state);
+        Switch(sf::FloatRect bounds, bool switched);
         ~Switch();
 
     private:
-        void updateTextureState();
+        void updateShape();
+        void updateSwitchState();
+        void updateColor();
 
     public:
         void event(const sf::Event& event);
@@ -69,13 +85,16 @@ namespace sgui{
         void render(sf::RenderTarget* window) const;
 
         // getters
-        const bool& getSwitched_on() const;
-        const bool& getSwitched_off() const;
         const sf::Vector2f& getPosition() const;
         const sf::Vector2f& getSize() const;
-        const bool& getState() const;
-        const sf::Color& getBackgroundColor_on() const;
-        const sf::Color& getBackgroundColor_off() const;
+        bool getSwitchedOn() const;
+        bool getSwitchedOff() const;
+        bool getState() const;
+        bool getHover() const;
+        const sf::Color& getBackgroundColorOn() const;
+        const sf::Color& getBackgroundColorOnHover() const;
+        const sf::Color& getBackgroundColorOff() const;
+        const sf::Color& getBackgroundColorOffHover() const;
         const sf::Color& getSwitchColor() const;
         const sf::Color& getShadowColor() const;
         const bool& getEnable() const;
@@ -84,9 +103,11 @@ namespace sgui{
         // setters
         void setPosition(const sf::Vector2f& pos);
         void setSize(const sf::Vector2f& size);
-        void setState(bool state);
-        void setBackgroundColor_on(const sf::Color& color);
-        void setBackgroundColor_off(const sf::Color& color);
+        void setState(const bool& state);
+        void setBackgroundColorOn(const sf::Color& color);
+        void setBackgroundColorOnHover(const sf::Color& color);
+        void setBackgroundColorOff(const sf::Color& color);
+        void setBackgroundColorOffHover(const sf::Color& color);
         void setSwitchColor(const sf::Color& color);
         void setShadowColor(const sf::Color& color);
         void setEnable(const bool& enable);

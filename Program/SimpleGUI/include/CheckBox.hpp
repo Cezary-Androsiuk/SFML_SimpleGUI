@@ -8,6 +8,21 @@
 namespace sgui{
     namespace _dev{
         namespace cbs{ // CheckBoxState
+            // CHECKBOX DEFAULT
+            #define __CBD_POSITION sf::Vector2f(0.f, 0.f)
+            #define __CBD_SIZE 30.f
+            #define __CBD_CHECKED false
+            #define __CBD_COLOR_BORDER sf::Color(10, 90, 210)
+            #define __CBD_COLOR_BACKGROUND sf::Color(0, 0, 0, 0)
+            #define __CBD_COLOR_HOVER_UNCHECKED sf::Color(10, 90, 210, 80)
+            #define __CBD_COLOR_HOVER_CHECKED sf::Color(10, 90, 210, 220)
+            #define __CBD_COLOR_CHECKED sf::Color(10, 90, 210)
+            #define __CBD_COLOR_UNCHECKED sf::Color::Transparent
+
+            #define __CBD_DISABLE_ALPHA_PCT 100.f/255.f
+            #define __CBD_BORDER_RATIO 0.20f
+            #define __CBD_BORDER_CHECKED_RATIO 0.50f
+            
             enum{
                 None    = 0     , // 0000 0000
                 Hover   = 1 << 0, // 0000 0001
@@ -21,20 +36,6 @@ namespace sgui{
     }
 
     class CheckBox : public SguiObject{
-        // CHECKBOX DEFAULT
-        #define __CBD_POSITION sf::Vector2f(0.f, 0.f)
-        #define __CBD_SIZE 30.f
-        #define __CBD_CHECKED false
-        #define __CBD_COLOR_BORDER sf::Color(10, 90, 210)
-        #define __CBD_COLOR_BACKGROUND sf::Color(0, 0, 0, 0)
-        #define __CBD_COLOR_HOVER_UNCHECKED sf::Color(10, 90, 210, 80)
-        #define __CBD_COLOR_HOVER_CHECKED sf::Color(10, 90, 210, 200)
-        #define __CBD_COLOR_CHECKED sf::Color(10, 90, 210)
-        #define __CBD_COLOR_UNCHECKED sf::Color::Transparent
-
-        #define __CBD_DISABLE_ALPHA_PCT 100.f/255.f
-        #define __CBD_BORDER_RATIO 0.20f
-        #define __CBD_BORDER_CHECKED_RATIO 0.50f
         
         sf::Vector2f pos;
         float size;
