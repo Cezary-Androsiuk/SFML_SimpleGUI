@@ -10,7 +10,7 @@ void sgui::CheckBox::initData(){
     _BITSET0(this->state, _dev::cbs::Hover);
     _BITSET0(this->state, _dev::cbs::ChangedON);
     _BITSET0(this->state, _dev::cbs::ChangedOFF);
-    _BITSET1(this->state, _dev::cbs::ChangedCtrl); // if false starts with "checked_off" pulse
+    _BITSET0(this->state, _dev::cbs::ChangedCtrl); // if false starts with "checked_off" pulse
 
     this->colorBorder = __CBD_COLOR_BORDER;
     this->colorBackground = __CBD_COLOR_BACKGROUND;
@@ -125,7 +125,7 @@ void sgui::CheckBox::event(const sf::Event& event){
                 _BITSET0(this->state, _dev::cbs::Checked);
             else
                 _BITSET1(this->state, _dev::cbs::Checked);
-            _BITSET0(this->state, _dev::cbs::ChangedCtrl);
+            _BITSET1(this->state, _dev::cbs::ChangedCtrl);
         }
     }
 
@@ -137,16 +137,16 @@ void sgui::CheckBox::update(){
     if(!this->enable) return;
     if(!this->visible) return;
 
-    if(_BITGET(this->state,_dev::cbs::Checked) && !_BITGET(this->state,_dev::cbs::ChangedCtrl)){
+    if(_BITGET(this->state,_dev::cbs::Checked) && _BITGET(this->state,_dev::cbs::ChangedCtrl)){
         _BITSET1(this->state, _dev::cbs::ChangedON);
-        _BITSET1(this->state, _dev::cbs::ChangedCtrl);
+        _BITSET0(this->state, _dev::cbs::ChangedCtrl);
     }
     else
         _BITSET0(this->state, _dev::cbs::ChangedON);
 
-    if(_BITGET(this->state,_dev::cbs::Checked) && !_BITGET(this->state,_dev::cbs::ChangedCtrl)){
+    if(_BITGET(this->state,_dev::cbs::Checked) && _BITGET(this->state,_dev::cbs::ChangedCtrl)){
         _BITSET1(this->state, _dev::cbs::ChangedOFF);
-        _BITSET1(this->state, _dev::cbs::ChangedCtrl);
+        _BITSET0(this->state, _dev::cbs::ChangedCtrl);
     }
     else
         _BITSET0(this->state, _dev::cbs::ChangedOFF);
