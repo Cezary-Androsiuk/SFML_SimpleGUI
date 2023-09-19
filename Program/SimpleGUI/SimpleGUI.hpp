@@ -10,5 +10,6 @@
 #include "include/RadioButton.hpp"
 #include "include/GroupBox.hpp"
 #include "include/TabControl.hpp"
+#include "include/Label.hpp"
 
 #endif

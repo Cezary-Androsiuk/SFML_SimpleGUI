@@ -88,6 +88,11 @@ void Program::initObjects()
     tb->setColorBackground(sf::Color(40,40,40));
 
     this->tabControlls.push_back(tb);
+
+    for(int i=0; i<5; i++){
+        sgui::Label* l = new sgui::Label(sf::Vector2f(420, 80 + i*30), sf::Text(sf::String("Label"), this->font, 16U));
+        this->labels.push_back(l);
+    }
 }
 
 Program::Program()
@@ -116,6 +121,8 @@ Program::~Program()
         delete gb;
     for(const auto& tb : this->tabControlls)
         delete tb;
+    for(const auto& l : this->labels)
+        delete l;
 
     delete this->window;
 }
@@ -174,6 +181,7 @@ void Program::update()
 // ############################################################################################################################# 
 // ############################################################################################################################# TEST SECTION
 // ############################################################################################################################# 
+{
     int si=0;
     for(const auto& s : this->switches){
         if(s->getSwitchedOn()){
@@ -275,7 +283,7 @@ void Program::update()
     }
     else fprintf(stderr, "object is not a button!\n");
 
-    
+}
 // ############################################################################################################################# 
 // ############################################################################################################################# TEST SECTION
 // ############################################################################################################################# 
@@ -306,6 +314,8 @@ void Program::render()
         gb->render(this->window);
     for(const auto& tb : this->tabControlls)
         tb->render(this->window);
+    for(const auto& l : this->labels)
+        l->render(this->window);
 
     this->window->display();
 }

@@ -19,8 +19,8 @@ namespace sgui{
             #define __BD_DISABLE_ALPHA_VALUE 100
             
             enum{
-                None    = 0     , // 0000 0000
-                Hover   = 1 << 0, // 0000 0001
+                None  = 0     , // 0000 0000
+                Hover = 1 << 0, // 0000 0001
                 Press = 1 << 1, // 0000 0010
 
                 Click     = 1 << 4, // 0001 0000
@@ -40,9 +40,6 @@ namespace sgui{
         sf::Text text;
         sf::Color colorText;
 
-        // bool click, clickControl;
-        // bool press;
-        // bool hover;
         uint8_t state;
 
         bool enable;

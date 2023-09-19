@@ -26,7 +26,7 @@ namespace sgui{
         #define __TCD_COLOR_BACKGROUND sf::Color::Transparent
 
         #define __TCD_TAB_BUTTON_TEXT_SIZE sf::Uint32(8)
-        #define __TCD_TAB_BUTTON_TEXT_FONT_PATH std::string("./res/fonts/OpenSans-Regular.ttf")
+        #define __TCD_TAB_BUTTON_TEXT_FONT_PATH _DEFAULT_TEXT_FONT_PATH
 
         #define __TCD_DISABLE_ALPHA_VALUE 100
         
