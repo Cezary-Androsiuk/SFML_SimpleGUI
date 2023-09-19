@@ -28,9 +28,9 @@ namespace sgui{
                 Hover    = 1 << 0, // 0000 0001
                 Switched = 1 << 1, // 0000 0010
 
-                SwitchedON   = 1 << 4, // 0001 0000
-                SwitchedOFF  = 1 << 5, // 0010 0000
-                SwitchedCtrl = 1 << 6  // 0100 0000
+                ChangedON   = 1 << 4, // 0001 0000
+                ChangedOFF  = 1 << 5, // 0010 0000
+                ChangedCtrl = 1 << 6  // 0100 0000
             };
         }
     }

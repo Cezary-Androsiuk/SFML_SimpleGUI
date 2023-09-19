@@ -9,9 +9,9 @@ void sgui::Switch::initData(){
     this->enable = true;
     this->visible = true;
     _BITSET0(this->state, _dev::ss::Hover);
-    _BITSET0(this->state, _dev::ss::SwitchedON);
-    _BITSET0(this->state, _dev::ss::SwitchedOFF);
-    _BITSET1(this->state, _dev::ss::SwitchedCtrl); // if false starts with "switched_off" pulse
+    _BITSET0(this->state, _dev::ss::ChangedON);
+    _BITSET0(this->state, _dev::ss::ChangedOFF);
+    _BITSET1(this->state, _dev::ss::ChangedCtrl); // if false starts with "switched_off" pulse
 
     this->background.colorOn = __SD_BACKGROUND_COLOR_ON;
     this->background.colorOnHover = __SD_BACKGROUND_COLOR_ON_HOVER;
@@ -157,11 +157,11 @@ void sgui::Switch::event(const sf::Event& event){
         if(sf::FloatRect(this->pos, this->size).contains(event.mouseButton.x, event.mouseButton.y)){
             if(_BITGET(this->state, _dev::ss::Switched)){
                 _BITSET0(this->state, _dev::ss::Switched);
-                _BITSET0(this->state, _dev::ss::SwitchedCtrl);
+                _BITSET0(this->state, _dev::ss::ChangedCtrl);
             }
             else{
                 _BITSET1(this->state, _dev::ss::Switched);
-                _BITSET0(this->state, _dev::ss::SwitchedCtrl);
+                _BITSET0(this->state, _dev::ss::ChangedCtrl);
             }
         }
     }
@@ -176,20 +176,20 @@ void sgui::Switch::update(){
     if(!this->visible) return;
 
     // update Switched ON to send just single frame info
-    if(_BITGET(this->state, _dev::ss::Switched) && !_BITGET(this->state, _dev::ss::SwitchedCtrl)){
-        _BITSET1(this->state, _dev::ss::SwitchedON);
-        _BITSET1(this->state, _dev::ss::SwitchedCtrl);
+    if(_BITGET(this->state, _dev::ss::Switched) && !_BITGET(this->state, _dev::ss::ChangedCtrl)){
+        _BITSET1(this->state, _dev::ss::ChangedON);
+        _BITSET1(this->state, _dev::ss::ChangedCtrl);
     }
     else
-        _BITSET0(this->state, _dev::ss::SwitchedON);
+        _BITSET0(this->state, _dev::ss::ChangedON);
 
     // update Switched OFF to send just single frame info
-    if(!_BITGET(this->state, _dev::ss::Switched) && !_BITGET(this->state, _dev::ss::SwitchedCtrl)){
-        _BITSET1(this->state, _dev::ss::SwitchedOFF);
-        _BITSET1(this->state, _dev::ss::SwitchedCtrl);
+    if(!_BITGET(this->state, _dev::ss::Switched) && !_BITGET(this->state, _dev::ss::ChangedCtrl)){
+        _BITSET1(this->state, _dev::ss::ChangedOFF);
+        _BITSET1(this->state, _dev::ss::ChangedCtrl);
     }
     else
-        _BITSET0(this->state, _dev::ss::SwitchedOFF);
+        _BITSET0(this->state, _dev::ss::ChangedOFF);
 }
 
 
@@ -213,10 +213,10 @@ const sf::Vector2f& sgui::Switch::getSize() const{
     return this->size;
 }
 bool sgui::Switch::getSwitchedOn() const{
-    return _BITGET(this->state, _dev::ss::SwitchedON);
+    return _BITGET(this->state, _dev::ss::ChangedON);
 }
 bool sgui::Switch::getSwitchedOff() const{
-    return _BITGET(this->state, _dev::ss::SwitchedOFF);
+    return _BITGET(this->state, _dev::ss::ChangedOFF);
 }
 bool sgui::Switch::getState() const{
     return _BITGET(this->state, _dev::ss::Switched);
