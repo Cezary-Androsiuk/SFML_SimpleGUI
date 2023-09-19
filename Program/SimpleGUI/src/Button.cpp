@@ -55,7 +55,12 @@ void sgui::Button::centerText(){
     ));
     tfr = this->text.getGlobalBounds();
     sf::Vector2f error(tfr.left - this->text.getPosition().x, tfr.top - this->text.getPosition().y);
-    this->text.setPosition(this->text.getPosition() - error);
+    sf::Vector2f tpos(
+        std::roundf(this->text.getPosition().x - error.x),
+        std::roundf(this->text.getPosition().y - error.y)
+    );
+    this->text.setPosition(tpos);
+
 }
 
 

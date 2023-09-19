@@ -1,6 +1,8 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+#include <cmath>
+
 #include <SFML/Graphics.hpp>
 
 namespace sgui{
