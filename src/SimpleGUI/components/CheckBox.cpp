@@ -1,4 +1,4 @@
-#include "../include/CheckBox.hpp"
+#include "CheckBox.hpp"
 
 
 

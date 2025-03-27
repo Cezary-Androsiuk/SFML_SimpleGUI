@@ -1,4 +1,4 @@
-#include "../include/Label.hpp"
+#include "Label.hpp"
 
 
 
