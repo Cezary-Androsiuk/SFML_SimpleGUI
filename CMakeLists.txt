@@ -16,17 +16,17 @@ add_executable(
     ${PROJECT_NAME}
     main.cpp
     src/Program.hpp src/Program.cpp
-    src/SimpleGUI/SimpleGUI.hpp src/SimpleGUI/SimpleGUI.cpp
-    src/SimpleGUI/components/common.hpp
-    src/SimpleGUI/components/SguiObject.hpp src/SimpleGUI/components/SguiObject.cpp
-    src/SimpleGUI/components/Button.hpp src/SimpleGUI/components/Button.cpp
-    src/SimpleGUI/components/CheckBox.hpp src/SimpleGUI/components/CheckBox.cpp
-    src/SimpleGUI/components/GroupBox.hpp src/SimpleGUI/components/GroupBox.cpp
-    src/SimpleGUI/components/ImageBox.hpp src/SimpleGUI/components/ImageBox.cpp
-    src/SimpleGUI/components/Label.hpp src/SimpleGUI/components/Label.cpp
-    src/SimpleGUI/components/RadioButton.hpp src/SimpleGUI/components/RadioButton.cpp
-    src/SimpleGUI/components/Switch.hpp src/SimpleGUI/components/Switch.cpp
-    src/SimpleGUI/components/TabControl.hpp src/SimpleGUI/components/TabControl.cpp
+    src/SimpleGUI.hpp src/SimpleGUI.cpp
+    src/SimpleGUI/common.hpp
+    src/SimpleGUI/SguiObject.hpp src/SimpleGUI/SguiObject.cpp
+    src/SimpleGUI/Button.hpp src/SimpleGUI/Button.cpp
+    src/SimpleGUI/CheckBox.hpp src/SimpleGUI/CheckBox.cpp
+    src/SimpleGUI/GroupBox.hpp src/SimpleGUI/GroupBox.cpp
+    src/SimpleGUI/ImageBox.hpp src/SimpleGUI/ImageBox.cpp
+    src/SimpleGUI/Label.hpp src/SimpleGUI/Label.cpp
+    src/SimpleGUI/RadioButton.hpp src/SimpleGUI/RadioButton.cpp
+    src/SimpleGUI/Switch.hpp src/SimpleGUI/Switch.cpp
+    src/SimpleGUI/TabControl.hpp src/SimpleGUI/TabControl.cpp
 )
 
 # Copy resources on build

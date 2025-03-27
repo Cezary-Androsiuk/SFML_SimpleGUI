@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "SimpleGUI/SimpleGUI.hpp"
+#include "SimpleGUI.hpp"
 
 #define WIN_SIZE_WIDTH 1280
 #define WIN_SIZE_HEIGHT 720
